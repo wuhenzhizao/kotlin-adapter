@@ -1,0 +1,64 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.1.51'
+    ext.support_version = '26.1.0'
+
+    repositories {
+        maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/' }
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+ext {
+    dependencies = [
+            "appcompat"                  : "com.android.support:appcompat-v7:$support_version",
+            "support_v4"                 : "com.android.support:support-v4:$support_version",
+            "support_v13"                : "com.android.support:support-v13:$support_version",
+            "design"                     : "com.android.support:design:$support_version",
+            "constraint"                 : "com.android.support.constraint:constraint-layout:1.0.2",
+            "recyclerview"               : "com.android.support:recyclerview-v7:$support_version",
+            "multidex"                   : "com.android.support:multidex:1.0.1",
+            "espresso"                   : "com.android.support.test.espresso:espresso-core:3.0.1",
+            "kotlin"                     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
+            "swipe"                      : "com.daimajia.swipelayout:library:1.2.0",
+            "smart_refresh"              : "com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-8",
+            "smart_tab"                  : "com.ogaclejapan.smarttablayout:library:1.6.1",
+            "fresco"                     : "com.facebook.fresco:fresco:0.10.0",
+            "fresco_imagepipeline_okhttp": "com.facebook.fresco:imagepipeline-okhttp3:0.10.0",
+            "fresco_drawee"              : "com.facebook.fresco:drawee:0.10.0",
+            "fresco_fbcore"              : "com.facebook.fresco:fbcore:0.10.0",
+            "fresco_animated_gif"        : "com.facebook.fresco:animated-gif:0.10.0",
+            "retrofit"                   : "com.squareup.retrofit2:retrofit:2.3.0",
+            "retrofit_gson"              : "com.squareup.retrofit2:converter-gson:2.3.0",
+            "retrofit_rxjava"            : "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0",
+            "okhttp"                     : "com.squareup.okhttp3:okhttp:3.9.0",
+            "okhttp_logging"             : "com.squareup.okhttp3:logging-interceptor:3.9.0",
+            "junit"                      : "junit:junit:4.12",
+            "compiler"                   : "com.android.databinding:compiler:3.+",
+            "permissions"                : "com.yanzhenjie:permission:1.1.0",
+            "leakcanary"                 : "com.squareup.leakcanary:leakcanary-android:1.5.4",
+            "leakcanary_release"         : "com.squareup.leakcanary:leakcanary-android-no-op:1.5.4",
+            "blockcanary"                : "com.github.markzhai:blockcanary-android:1.5.0",
+            "blockcanary_release"        : "com.github.markzhai:blockcanary-no-op:1.5.0",
+    ]
+}
