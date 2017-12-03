@@ -12,7 +12,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.getItem(index: Int): T = items[index]
  */
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItem(item: T) {
     this.items.add(item)
-    notifyDataChanged()
+    this.notifyItemInserted(this.items.size - 1)
 }
 
 /**
@@ -21,15 +21,16 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItem(item: T) {
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItem(index: Int, item: T) {
     checkDataValid(index)
     this.items.add(index, item)
-    notifyDataChanged()
+    this.notifyItemInserted(index)
 }
 
 /**
  * 添加数据集合
  */
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(items: Collection<T>) {
+    val previousIndex = this.items.size - 1
     this.items.addAll(items)
-    notifyDataChanged()
+    this.notifyItemRangeChanged(previousIndex + 1, this.items.size - 1)
 }
 
 /**
@@ -38,15 +39,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(items: Collection<T>) {
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(index: Int, items: Collection<T>) {
     checkDataValid(index)
     this.items.addAll(index, items)
-    notifyDataChanged()
-}
-
-/**
- * 移除指定数据
- */
-fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItem(item: T) {
-    this.items.remove(item)
-    notifyDataChanged()
+    this.notifyItemRangeInserted(index, index + items.size)
 }
 
 /**
@@ -55,7 +48,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItem(item: T) {
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItemAt(index: Int) {
     checkDataValid(index)
     this.items.removeAt(index)
-    notifyDataChanged()
+    this.notifyItemRemoved(index)
 }
 
 /**
@@ -65,7 +58,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItemFrom(start: Int) {
     checkDataValid(start)
     val removedItems = this.items.filterIndexed { index, _ -> index >= start }
     this.items.removeAll(removedItems)
-    notifyDataChanged()
+    this.notifyItemRangeRemoved(start, start + removedItems.size)
 }
 
 /**
@@ -76,7 +69,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItemRange(start: Int, end: Int)
     checkDataValid(end)
     val removedItems = this.items.filterIndexed { index, _ -> index in start..end }
     this.items.removeAll(removedItems)
-    notifyDataChanged()
+    this.notifyItemRangeRemoved(start, end)
 }
 
 /**
@@ -84,7 +77,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItemRange(start: Int, end: Int)
  */
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.clear() {
     this.items.clear()
-    notifyDataChanged()
+    this.notifyDataSetChanged()
 }
 
 private fun <T : Any> AbsRecyclerViewAdapter<T, *>.checkDataValid(index: Int) {

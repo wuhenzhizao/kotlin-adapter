@@ -15,6 +15,7 @@ import kotlin.reflect.KClass
  */
 abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(context: Context) : RecyclerView.Adapter<VH>() {
     val items: MutableList<T> = arrayListOf()
+    var recyclerView: RecyclerView? = null
     protected val itemTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
     protected var layoutInterceptor: LayoutInterceptor<T, VH>? = null
@@ -22,7 +23,6 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
     protected var longClickInterceptor: LongClickInterceptor<T, VH>? = null
     protected var viewHolderCreateInterceptor: ViewHolderCreateInterceptor<T, VH>? = null
     protected var viewHolderBindInterceptor: ViewHolderBindInterceptor<T, VH>? = null
-    protected var recyclerView: RecyclerView? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {
@@ -55,10 +55,6 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
     override fun onDetachedFromRecyclerView(recyclerView: RecyclerView?) {
         super.onDetachedFromRecyclerView(recyclerView)
         this.recyclerView = null
-    }
-
-    fun notifyDataChanged() {
-        super.notifyDataSetChanged()
     }
 
     fun setInterceptor(interceptor: Interceptor<T, VH>) {
