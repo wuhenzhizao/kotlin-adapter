@@ -1,11 +1,11 @@
-package com.wuhenzhizao.adapter.extension.sticky
+package com.wuhenzhizao.adapter.extension.sticky_header
 
 import android.view.ViewGroup
 
 /**
  * Created by liufei on 2017/12/4.
  */
-interface StickyHeaderAdapter<VH> {
+interface StickyAdapterInterface<VH> {
 
     fun getHeaderId(position: Int): Long
 

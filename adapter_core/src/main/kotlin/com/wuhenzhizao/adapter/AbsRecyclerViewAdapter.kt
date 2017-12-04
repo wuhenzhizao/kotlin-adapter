@@ -127,7 +127,7 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
         return this
     }
 
-    fun attach(rv: RecyclerView): AbsRecyclerViewAdapter<T, VH> {
+    open fun attach(rv: RecyclerView): AbsRecyclerViewAdapter<T, VH> {
         rv.adapter = this
         return this
     }
