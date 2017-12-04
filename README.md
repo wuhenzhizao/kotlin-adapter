@@ -1,2 +1,2 @@
-# kotlin-recyclerview-adapter
+# kotlin-adapter
 Base adapter for recyclerview 
