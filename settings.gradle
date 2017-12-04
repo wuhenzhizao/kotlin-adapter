@@ -1,1 +1,1 @@
-include ':library', ':app'
+include ':adapter_core', ':adapter_example', ':adapter_extension'
