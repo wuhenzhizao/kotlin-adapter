@@ -33,6 +33,24 @@ android {
 dependencies {
     api project(':adapter_core')
     api project(':adapter_extension')
+    api rootProject.ext.dependencies["support_v13"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["constraint"]
+    api rootProject.ext.dependencies["multidex"]
+    api rootProject.ext.dependencies["smart_refresh"]
+    api rootProject.ext.dependencies["smart_tab"]
+    api rootProject.ext.dependencies["fresco"]
+    api rootProject.ext.dependencies["fresco_imagepipeline_okhttp"]
+    api rootProject.ext.dependencies["fresco_drawee"]
+    api rootProject.ext.dependencies["fresco_fbcore"]
+    api rootProject.ext.dependencies["fresco_animated_gif"]
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofit_gson"]
+    api rootProject.ext.dependencies["retrofit_rxjava"]
+    api rootProject.ext.dependencies["okhttp"]
+    api rootProject.ext.dependencies["okhttp_logging"]
+    api rootProject.ext.dependencies["permissions"]
+
     kapt rootProject.ext.dependencies["compiler"]
     androidTestApi 'com.android.support.test:runner:1.0.1'
     androidTestApi 'com.android.support.test.espresso:espresso-core:3.0.1'

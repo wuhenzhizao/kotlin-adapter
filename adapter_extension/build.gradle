@@ -32,6 +32,7 @@ android {
 
 dependencies {
     api project(':adapter_core')
+    api rootProject.ext.dependencies["swipe"]
     kapt rootProject.ext.dependencies["compiler"]
     androidTestApi 'com.android.support.test:runner:1.0.1'
     androidTestApi 'com.android.support.test.espresso:espresso-core:3.0.1'

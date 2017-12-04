@@ -1,1 +1,1 @@
-include ':adapter_core', ':adapter_example', ':adapter_extension'
+include ':adapter_core', ':adapter_extension', ':adapter_example'
