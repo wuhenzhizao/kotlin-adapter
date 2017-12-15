@@ -13,8 +13,10 @@ import com.wuhenzhizao.adapter.example.bean.ContentList
 import com.wuhenzhizao.adapter.example.bean.Product
 import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeRecyclerViewBindingBinding
 import com.wuhenzhizao.adapter.example.databinding.ItemSingleTypeRecyclerViewBindingBinding
+import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.putItems
+import com.wuhenzhizao.titlebar.utils.ScreenUtils
 
 /**
  * Created by liufei on 2017/12/13.
@@ -32,6 +34,10 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
         contentList = Gson().fromJson<ContentList>(json, ContentList::class.java).contents
 
         binding.rv.layoutManager = LinearLayoutManager(context)
+        val decoration = LinearOffsetsItemDecoration(LinearOffsetsItemDecoration.LINEAR_OFFSETS_VERTICAL)
+        decoration.setItemOffsets(ScreenUtils.dp2PxInt(context, 10f))
+        decoration.setOffsetEdge(false)
+        binding.rv.addItemDecoration(decoration)
 
         bindListener()
         bindAdapter()
@@ -69,13 +75,21 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
         })
     }
 
+    private val cardWidth: Float by lazy {
+        ScreenUtils.getScreenWidth(context) - ScreenUtils.dp2Px(context, 30f)
+    }
+
     private fun bindAdapter() {
         adapter = RecyclerViewBindingAdapter<Content>(context)
                 .match<Content>(R.layout.item_single_type_recycler_view_binding)
+                .viewHolderCreateInterceptor {
+                    // 演示在创建时，动态修改布局高度
+                    val layoutParams = it.convert<ItemSingleTypeRecyclerViewBindingBinding>().imageUrl.layoutParams
+                    layoutParams.height = (cardWidth * 2 / 3).toInt()
+                }
                 .viewHolderBindInterceptor { position, item, viewHolder ->
                     val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
                     binding.vm = item
-//                    item.notifyChange()
                 }
                 .clickInterceptor { position, item, vh ->
                     Toast.makeText(context, "position $position, ${item.title}", Toast.LENGTH_SHORT).show()

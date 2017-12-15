@@ -2,12 +2,12 @@
 <layout>
 
 
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:refresh="http://schemas.android.com/apk/res-auto"
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/comm_bg"
         refresh:srlEnableOverScrollDrag="true">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -23,7 +23,6 @@
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/comm_white"
             android:overScrollMode="never" />
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter

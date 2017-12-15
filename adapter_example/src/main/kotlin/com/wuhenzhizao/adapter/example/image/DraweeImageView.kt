@@ -22,12 +22,4 @@ open class DraweeImageView : SimpleDraweeView {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
-
-    companion object {
-        @JvmStatic
-        @BindingAdapter("android:src")
-        fun setImage(iv: DraweeImageView, imageUrl: String) {
-            GImageLoader.displayUrl(iv.context, iv, imageUrl)
-        }
-    }
 }

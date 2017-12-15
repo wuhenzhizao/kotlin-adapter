@@ -10,64 +10,97 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/comm_white">
 
-        <com.gome.common.image.DraweeImageView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/image"
-            style="@style/fresco_rect"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="15dp"
+        <com.gome.common.image.DraweeImageView
+            android:id="@+id/author_avatar"
+            style="@style/fresco_circle"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:src="@{vm.indexImage}"/>
+            android:src="@{vm.authorPic}" />
 
         <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
+            android:id="@+id/author_name"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/image"
+            android:layout_alignTop="@id/author_avatar"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="15dp"
-            android:layout_toRightOf="@id/image"
-            android:ellipsize="end"
+            android:layout_marginTop="3dp"
+            android:layout_toRightOf="@id/author_avatar"
+            android:lines="1"
+            android:text="@{vm.authorName}"
+            android:textColor="#666666"
+            android:textSize="13dp" />
+
+        <Button
+            android:id="@+id/author_like"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/author_avatar"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/author_like_selector"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:selected="@{vm.hasLiked == 1}"
+            android:text="@{vm.hasLiked == 1 ? @string/author_liked: @string/author_unlike}"
+            android:textColor="@color/author_like_text_selector"
+            android:textSize="11dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/author_avatar"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
             android:text="@{vm.title}"
-            android:lines="2"
             android:textColor="#333333"
             android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/title"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="2"
+            android:text="@{vm.summary}"
+            android:textColor="#666666"
+            android:textSize="13dp" />
+
+        <com.gome.common.image.DraweeImageView
+            android:id="@+id/imageUrl"
+            style="@style/fresco_rect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/summary"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:src="@{vm.indexImage}" />
 
         <TextView
             android:id="@+id/reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/image"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="15dp"
-            android:lines="1"
-            android:textColor="#666666"
-            android:textSize="13dp" />
-
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/image"
-            android:layout_marginLeft="10dp"
-            android:layout_toLeftOf="@id/reviews"
-            android:layout_toRightOf="@id/image"
-            android:lines="1"
-            android:textColor="@color/comm_price"
-            android:textSize="14dp" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_below="@id/image"
+            android:layout_below="@id/imageUrl"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:background="@color/comm_line" />
+            android:layout_marginTop="10dp"
+            android:text="@{vm.pageViewStr}"
+            android:textColor="#666666"
+            android:textSize="11dp" />
     </RelativeLayout>
 </layout>
 

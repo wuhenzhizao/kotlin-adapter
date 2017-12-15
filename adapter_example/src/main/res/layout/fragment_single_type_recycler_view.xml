@@ -6,6 +6,7 @@
         android:id="@+id/refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/comm_bg"
         refresh:srlEnableOverScrollDrag="true">
 
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -15,13 +16,12 @@
             refresh:srlDrawableArrowSize="15dp"
             refresh:srlDrawableProgressSize="15dp"
             refresh:srlEnableLastTime="false"
-            refresh:srlTextSizeTitle="14dp" />
+            refresh:srlTextSizeTitle="14dp"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/comm_white"
             android:overScrollMode="never" />
 
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
@@ -30,7 +30,7 @@
             refresh:srlClassicsSpinnerStyle="Translate"
             refresh:srlDrawableArrowSize="15dp"
             refresh:srlDrawableProgressSize="15dp"
-            refresh:srlTextSizeTitle="14dp" />
+            refresh:srlTextSizeTitle="14dp"/>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </layout>
