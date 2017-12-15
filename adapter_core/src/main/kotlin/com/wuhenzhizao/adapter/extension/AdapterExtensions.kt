@@ -37,7 +37,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItem(index: Int, item: T) {
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(items: Collection<T>) {
     val previousIndex = this.items.size - 1
     this.items.addAll(items)
-    this.notifyItemRangeChanged(previousIndex + 1, this.items.size - 1)
+    this.notifyItemRangeInserted(previousIndex + 1, this.items.size - 1)
 }
 
 /**
@@ -47,6 +47,15 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(index: Int, items: Collectio
     checkDataValid(index)
     this.items.addAll(index, items)
     this.notifyItemRangeInserted(index, index + items.size)
+}
+
+/**
+ * 添加数据集合
+ */
+fun <T : Any> AbsRecyclerViewAdapter<T, *>.putItems(items: Collection<T>) {
+    this.items.clear()
+    this.items.addAll(items)
+    this.notifyDataSetChanged()
 }
 
 /**
@@ -130,6 +139,14 @@ fun <T : Any> AbsListViewAdapter<T, *>.addItems(items: Collection<T>) {
     this.notifyDataSetChanged()
 }
 
+/**
+ * 添加数据集合
+ */
+fun <T : Any> AbsListViewAdapter<T, *>.putItems(items: Collection<T>) {
+    this.items.clear()
+    this.items.addAll(items)
+    this.notifyDataSetChanged()
+}
 
 /**
  * 移除指定位置的数据

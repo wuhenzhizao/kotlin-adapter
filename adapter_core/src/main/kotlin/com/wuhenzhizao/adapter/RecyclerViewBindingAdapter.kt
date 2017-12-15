@@ -20,7 +20,7 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewBindingHolder<ViewDataBinding> {
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, null, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
         val holder = RecyclerViewBindingHolder(binding)
         binding.addOnRebindCallback(object : OnRebindCallback<ViewDataBinding>() {
             override fun onPreBind(binding: ViewDataBinding): Boolean = let {
@@ -37,27 +37,27 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
                 }
             }
         })
-        viewHolderCreateInterceptor!!.apply {
+        viewHolderCreateInterceptor?.apply {
             onCreateViewHolder(holder)
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int) {
-        holder.binding.executePendingBindings()
-        clickInterceptor!!.apply {
+        clickInterceptor?.apply {
             holder.itemView.setOnClickListener {
                 onClick(position, getItem(position), holder)
             }
         }
-        longClickInterceptor!!.apply {
+        longClickInterceptor?.apply {
             holder.itemView.setOnClickListener {
                 onLongClick(position, getItem(position), holder)
             }
         }
-        viewHolderBindInterceptor!!.apply {
+        viewHolderBindInterceptor?.apply {
             onBindViewHolder(position, getItem(position), holder)
         }
+        holder.binding.executePendingBindings()
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {

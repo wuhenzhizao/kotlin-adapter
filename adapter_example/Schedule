@@ -1,0 +1,11 @@
+SingleType      微信小程序    RecyclerView
+SingleType      公众号"游戏"  ListView
+
+MultipleType    聊天详情页    RecyclerView
+MultipleType    看一看        ListView
+
+StickyHeader    交易记录页    StickyHeaderRecyclerViewAdapter
+SwipeMenu       会话列表页    SwipeMenuRecyclerViewAdapter
+QuickIndex      通讯录
+DragAndSwipe    功能
+

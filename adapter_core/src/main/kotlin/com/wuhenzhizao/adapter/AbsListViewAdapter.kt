@@ -4,11 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.AbsListView
 import android.widget.BaseAdapter
-import com.wuhenzhizao.adapter.extension.addItems
-import com.wuhenzhizao.adapter.interfaces.Interceptor
-import com.wuhenzhizao.adapter.interfaces.LayoutInterceptor
-import com.wuhenzhizao.adapter.interfaces.ViewHolderBindInterceptor
-import com.wuhenzhizao.adapter.interfaces.ViewHolderCreateInterceptor
+import com.wuhenzhizao.adapter.extension.putItems
+import com.wuhenzhizao.adapter.interfaces.*
 import kotlin.reflect.KClass
 
 /**
@@ -19,12 +16,14 @@ abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter()
     protected val itemTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
     protected var layoutInterceptor: LayoutInterceptor<T, VH>? = null
+    protected var clickInterceptor: ClickInterceptor<T, VH>? = null
+    protected var longClickInterceptor: LongClickInterceptor<T, VH>? = null
     protected var viewHolderCreateInterceptor: ViewHolderCreateInterceptor<T, VH>? = null
     protected var viewHolderBindInterceptor: ViewHolderBindInterceptor<T, VH>? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {
-            addItems(items)
+            putItems(items)
         }
     }
 
@@ -60,13 +59,9 @@ abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter()
             is LayoutInterceptor<T, VH> -> layoutInterceptor = interceptor
             is ViewHolderCreateInterceptor<T, VH> -> viewHolderCreateInterceptor = interceptor
             is ViewHolderBindInterceptor<T, VH> -> viewHolderBindInterceptor = interceptor
+            is ClickInterceptor<T, VH> -> clickInterceptor = interceptor
+            is LongClickInterceptor<T, VH> -> longClickInterceptor = interceptor
         }
-    }
-
-    fun items(items: Collection<T>): AbsListViewAdapter<T, VH> {
-        this.items.clear()
-        this.items.addAll(items)
-        return this
     }
 
     inline fun <reified KC> match(itemLayoutId: Int): AbsListViewAdapter<T, VH> {
@@ -77,6 +72,26 @@ abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter()
     inline fun layoutInterceptor(crossinline block: (position: Int, item: T) -> Int): AbsListViewAdapter<T, VH> {
         setInterceptor(object : LayoutInterceptor<T, VH> {
             override fun getLayoutId(position: Int, item: T): Int = block.invoke(position, item)
+        })
+        return this
+    }
+
+    inline fun clickInterceptor(crossinline block: (position: Int, item: T, vh: VH) -> Unit): AbsListViewAdapter<T, VH> {
+        setInterceptor(object : ClickInterceptor<T, VH> {
+            override fun onClick(position: Int, item: T, vh: VH) {
+                block.invoke(position, item, vh)
+            }
+
+        })
+        return this
+    }
+
+    inline fun longClickInterceptor(crossinline block: (position: Int, item: T, vh: VH) -> Unit): AbsListViewAdapter<T, VH> {
+        setInterceptor(object : LongClickInterceptor<T, VH> {
+            override fun onLongClick(position: Int, item: T, vh: VH) {
+                block.invoke(position, item, vh)
+            }
+
         })
         return this
     }
