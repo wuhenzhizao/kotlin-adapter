@@ -8,14 +8,16 @@ import java.util.*
 /**
  * Created by liufei on 2017/12/4.
  */
-class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items) {
+class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items), DragAndDismissInterface {
 
-    fun onItemMoved(fromPosition: Int, toPosition: Int) {
+    constructor(context: Context) : this(context, null)
+
+    override fun onItemMoved(fromPosition: Int, toPosition: Int) {
         Collections.swap(items, fromPosition, toPosition)
         super.notifyItemMoved(fromPosition, toPosition)
     }
 
-    fun onItemDismiss(position: Int) {
+    override fun onItemDismiss(position: Int) {
         removeItemAt(position)
     }
 }

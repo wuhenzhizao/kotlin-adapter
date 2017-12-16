@@ -20,7 +20,7 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
     protected abstract fun initViews()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, getContentViewId(), null, false)
+        binding = DataBindingUtil.inflate(inflater, getContentViewId(), container, false)
         val rootView = binding.root
         val parent = rootView.parent
         if (parent != null && parent is ViewGroup) {

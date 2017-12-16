@@ -84,3 +84,15 @@ data class Country(
         @SerializedName("countryCode") val countryCode: String = "",
         @SerializedName("letter") var letter: String = ""
 ) : StickyBean()
+
+
+data class TopicList(
+        @SerializedName("topics") val topics: List<Topic> = listOf()
+)
+
+data class Topic(
+        @SerializedName("url") val url: String = "",
+        @SerializedName("bigImg") val bigImg: String = "",
+        @SerializedName("smallImg") val smallImg: String = "",
+        @SerializedName("title") val title: String = "" //潮流数码
+)

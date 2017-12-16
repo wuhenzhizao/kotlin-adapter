@@ -73,7 +73,7 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
         })
         binding.rv.addOnItemTouchListener(helper)
         val dividerDecoration = LinearDividerItemDecoration(context, LinearDividerItemDecoration.LINEAR_DIVIDER_VERTICAL)
-        dividerDecoration.setDivider(resources.getDrawable(R.drawable.horizontal_divider))
+        dividerDecoration.setDivider(resources.getDrawable(R.drawable.horizontal_divider_1px))
         binding.rv.addItemDecoration(dividerDecoration)
     }
 
@@ -82,9 +82,6 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
                 .matchHeader<Country>(R.layout.item_sticky_recycler_view_header)
                 .headerViewHolderBindInterceptor { position, item, viewHolder ->
                     viewHolder.get<TextView>(R.id.sticky_name).text = item.letter
-                }
-                .headerClickInterceptor { position, item, viewHolder ->
-                    Toast.makeText(context, "sticky header clicked", Toast.LENGTH_SHORT).show()
                 }
                 .match<Country>(R.layout.item_sticky_recycler_view)
                 .viewHolderCreateInterceptor {

@@ -8,7 +8,7 @@ import android.util.AttributeSet
 /**
  * Created by liufei on 2017/12/4.
  */
-class DragAndSwipeRecyclerView(context: Context, attrs: AttributeSet?, defStyle: Int) : RecyclerView(context) {
+class DragAndSwipeRecyclerView(context: Context, attrs: AttributeSet?, defStyle: Int) : RecyclerView(context, attrs, defStyle) {
 
     constructor(context: Context) : this(context, null)
 
@@ -31,12 +31,12 @@ class DragAndSwipeRecyclerView(context: Context, attrs: AttributeSet?, defStyle:
         override fun isLongPressDragEnabled(): Boolean = true
 
         override fun isItemViewSwipeEnabled(): Boolean {
-            return false
+            return true
         }
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
-            val dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-            val swipeFlag = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            val dragFlag = ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            val swipeFlag = ItemTouchHelper.LEFT
             return ItemTouchHelper.Callback.makeMovementFlags(dragFlag, swipeFlag)
         }
 
