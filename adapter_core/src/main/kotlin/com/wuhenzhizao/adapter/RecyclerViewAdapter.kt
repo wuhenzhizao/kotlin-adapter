@@ -17,7 +17,8 @@ open class RecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : Abs
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewHolder {
         val itemView = inflater.inflate(viewType, parent, false)
         val holder = RecyclerViewHolder(itemView)
-        viewHolderCreateInterceptor!!.apply {
+        holder.layoutId = viewType
+        viewHolderCreateInterceptor?.apply {
             onCreateViewHolder(holder)
         }
         return holder

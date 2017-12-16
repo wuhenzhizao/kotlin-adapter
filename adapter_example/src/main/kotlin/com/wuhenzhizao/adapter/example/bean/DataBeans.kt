@@ -2,6 +2,7 @@ package com.wuhenzhizao.adapter.example.bean
 
 import android.databinding.BaseObservable
 import com.google.gson.annotations.SerializedName
+import com.wuhenzhizao.adapter.extension.sticky_header.StickyBean
 
 /**
  * Created by liufei on 2017/12/7.
@@ -46,3 +47,40 @@ data class Content(
         @SerializedName("title") val title: String = "",
         @SerializedName("pageViewStr") val pageViewStr: String = ""
 ) : BaseObservable()
+
+
+data class BannerList(
+        @SerializedName("banners") val banners: List<Banner> = listOf()
+)
+
+data class Banner(
+        @SerializedName("id") val id: String = "",
+        @SerializedName("title") val title: String = "",
+        @SerializedName("imageUrl") val imageUrl: String = "",
+        @SerializedName("targetUrl") val targetUrl: String = ""
+)
+
+class Promotion
+
+class Divider
+
+class HeaderLine
+
+data class HeaderLineProductList(val products: List<Product> = listOf())
+
+class Recommend
+
+class RecommendProducts(val leftProduct: Product, val rightProduct: Product?)
+
+
+data class CountryList(
+        @SerializedName("countries") val countries: List<Country> = listOf()
+)
+
+data class Country(
+        @SerializedName("countryName") val countryName: String = "",
+        @SerializedName("countryPinyin") val countryPinyin: String = "",
+        @SerializedName("phoneCode") val phoneCode: String = "",
+        @SerializedName("countryCode") val countryCode: String = "",
+        @SerializedName("letter") var letter: String = ""
+) : StickyBean()

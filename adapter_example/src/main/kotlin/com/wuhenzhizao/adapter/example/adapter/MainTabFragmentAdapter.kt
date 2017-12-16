@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.wuhenzhizao.adapter.example.R
-import com.wuhenzhizao.adapter.example.ui.SingleTypeListViewFragment
-import com.wuhenzhizao.adapter.example.ui.SingleTypeRecyclerViewBindingFragment
-import com.wuhenzhizao.adapter.example.ui.SingleTypeRecyclerViewFragment
+import com.wuhenzhizao.adapter.example.ui.*
 
 
 /**
@@ -25,6 +23,9 @@ class MainTabFragmentAdapter(context: Context, fm: FragmentManager) : FragmentSt
         0 -> SingleTypeListViewFragment()
         1 -> SingleTypeRecyclerViewFragment()
         2 -> SingleTypeRecyclerViewBindingFragment()
+
+        4 -> MultipleTypeRecyclerViewFragment()
+        5 -> StickyRecyclerViewFragment()
         else -> SingleTypeRecyclerViewFragment()
     }
 }

@@ -22,6 +22,7 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewBindingHolder<ViewDataBinding> {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
         val holder = RecyclerViewBindingHolder(binding)
+        holder.layoutId = viewType
         binding.addOnRebindCallback(object : OnRebindCallback<ViewDataBinding>() {
             override fun onPreBind(binding: ViewDataBinding): Boolean = let {
                 recyclerView!!.isComputingLayout

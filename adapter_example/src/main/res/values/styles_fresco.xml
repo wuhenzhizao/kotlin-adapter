@@ -45,7 +45,7 @@
     <!-- 通用SimpleDraweeView标签配置  轮播图片 -->
     <style name="fresco_banner">
         <item name="fadeDuration">300</item>
-        <item name="actualImageScaleType">fitCenter</item>
+        <item name="actualImageScaleType">centerCrop</item>
         <item name="backgroundImage">@color/comm_transparent</item>
         <item name="placeholderImage">@drawable/comm_default_image</item>
         <item name="placeholderImageScaleType">none</item>

@@ -2,6 +2,7 @@ package com.wuhenzhizao.adapter.extension.sticky_header
 
 import android.graphics.Canvas
 import android.graphics.Rect
+import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +11,14 @@ import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 /**
  * Created by liufei on 2017/12/4.
  */
-class StickyRecyclerItemDecoration(var adapter: StickyRecyclerViewAdapter<*>, var renderInline: Boolean) : RecyclerView.ItemDecoration() {
+class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerViewHolder>, var renderInline: Boolean) : RecyclerView.ItemDecoration() {
     val NO_HEADER_ID = -1L
     private var mHeaderCache: MutableMap<Long, RecyclerViewHolder> = hashMapOf()
 
     /**
      * @param adapter the sticky header adapter to use
      */
-    constructor(adapter: StickyRecyclerViewAdapter<*>) : this(adapter, false)
+    constructor(adapter: StickyAdapterInterface<RecyclerViewHolder>) : this(adapter, false)
 
     /**
      * {@inheritDoc}
@@ -49,21 +50,30 @@ class StickyRecyclerItemDecoration(var adapter: StickyRecyclerViewAdapter<*>, va
         mHeaderCache.clear()
     }
 
-    fun findHeaderViewUnder(x: Float, y: Float): View? {
+    /**
+     * Gets the position of the header under the specified (x, y) coordinates.
+     *
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return position of header, or -1 if not found
+     */
+    fun findHeaderPositionUnder(x: Float, y: Float): Pair<Int, View?> {
         for (holder in mHeaderCache.values) {
             val child = holder.itemView
-            val translationX = child.translationX
-            val translationY = child.translationY
+            val translationX = ViewCompat.getTranslationX(child)
+            val translationY = ViewCompat.getTranslationY(child)
 
             if (x >= child.left + translationX &&
                     x <= child.right + translationX &&
                     y >= child.top + translationY &&
                     y <= child.bottom + translationY) {
-                return child
+                val items = ArrayList(mHeaderCache.values)
+                return Pair(items.indexOf(holder), child)
             }
         }
-        return null
+        return Pair(-1, null)
     }
+
 
     private fun hasHeader(position: Int): Boolean {
         return adapter.getHeaderId(position) != NO_HEADER_ID

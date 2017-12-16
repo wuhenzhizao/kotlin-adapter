@@ -13,5 +13,5 @@ interface StickyAdapterInterface<VH> {
     fun onCreateHeaderViewHolder(parent: ViewGroup, position: Int): VH?
 
 
-    fun onBindHeaderViewHolder(viewholder: VH, position: Int)
+    fun onBindHeaderViewHolder(viewHolder: VH, position: Int)
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/comm_white"
+    android:drawableLeft="@mipmap/head_line"
+    android:drawablePadding="10dp"
+    android:drawableRight="@mipmap/head_line_arrow"
+    android:paddingBottom="5dp"
+    android:paddingRight="15dp"
+    android:paddingTop="20dp"
+    android:text="@string/recommendation"
+    android:textColor="#333333"
+    android:textSize="16dp" />

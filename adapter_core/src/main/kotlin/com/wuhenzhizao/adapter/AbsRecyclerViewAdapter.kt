@@ -61,7 +61,7 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
         this.recyclerView = null
     }
 
-    fun setInterceptor(interceptor: Interceptor<T, VH>) {
+    open fun setInterceptor(interceptor: Interceptor<T, VH>) {
         when (interceptor) {
             is LayoutInterceptor<T, VH> -> layoutInterceptor = interceptor
             is ViewHolderCreateInterceptor<T, VH> -> viewHolderCreateInterceptor = interceptor

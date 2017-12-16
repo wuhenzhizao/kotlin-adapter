@@ -40,6 +40,8 @@ dependencies {
     api rootProject.ext.dependencies["smart_refresh"]
     api rootProject.ext.dependencies["smart_tab"]
     api rootProject.ext.dependencies["title_bar"]
+    api rootProject.ext.dependencies["banner"]
+    api rootProject.ext.dependencies["sidebar"]
     api rootProject.ext.dependencies["fresco"]
     api rootProject.ext.dependencies["fresco_imagepipeline_okhttp"]
     api rootProject.ext.dependencies["fresco_drawee"]
