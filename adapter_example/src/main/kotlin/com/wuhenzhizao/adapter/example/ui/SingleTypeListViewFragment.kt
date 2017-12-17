@@ -4,8 +4,7 @@ import android.widget.CheckBox
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
-import com.wuhenzhizao.adapter.AbsListViewAdapter
-import com.wuhenzhizao.adapter.ListViewAdapter
+import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Province
 import com.wuhenzhizao.adapter.example.bean.ProvinceList
@@ -15,7 +14,7 @@ import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeListViewBin
  * Created by liufei on 2017/12/13.
  */
 class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBinding>() {
-    private lateinit var adapter: AbsListViewAdapter<Province, *>
+    private lateinit var adapter: ListViewAdapter<Province>
 
     override fun getContentViewId(): Int = R.layout.fragment_single_type_list_view
 
@@ -24,11 +23,11 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
         val list = Gson().fromJson<ProvinceList>(json, ProvinceList::class.java)
 
         adapter = ListViewAdapter(context, list.provinceList)
-                .match<Province>(R.layout.item_single_type_list_view)
-                .viewHolderCreateInterceptor {
+                .match(Province::class, R.layout.item_single_type_list_view)
+                .holderCreateInterceptor {
 
                 }
-                .viewHolderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, item, viewHolder ->
                     viewHolder.get<TextView>(R.id.tv).text = item.name
                     viewHolder.get<CheckBox>(R.id.cb).isChecked = item.checked
                 }
@@ -39,6 +38,6 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                     }
                     adapter.notifyDataSetChanged()
                 }
-        binding.lv.adapter = adapter
+                .attach(binding.lv)
     }
 }

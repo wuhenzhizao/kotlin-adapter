@@ -4,21 +4,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.TextView
 import android.widget.Toast
-import com.wuhenzhizao.adapter.example.image.DraweeImageView
-import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.google.gson.Gson
-import com.wuhenzhizao.adapter.clickInterceptor
+import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Topic
 import com.wuhenzhizao.adapter.example.bean.TopicList
 import com.wuhenzhizao.adapter.example.databinding.FragmentDragRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
+import com.wuhenzhizao.adapter.example.image.DraweeImageView
+import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.DragAndSwipeRecyclerViewAdapter
 import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.swipeInterceptor
 import com.wuhenzhizao.adapter.extension.putItems
-import com.wuhenzhizao.adapter.holderBindInterceptor
-import com.wuhenzhizao.adapter.holderCreateInterceptor
-import com.wuhenzhizao.adapter.match
 import com.wuhenzhizao.titlebar.utils.ScreenUtils
 
 /**
@@ -70,7 +67,7 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
                 .swipeInterceptor { viewHolder, direction ->
                     Toast.makeText(context, "position ${viewHolder.adapterPosition} dismissed", Toast.LENGTH_SHORT).show()
                 }
-        binding.rv.setAdapter(adapter)
+                .attach(binding.rv)
         adapter.putItems(topicList)
     }
 }

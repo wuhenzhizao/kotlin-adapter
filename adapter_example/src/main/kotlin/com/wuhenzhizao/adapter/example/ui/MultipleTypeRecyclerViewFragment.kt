@@ -10,8 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.bigkoo.convenientbanner.holder.Holder
-import com.wuhenzhizao.adapter.example.image.DraweeImageView
-import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -20,6 +18,8 @@ import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.*
 import com.wuhenzhizao.adapter.example.databinding.FragmentMultipleTypeRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
+import com.wuhenzhizao.adapter.example.image.DraweeImageView
+import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.clear
 import com.wuhenzhizao.adapter.extension.putItems
@@ -206,7 +206,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                     vh.get<TextView>(R.id.name).text = item.name
                     vh.get<TextView>(R.id.price).text = "¥ ${item.price}"
                 }
-        recyclerView.adapter = productAdapter
+                .attach(recyclerView)
     }
 
     private fun bindHeadLineProductList(item: HeaderLineProductList, vh: RecyclerViewHolder) {

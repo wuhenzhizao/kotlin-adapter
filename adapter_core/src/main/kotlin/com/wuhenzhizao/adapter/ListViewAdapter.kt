@@ -29,21 +29,21 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
     }
 
     override fun onCreateViewHolder(holder: ListViewHolder) {
-        viewHolderCreateInterceptor?.apply {
+        innerHolderCreateInterceptor?.apply {
             onCreateViewHolder(holder)
         }
     }
 
     override fun onBindViewHolder(position: Int, item: T, vh: ListViewHolder) {
-        viewHolderBindInterceptor?.apply {
+        innerHolderBindInterceptor?.apply {
             onBindViewHolder(position, getItem(position), vh)
         }
-        clickInterceptor?.apply {
+        innerClickInterceptor?.apply {
             vh.convertView.setOnClickListener {
                 onClick(position, getItem(position), vh)
             }
         }
-        longClickInterceptor?.apply {
+        innerLongClickInterceptor?.apply {
             vh.convertView.setOnClickListener {
                 onLongClick(position, getItem(position), vh)
             }

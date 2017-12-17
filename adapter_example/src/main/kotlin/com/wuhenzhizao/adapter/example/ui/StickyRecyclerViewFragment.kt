@@ -81,7 +81,7 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
                 .clickInterceptor { position, item, vh ->
                     Toast.makeText(context, "position $position, ${item.countryName} clicked", Toast.LENGTH_SHORT).show()
                 }
-        binding.rv.adapter = adapter
+                .attach(binding.rv)
 
         binding.rv.layoutManager = LinearLayoutManager(context)
         // TODO 泛型问题

@@ -92,6 +92,6 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
                 .clickInterceptor { position, item, vh ->
                     Toast.makeText(context, "position $position, ${item.title}", Toast.LENGTH_SHORT).show()
                 }
-        binding.rv.adapter = adapter
+                .attach(binding.rv)
     }
 }

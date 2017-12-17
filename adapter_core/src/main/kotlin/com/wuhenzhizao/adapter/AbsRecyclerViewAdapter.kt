@@ -3,7 +3,6 @@ package com.wuhenzhizao.adapter
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import com.wuhenzhizao.adapter.extension.getItem
 import com.wuhenzhizao.adapter.extension.putItems
 import com.wuhenzhizao.adapter.interfaces.*
 import kotlin.reflect.KClass
@@ -29,6 +28,8 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
             putItems(items)
         }
     }
+
+    open fun getItem(position: Int): T = items[position]
 
     override fun getItemId(position: Int): Long {
         return if (hasStableIds()) {
@@ -70,11 +71,11 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
             is LongClickInterceptor<T, VH> -> innerLongClickInterceptor = interceptor
         }
     }
+}
 
-    open fun attach(rv: RecyclerView): AbsRecyclerViewAdapter<T, VH> {
-        rv.adapter = this
-        return this
-    }
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.attach(rv: RecyclerView): Adapter {
+    rv.adapter = this
+    return this
 }
 
 fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int): Adapter {

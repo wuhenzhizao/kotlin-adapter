@@ -4,8 +4,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.wuhenzhizao.adapter.example.image.DraweeImageView
-import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -14,6 +12,8 @@ import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Product
 import com.wuhenzhizao.adapter.example.bean.ProductList
 import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeRecyclerViewBinding
+import com.wuhenzhizao.adapter.example.image.DraweeImageView
+import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.putItems
 
@@ -93,6 +93,6 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                 .clickInterceptor { position, item, vh ->
                     Toast.makeText(context, "position $position, ${item.name} clicked", Toast.LENGTH_SHORT).show()
                 }
-        binding.rv.adapter = adapter
+                .attach(binding.rv)
     }
 }

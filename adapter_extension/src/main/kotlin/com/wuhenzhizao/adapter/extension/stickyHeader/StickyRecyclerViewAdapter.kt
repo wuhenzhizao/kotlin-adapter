@@ -21,8 +21,6 @@ class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>
 
     constructor(context: Context) : this(context, null)
 
-    fun getItem(position: Int): T = items[position]
-
     override fun getHeaderId(position: Int): Long {
         return getItem(position).stickyId
     }
@@ -45,11 +43,6 @@ class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>
         }
     }
 
-    override fun attach(rv: RecyclerView): AbsRecyclerViewAdapter<T, RecyclerViewHolder> {
-        rv.addItemDecoration(StickyRecyclerItemDecoration(this))
-        return super.attach(rv)
-    }
-
     override fun setInterceptor(interceptor: Interceptor<T, RecyclerViewHolder>) {
         super.setInterceptor(interceptor)
         when (interceptor) {
@@ -58,6 +51,12 @@ class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>
             is HeaderViewHolderBindInterceptor<T, RecyclerViewHolder> -> innerHeaderHolderBindInterceptor = interceptor
         }
     }
+}
+
+fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: RecyclerView): Adapter {
+    rv.addItemDecoration(StickyRecyclerItemDecoration(this))
+    rv.adapter = this
+    return this
 }
 
 fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader(kClass: KClass<T>, itemLayoutId: Int): Adapter {
