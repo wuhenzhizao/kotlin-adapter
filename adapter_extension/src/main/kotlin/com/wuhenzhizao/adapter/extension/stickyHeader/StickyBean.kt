@@ -1,4 +1,4 @@
-package com.wuhenzhizao.adapter.extension.sticky_header
+package com.wuhenzhizao.adapter.extension.stickyHeader
 
 /**
  * Created by liufei on 2017/12/4.

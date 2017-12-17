@@ -46,6 +46,7 @@ ext {
             "title_bar"                  : "com.wuhenzhizao:titlebar:1.0.5",
             "banner"                     : "com.bigkoo:convenientbanner:2.0.5",
             "sidebar"                    : "com.gjiazhe:wavesidebar:1.3",
+            "dialog"                     : "com.afollestad.material-dialogs:core:0.9.4.7",
             "fresco"                     : "com.facebook.fresco:fresco:0.10.0",
             "fresco_imagepipeline_okhttp": "com.facebook.fresco:imagepipeline-okhttp3:0.10.0",
             "fresco_drawee"              : "com.facebook.fresco:drawee:0.10.0",

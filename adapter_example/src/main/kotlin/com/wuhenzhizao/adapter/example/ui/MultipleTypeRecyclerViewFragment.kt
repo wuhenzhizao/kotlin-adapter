@@ -15,8 +15,7 @@ import com.gome.common.image.GImageLoader
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
-import com.wuhenzhizao.adapter.AbsRecyclerViewAdapter
-import com.wuhenzhizao.adapter.RecyclerViewAdapter
+import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.*
 import com.wuhenzhizao.adapter.example.databinding.FragmentMultipleTypeRecyclerViewBinding
@@ -31,8 +30,8 @@ import com.wuhenzhizao.titlebar.utils.ScreenUtils
  * Created by liufei on 2017/12/13.
  */
 class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecyclerViewBinding>() {
-    private lateinit var adapter: AbsRecyclerViewAdapter<Any, *>
-    private lateinit var productAdapter: AbsRecyclerViewAdapter<Product, *>
+    private lateinit var adapter: RecyclerViewAdapter<Any>
+    private lateinit var productAdapter: RecyclerViewAdapter<Product>
     private lateinit var productList: List<Product>
     private lateinit var banners: BannerList
     private val PAGE_SIZE = 10
@@ -105,17 +104,17 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
 
     private fun bindAdapter() {
         adapter = RecyclerViewAdapter<Any>(context)
-                .match<BannerList>(R.layout.item_multiple_type_recycler_view_banner)
-                .match<Promotion>(R.layout.item_multiple_type_recycler_view_promotion)
-                .match<Divider>(R.layout.item_multiple_type_recycler_view_divider)
-                .match<HeaderLine>(R.layout.item_multiple_type_recycler_view_headine)
-                .match<HeaderLineProductList>(R.layout.item_multiple_type_recycler_view_headine_product)
-                .match<Recommend>(R.layout.item_multiple_type_recycler_view_recommend)
-                .match<RecommendProducts>(R.layout.item_multiple_type_recycler_view_recommend_item)
-                .viewHolderCreateInterceptor {
+                .match(BannerList::class, R.layout.item_multiple_type_recycler_view_banner)
+                .match(Promotion::class, R.layout.item_multiple_type_recycler_view_promotion)
+                .match(Divider::class, R.layout.item_multiple_type_recycler_view_divider)
+                .match(HeaderLine::class, R.layout.item_multiple_type_recycler_view_headine)
+                .match(HeaderLineProductList::class, R.layout.item_multiple_type_recycler_view_headine_product)
+                .match(Recommend::class, R.layout.item_multiple_type_recycler_view_recommend)
+                .match(RecommendProducts::class, R.layout.item_multiple_type_recycler_view_recommend_item)
+                .holderCreateInterceptor {
                     onViewHolderCreate(it)
                 }
-                .viewHolderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, item, viewHolder ->
                     onViewHolderBind(item, viewHolder)
                 }
                 .clickInterceptor { position, item, vh ->
@@ -201,8 +200,8 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
         recyclerView.addItemDecoration(decoration)
 
         productAdapter = RecyclerViewAdapter<Product>(context)
-                .match<Product>(R.layout.item_multiple_type_recycler_view_headine_item)
-                .viewHolderBindInterceptor { position, item, vh ->
+                .match(Product::class, R.layout.item_multiple_type_recycler_view_headine_item)
+                .holderBindInterceptor { position, item, vh ->
                     GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.iv), item.imageUrl)
                     vh.get<TextView>(R.id.name).text = item.name
                     vh.get<TextView>(R.id.price).text = "¥ ${item.price}"

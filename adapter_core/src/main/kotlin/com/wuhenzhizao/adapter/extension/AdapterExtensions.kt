@@ -34,10 +34,11 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItem(index: Int, item: T) {
 /**
  * 添加数据集合
  */
-fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(items: Collection<T>) {
+fun <T : Any, Adapter : AbsRecyclerViewAdapter<T, *>> Adapter.addItems(items: Collection<T>): Adapter {
     val previousIndex = this.items.size - 1
     this.items.addAll(items)
     this.notifyItemRangeInserted(previousIndex + 1, this.items.size - 1)
+    return this
 }
 
 /**

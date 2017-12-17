@@ -18,24 +18,24 @@ open class RecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : Abs
         val itemView = inflater.inflate(viewType, parent, false)
         val holder = RecyclerViewHolder(itemView)
         holder.layoutId = viewType
-        viewHolderCreateInterceptor?.apply {
+        innerHolderCreateInterceptor?.apply {
             onCreateViewHolder(holder)
         }
         return holder
     }
 
     override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
-        clickInterceptor?.apply {
+        innerClickInterceptor?.apply {
             viewHolder.itemView.setOnClickListener {
                 onClick(position, getItem(position), viewHolder)
             }
         }
-        longClickInterceptor?.apply {
+        innerLongClickInterceptor?.apply {
             viewHolder.itemView.setOnClickListener {
                 onLongClick(position, getItem(position), viewHolder)
             }
         }
-        viewHolderBindInterceptor?.apply {
+        innerHolderBindInterceptor?.apply {
             onBindViewHolder(position, getItem(position), viewHolder)
         }
     }

@@ -1,6 +1,5 @@
-package com.wuhenzhizao.adapter.extension.sticky_header
+package com.wuhenzhizao.adapter.extension.stickyHeader
 
-import android.view.View
 import com.wuhenzhizao.adapter.interfaces.Interceptor
 
 /**
@@ -23,6 +22,10 @@ interface HeaderViewHolderBindInterceptor<in T : Any, in VH> : Interceptor<T, VH
 }
 
 
-interface OnHeaderClickListener {
-    fun onHeaderClick(headerView: View, position: Int, headerId: Long)
+interface HeaderClickInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+    /**
+     * @param position
+     * @param stickyId
+     */
+    fun onHeaderClick(stickyPosition: Int, stickyId: Long)
 }

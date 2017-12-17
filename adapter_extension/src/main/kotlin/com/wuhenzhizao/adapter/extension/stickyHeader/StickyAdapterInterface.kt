@@ -1,4 +1,4 @@
-package com.wuhenzhizao.adapter.extension.sticky_header
+package com.wuhenzhizao.adapter.extension.stickyHeader
 
 import android.view.ViewGroup
 

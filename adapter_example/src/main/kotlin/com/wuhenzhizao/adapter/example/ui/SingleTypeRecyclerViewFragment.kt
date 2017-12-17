@@ -9,8 +9,7 @@ import com.gome.common.image.GImageLoader
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
-import com.wuhenzhizao.adapter.AbsRecyclerViewAdapter
-import com.wuhenzhizao.adapter.RecyclerViewAdapter
+import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Product
 import com.wuhenzhizao.adapter.example.bean.ProductList
@@ -22,7 +21,7 @@ import com.wuhenzhizao.adapter.extension.putItems
  * Created by liufei on 2017/12/13.
  */
 class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerViewBinding>() {
-    private lateinit var adapter: AbsRecyclerViewAdapter<Product, *>
+    private lateinit var adapter: RecyclerViewAdapter<Product>
     private lateinit var productList: List<Product>
     private val PAGE_SIZE = 10
     private var currentPage = 1
@@ -73,11 +72,11 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
 
     private fun bindAdapter() {
         adapter = RecyclerViewAdapter<Product>(context)
-                .match<Product>(R.layout.item_single_type_recycler_view)
-                .viewHolderCreateInterceptor {
+                .match(Product::class, R.layout.item_single_type_recycler_view)
+                .holderCreateInterceptor {
 
                 }
-                .viewHolderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, item, viewHolder ->
                     val imageView = viewHolder.get<DraweeImageView>(R.id.image)
                     GImageLoader.displayUrl(context, imageView, item.imageUrl)
 

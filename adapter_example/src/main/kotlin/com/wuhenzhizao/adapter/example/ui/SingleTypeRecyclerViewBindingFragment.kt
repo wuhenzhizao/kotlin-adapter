@@ -5,12 +5,10 @@ import android.widget.Toast
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
-import com.wuhenzhizao.adapter.AbsRecyclerViewAdapter
-import com.wuhenzhizao.adapter.RecyclerViewBindingAdapter
+import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Content
 import com.wuhenzhizao.adapter.example.bean.ContentList
-import com.wuhenzhizao.adapter.example.bean.Product
 import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeRecyclerViewBindingBinding
 import com.wuhenzhizao.adapter.example.databinding.ItemSingleTypeRecyclerViewBindingBinding
 import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
@@ -22,7 +20,7 @@ import com.wuhenzhizao.titlebar.utils.ScreenUtils
  * Created by liufei on 2017/12/13.
  */
 class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRecyclerViewBindingBinding>() {
-    private lateinit var adapter: AbsRecyclerViewAdapter<Content, *>
+    private lateinit var adapter: RecyclerViewBindingAdapter<Content>
     private lateinit var contentList: List<Content>
     private val PAGE_SIZE = 5
     private var currentPage = 1
@@ -81,13 +79,13 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
 
     private fun bindAdapter() {
         adapter = RecyclerViewBindingAdapter<Content>(context)
-                .match<Content>(R.layout.item_single_type_recycler_view_binding)
-                .viewHolderCreateInterceptor {
+                .match(Content::class, R.layout.item_single_type_recycler_view_binding)
+                .holderCreateInterceptor {
                     // 演示在创建时，动态修改布局高度
                     val layoutParams = it.convert<ItemSingleTypeRecyclerViewBindingBinding>().imageUrl.layoutParams
                     layoutParams.height = (cardWidth * 2 / 3).toInt()
                 }
-                .viewHolderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, item, viewHolder ->
                     val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
                     binding.vm = item
                 }

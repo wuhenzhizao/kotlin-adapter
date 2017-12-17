@@ -1,4 +1,4 @@
-package com.wuhenzhizao.adapter.extension.sticky_header
+package com.wuhenzhizao.adapter.extension.stickyHeader
 
 import android.graphics.Canvas
 import android.graphics.Rect
@@ -60,9 +60,8 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
     fun findHeaderPositionUnder(x: Float, y: Float): Pair<Int, View?> {
         for (holder in mHeaderCache.values) {
             val child = holder.itemView
-            val translationX = ViewCompat.getTranslationX(child)
-            val translationY = ViewCompat.getTranslationY(child)
-
+            val translationX = child.translationX
+            val translationY = child.translationY
             if (x >= child.left + translationX &&
                     x <= child.right + translationX &&
                     y >= child.top + translationY &&

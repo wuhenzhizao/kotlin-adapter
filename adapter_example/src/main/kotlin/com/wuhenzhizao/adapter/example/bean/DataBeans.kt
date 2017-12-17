@@ -2,7 +2,7 @@ package com.wuhenzhizao.adapter.example.bean
 
 import android.databinding.BaseObservable
 import com.google.gson.annotations.SerializedName
-import com.wuhenzhizao.adapter.extension.sticky_header.StickyBean
+import com.wuhenzhizao.adapter.extension.stickyHeader.StickyBean
 
 /**
  * Created by liufei on 2017/12/7.

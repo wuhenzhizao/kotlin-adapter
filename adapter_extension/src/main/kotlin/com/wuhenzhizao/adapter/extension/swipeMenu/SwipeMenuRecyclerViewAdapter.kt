@@ -1,4 +1,4 @@
-package com.wuhenzhizao.adapter.extension.swipe_menu
+package com.wuhenzhizao.adapter.extension.swipeMenu
 
 import android.content.Context
 import com.daimajia.swipe.SwipeLayout

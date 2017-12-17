@@ -38,24 +38,24 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
                 }
             }
         })
-        viewHolderCreateInterceptor?.apply {
+        innerHolderCreateInterceptor?.apply {
             onCreateViewHolder(holder)
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int) {
-        clickInterceptor?.apply {
+        innerClickInterceptor?.apply {
             holder.itemView.setOnClickListener {
                 onClick(position, getItem(position), holder)
             }
         }
-        longClickInterceptor?.apply {
+        innerLongClickInterceptor?.apply {
             holder.itemView.setOnClickListener {
                 onLongClick(position, getItem(position), holder)
             }
         }
-        viewHolderBindInterceptor?.apply {
+        innerHolderBindInterceptor?.apply {
             onBindViewHolder(position, getItem(position), holder)
         }
         holder.binding.executePendingBindings()

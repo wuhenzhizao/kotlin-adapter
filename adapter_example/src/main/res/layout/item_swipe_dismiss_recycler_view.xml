@@ -16,7 +16,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentRight="true"
-        android:background="#33000000"
+        android:background="#aa000000"
         android:gravity="center"
         android:textColor="#ffffff"
         android:textSize="13dp" />
