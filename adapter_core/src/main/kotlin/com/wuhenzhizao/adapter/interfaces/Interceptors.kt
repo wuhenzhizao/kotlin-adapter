@@ -3,49 +3,46 @@ package com.wuhenzhizao.adapter.interfaces
 /**
  * Created by liufei on 2017/12/3.
  */
-interface Interceptor<in T : Any, in VH>
+interface Interceptor<in VH>
 
 /**
  * 布局拦截器
  */
-interface LayoutInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface LayoutInterceptor<in VH> : Interceptor<VH> {
     /**
      * 返回布局资源id
      *
      * @param position
-     * @param item
      */
-    fun getLayoutId(position: Int, item: T): Int
+    fun getLayoutId(position: Int): Int
 }
 
 /**
  * 单击事件拦截
  */
-interface ClickInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface ClickInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param item
      * @param vh
      */
-    fun onClick(position: Int, item: T, vh: VH)
+    fun onClick(position: Int, vh: VH)
 }
 
 /**
  * 长按事件拦截
  */
-interface LongClickInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface LongClickInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param item
      * @param vh
      */
-    fun onLongClick(position: Int, item: T, vh: VH)
+    fun onLongClick(position: Int, vh: VH)
 }
 
 /**
  * RecyclerView.Adapter#onCreateViewHolder()运行时拦截
  */
-interface ViewHolderCreateInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface ViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param vh
      */
@@ -55,11 +52,10 @@ interface ViewHolderCreateInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
 /**
  * RecyclerView.Adapter#onBindViewHolder()运行时拦截
  */
-interface ViewHolderBindInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface ViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param item
      * @param vh
      */
-    fun onBindViewHolder(position: Int, item: T, vh: VH)
+    fun onBindViewHolder(position: Int, vh: VH)
 }

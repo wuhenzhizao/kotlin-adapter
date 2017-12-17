@@ -63,42 +63,33 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
     }
 
     private fun bindAdapter() {
+        binding.rv.layoutManager = LinearLayoutManager(context)
+        val dividerDecoration = LinearDividerItemDecoration(context, LinearDividerItemDecoration.LINEAR_DIVIDER_VERTICAL)
+        dividerDecoration.setDivider(resources.getDrawable(R.drawable.horizontal_divider_1px))
+        binding.rv.addItemDecoration(dividerDecoration)
+
         adapter = StickyRecyclerViewAdapter<Country>(context)
                 .match(Country::class, R.layout.item_sticky_recycler_view)
                 .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
-                    viewHolder.get<TextView>(R.id.country_name).text = item.countryName
+                .holderBindInterceptor { position, viewHolder ->
+                    val country = adapter.getItem(position)
+                    viewHolder.get<TextView>(R.id.country_name).text = country.countryName
+                }
+                .headerHolderBindInterceptor { position, viewHolder ->
+                    val country = adapter.getItem(position)
+                    viewHolder.get<TextView>(R.id.sticky_name).text = country.letter
                 }
                 .headerClickInterceptor { position, stickyId ->
                     Toast.makeText(context, "sticky header clicked, headerId = $stickyId", Toast.LENGTH_SHORT).show()
                 }
-                .headerHolderBindInterceptor { position, item, viewHolder ->
-                    viewHolder.get<TextView>(R.id.sticky_name).text = item.letter
-                }
-                .clickInterceptor { position, item, vh ->
-                    Toast.makeText(context, "position $position, ${item.countryName} clicked", Toast.LENGTH_SHORT).show()
+                .clickInterceptor { position, vh ->
+                    val country = adapter.getItem(position)
+                    Toast.makeText(context, "position $position, ${country.countryName} clicked", Toast.LENGTH_SHORT).show()
                 }
                 .attach(binding.rv)
-
-        binding.rv.layoutManager = LinearLayoutManager(context)
-        // TODO 泛型问题
-        val stickyDecoration = StickyRecyclerItemDecoration(adapter)
-        binding.rv.addItemDecoration(stickyDecoration)
-        val helper = StickyHeaderTouchHelper(binding.rv, stickyDecoration)
-        binding.rv.addOnItemTouchListener(helper)
-        val dividerDecoration = LinearDividerItemDecoration(context, LinearDividerItemDecoration.LINEAR_DIVIDER_VERTICAL)
-        dividerDecoration.setDivider(resources.getDrawable(R.drawable.horizontal_divider_1px))
-        binding.rv.addItemDecoration(dividerDecoration)
-
-        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
-            override fun onChanged() {
-                stickyDecoration.clearHeaderCache()
-            }
-        })
-
         adapter.putItems(countryList)
     }
 }

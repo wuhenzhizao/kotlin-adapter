@@ -76,13 +76,14 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, viewHolder ->
+                    val product = adapter.getItem(position)
                     val imageView = viewHolder.get<DraweeImageView>(R.id.image)
-                    GImageLoader.displayUrl(context, imageView, item.imageUrl)
+                    GImageLoader.displayUrl(context, imageView, product.imageUrl)
 
-                    viewHolder.get<TextView>(R.id.name).text = item.name
-                    viewHolder.get<TextView>(R.id.price).text = "¥ ${item.price}"
-                    viewHolder.get<TextView>(R.id.reviews).text = item.reviews
+                    viewHolder.get<TextView>(R.id.name).text = product.name
+                    viewHolder.get<TextView>(R.id.price).text = "¥ ${product.price}"
+                    viewHolder.get<TextView>(R.id.reviews).text = product.reviews
 
                     viewHolder.get<View>(R.id.divider).visibility = if (position == adapter.itemCount - 1) {
                         View.GONE
@@ -90,8 +91,9 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                         View.VISIBLE
                     }
                 }
-                .clickInterceptor { position, item, vh ->
-                    Toast.makeText(context, "position $position, ${item.name} clicked", Toast.LENGTH_SHORT).show()
+                .clickInterceptor { position, vh ->
+                    val product = adapter.getItem(position)
+                    Toast.makeText(context, "position $position, ${product.name} clicked", Toast.LENGTH_SHORT).show()
                 }
                 .attach(binding.rv)
     }

@@ -5,7 +5,7 @@ import com.wuhenzhizao.adapter.interfaces.Interceptor
 /**
  * Created by liufei on 2017/12/3.
  */
-interface ItemDragInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface ItemDragInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param from
      * @param target
@@ -13,7 +13,7 @@ interface ItemDragInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
     fun onItemDrag(from: VH, target: VH)
 }
 
-interface ItemSwipeInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface ItemSwipeInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param vh
      * @param direction : {@link ItemTouchHelper.Left...}

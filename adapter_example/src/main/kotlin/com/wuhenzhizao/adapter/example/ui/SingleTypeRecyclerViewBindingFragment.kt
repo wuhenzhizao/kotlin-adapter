@@ -85,12 +85,13 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
                     val layoutParams = it.convert<ItemSingleTypeRecyclerViewBindingBinding>().imageUrl.layoutParams
                     layoutParams.height = (cardWidth * 2 / 3).toInt()
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, viewHolder ->
                     val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
-                    binding.vm = item
+                    binding.vm = adapter.getItem(position)
                 }
-                .clickInterceptor { position, item, vh ->
-                    Toast.makeText(context, "position $position, ${item.title}", Toast.LENGTH_SHORT).show()
+                .clickInterceptor { position, vh ->
+                    val content = adapter.getItem(position)
+                    Toast.makeText(context, "position $position, ${content.title}", Toast.LENGTH_SHORT).show()
                 }
                 .attach(binding.rv)
     }

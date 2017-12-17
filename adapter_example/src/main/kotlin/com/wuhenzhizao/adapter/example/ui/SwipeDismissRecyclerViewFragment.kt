@@ -41,6 +41,7 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
         decoration.setOffsetEdge(true)
         decoration.setOffsetLast(true)
         binding.rv.addItemDecoration(decoration)
+
         bindAdapter()
 
 
@@ -56,13 +57,15 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, viewHolder ->
+                    val topic = adapter.getItem(position)
                     val imageView = viewHolder.get<DraweeImageView>(R.id.iv)
-                    GImageLoader.displayUrl(context, imageView, item.bigImg)
-                    viewHolder.get<TextView>(R.id.name).text = item.title
+                    GImageLoader.displayUrl(context, imageView, topic.bigImg)
+                    viewHolder.get<TextView>(R.id.name).text = topic.title
                 }
-                .clickInterceptor { position, item, vh ->
-                    Toast.makeText(context, "position $position, ${item.title} clicked", Toast.LENGTH_SHORT).show()
+                .clickInterceptor { position, vh ->
+                    val topic = adapter.getItem(position)
+                    Toast.makeText(context, "position $position, ${topic.title} clicked", Toast.LENGTH_SHORT).show()
                 }
                 .swipeInterceptor { viewHolder, direction ->
                     Toast.makeText(context, "position ${viewHolder.adapterPosition} dismissed", Toast.LENGTH_SHORT).show()

@@ -8,6 +8,8 @@ import android.view.View
  */
 class ListViewHolder(val convertView: View) {
     private var views: SparseArray<View> = SparseArray()
+    var layoutId: Int = 0
+    var position: Int = 0
 
     init {
         convertView.tag = this

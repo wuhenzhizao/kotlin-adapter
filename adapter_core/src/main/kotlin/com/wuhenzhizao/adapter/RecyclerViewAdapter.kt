@@ -27,16 +27,16 @@ open class RecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : Abs
     override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
         innerClickInterceptor?.apply {
             viewHolder.itemView.setOnClickListener {
-                onClick(position, getItem(position), viewHolder)
+                onClick(position, viewHolder)
             }
         }
         innerLongClickInterceptor?.apply {
             viewHolder.itemView.setOnClickListener {
-                onLongClick(position, getItem(position), viewHolder)
+                onLongClick(position, viewHolder)
             }
         }
         innerHolderBindInterceptor?.apply {
-            onBindViewHolder(position, getItem(position), viewHolder)
+            onBindViewHolder(position, viewHolder)
         }
     }
 }

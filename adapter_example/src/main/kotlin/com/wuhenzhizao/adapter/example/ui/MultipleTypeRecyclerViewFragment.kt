@@ -114,10 +114,10 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                 .holderCreateInterceptor {
                     onViewHolderCreate(it)
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
-                    onViewHolderBind(item, viewHolder)
+                .holderBindInterceptor { position, viewHolder ->
+                    onViewHolderBind(position, viewHolder)
                 }
-                .clickInterceptor { position, item, vh ->
+                .clickInterceptor { position, vh ->
 
                 }
         binding.rv.adapter = adapter
@@ -134,7 +134,8 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
         }
     }
 
-    private fun onViewHolderBind(item: Any, vh: RecyclerViewHolder) {
+    private fun onViewHolderBind(position: Int, vh: RecyclerViewHolder) {
+        val item = adapter.getItem(position)
         when (item) {
             is BannerList -> {
                 bindBannerData(item, vh)
@@ -201,10 +202,11 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
 
         productAdapter = RecyclerViewAdapter<Product>(context)
                 .match(Product::class, R.layout.item_multiple_type_recycler_view_headine_item)
-                .holderBindInterceptor { position, item, vh ->
-                    GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.iv), item.imageUrl)
-                    vh.get<TextView>(R.id.name).text = item.name
-                    vh.get<TextView>(R.id.price).text = "¥ ${item.price}"
+                .holderBindInterceptor { position, vh ->
+                    val product = productAdapter.getItem(position)
+                    GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.iv), product.imageUrl)
+                    vh.get<TextView>(R.id.name).text = product.name
+                    vh.get<TextView>(R.id.price).text = "¥ ${product.price}"
                 }
                 .attach(recyclerView)
     }

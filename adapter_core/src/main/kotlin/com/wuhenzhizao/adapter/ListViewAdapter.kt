@@ -20,10 +20,12 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
             val itemLayoutId = getItemViewType(position)
             val itemView = inflater.inflate(itemLayoutId, parent, false)
             holder = ListViewHolder(itemView)
+            holder.layoutId = itemLayoutId
             onCreateViewHolder(holder)
         } else {
             holder = convertView.tag as ListViewHolder
         }
+        holder.position = position
         onBindViewHolder(position, getItem(position), holder)
         return holder.convertView
     }
@@ -36,16 +38,16 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
 
     override fun onBindViewHolder(position: Int, item: T, vh: ListViewHolder) {
         innerHolderBindInterceptor?.apply {
-            onBindViewHolder(position, getItem(position), vh)
+            onBindViewHolder(position, vh)
         }
         innerClickInterceptor?.apply {
             vh.convertView.setOnClickListener {
-                onClick(position, getItem(position), vh)
+                onClick(position, vh)
             }
         }
         innerLongClickInterceptor?.apply {
             vh.convertView.setOnClickListener {
-                onLongClick(position, getItem(position), vh)
+                onLongClick(position, vh)
             }
         }
     }

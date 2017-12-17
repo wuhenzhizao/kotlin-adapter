@@ -6,7 +6,6 @@ import android.databinding.OnRebindCallback
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
-import com.wuhenzhizao.adapter.extension.getItem
 import com.wuhenzhizao.adapter.holder.RecyclerViewBindingHolder
 
 /**
@@ -47,16 +46,16 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int) {
         innerClickInterceptor?.apply {
             holder.itemView.setOnClickListener {
-                onClick(position, getItem(position), holder)
+                onClick(position, holder)
             }
         }
         innerLongClickInterceptor?.apply {
             holder.itemView.setOnClickListener {
-                onLongClick(position, getItem(position), holder)
+                onLongClick(position, holder)
             }
         }
         innerHolderBindInterceptor?.apply {
-            onBindViewHolder(position, getItem(position), holder)
+            onBindViewHolder(position, holder)
         }
         holder.binding.executePendingBindings()
     }

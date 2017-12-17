@@ -23,7 +23,7 @@ class DragAndSwipeRecyclerView(context: Context, attrs: AttributeSet?, defStyle:
         return super.getAdapter() as DragAndSwipeRecyclerViewAdapter<*>
     }
 
-    fun setAdapter(adapter: DragAndSwipeRecyclerViewAdapter<*>?) {
+    override fun setAdapter(adapter: Adapter<*>?) {
         val callback = ItemTouchHelperCallBack()
         val touchHelper = ItemTouchHelper(callback)
         touchHelper.attachToRecyclerView(this)

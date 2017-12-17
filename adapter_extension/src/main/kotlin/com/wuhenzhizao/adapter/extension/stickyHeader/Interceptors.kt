@@ -5,26 +5,25 @@ import com.wuhenzhizao.adapter.interfaces.Interceptor
 /**
  * Created by liufei on 2017/12/3.
  */
-interface HeaderViewHolderCreateInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface HeaderViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param vh
      */
     fun onCreateHeaderViewHolder(vh: VH)
 }
 
-interface HeaderViewHolderBindInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface HeaderViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param item
      * @param vh
      */
-    fun onBindHeaderViewHolder(position: Int, item: T, vh: VH)
+    fun onBindHeaderViewHolder(position: Int, vh: VH)
 }
 
 
-interface HeaderClickInterceptor<in T : Any, in VH> : Interceptor<T, VH> {
+interface HeaderClickInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param position
+     * @param stickyPosition
      * @param stickyId
      */
     fun onHeaderClick(stickyPosition: Int, stickyId: Long)

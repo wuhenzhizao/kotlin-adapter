@@ -11,8 +11,8 @@ import java.util.*
  * Created by liufei on 2017/12/4.
  */
 class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items), DragAndDismissInterface<RecyclerViewHolder> {
-    private var innerDragInterceptor: ItemDragInterceptor<T, RecyclerViewHolder>? = null
-    private var innerSwipeInterceptor: ItemSwipeInterceptor<T, RecyclerViewHolder>? = null
+    private var innerDragInterceptor: ItemDragInterceptor<RecyclerViewHolder>? = null
+    private var innerSwipeInterceptor: ItemSwipeInterceptor<RecyclerViewHolder>? = null
 
     constructor(context: Context) : this(context, null)
 
@@ -33,17 +33,17 @@ class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?
         }
     }
 
-    override fun setInterceptor(interceptor: Interceptor<T, RecyclerViewHolder>) {
+    override fun setInterceptor(interceptor: Interceptor<RecyclerViewHolder>) {
         super.setInterceptor(interceptor)
         when (interceptor) {
-            is ItemDragInterceptor<T, RecyclerViewHolder> -> innerDragInterceptor = interceptor
-            is ItemSwipeInterceptor<T, RecyclerViewHolder> -> innerSwipeInterceptor = interceptor
+            is ItemDragInterceptor<RecyclerViewHolder> -> innerDragInterceptor = interceptor
+            is ItemSwipeInterceptor<RecyclerViewHolder> -> innerSwipeInterceptor = interceptor
         }
     }
 }
 
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragInterceptor(crossinline block: (from: RecyclerViewHolder, target: RecyclerViewHolder) -> Unit): Adapter {
-    setInterceptor(object : ItemDragInterceptor<T, RecyclerViewHolder> {
+    setInterceptor(object : ItemDragInterceptor<RecyclerViewHolder> {
         override fun onItemDrag(from: RecyclerViewHolder, target: RecyclerViewHolder) {
             block.invoke(from, target)
         }
@@ -52,7 +52,7 @@ inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragI
 }
 
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.swipeInterceptor(crossinline block: (viewHolder: RecyclerViewHolder, direction: Int) -> Unit): Adapter {
-    setInterceptor(object : ItemSwipeInterceptor<T, RecyclerViewHolder> {
+    setInterceptor(object : ItemSwipeInterceptor<RecyclerViewHolder> {
         override fun onItemSwipe(vh: RecyclerViewHolder, direction: Int) {
             block.invoke(vh, direction)
         }

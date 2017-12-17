@@ -42,13 +42,15 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
+                .holderBindInterceptor { position, viewHolder ->
                     val imageView = viewHolder.get<RatioImageView>(R.id.iv)
-                    GImageLoader.displayUrl(context, imageView, item.smallImg)
-                    viewHolder.get<TextView>(R.id.name).text = item.title
+                    val topic = adapter.getItem(position)
+                    GImageLoader.displayUrl(context, imageView, topic.smallImg)
+                    viewHolder.get<TextView>(R.id.name).text = topic.title
                 }
-                .clickInterceptor { position, item, vh ->
-                    Toast.makeText(context, "position $position, ${item.title} clicked", Toast.LENGTH_SHORT).show()
+                .clickInterceptor { position, vh ->
+                    val topic = adapter.getItem(position)
+                    Toast.makeText(context, "position $position, ${topic.title} clicked", Toast.LENGTH_SHORT).show()
                 }
                 .dragInterceptor { from, target ->
                     Toast.makeText(context, "item draged, from ${from.adapterPosition} to ${target.adapterPosition}", Toast.LENGTH_SHORT).show()

@@ -27,12 +27,14 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, item, viewHolder ->
-                    viewHolder.get<TextView>(R.id.tv).text = item.name
-                    viewHolder.get<CheckBox>(R.id.cb).isChecked = item.checked
+                .holderBindInterceptor { position, viewHolder ->
+                    val province = adapter.getItem(position)
+                    viewHolder.get<TextView>(R.id.tv).text = province.name
+                    viewHolder.get<CheckBox>(R.id.cb).isChecked = province.checked
                 }
-                .clickInterceptor { position, item, vh ->
-                    Toast.makeText(context, "position $position, ${item.name} clicked", Toast.LENGTH_SHORT).show()
+                .clickInterceptor { position, vh ->
+                    val province = adapter.getItem(position)
+                    Toast.makeText(context, "position $position, ${province.name} clicked", Toast.LENGTH_SHORT).show()
                     adapter.items.forEachIndexed { index, province ->
                         province.checked = (index == position)
                     }
