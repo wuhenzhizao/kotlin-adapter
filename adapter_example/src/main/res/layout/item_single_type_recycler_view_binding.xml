@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/comm_white">
 
-        <com.gome.common.image.DraweeImageView
+        <com.wuhenzhizao.adapter.example.image.DraweeImageView
             android:id="@+id/author_avatar"
             style="@style/fresco_circle"
             android:layout_width="25dp"
@@ -78,7 +78,7 @@
             android:textColor="#666666"
             android:textSize="13dp" />
 
-        <com.gome.common.image.DraweeImageView
+        <com.wuhenzhizao.adapter.example.image.DraweeImageView
             android:id="@+id/imageUrl"
             style="@style/fresco_rect"
             android:layout_width="match_parent"

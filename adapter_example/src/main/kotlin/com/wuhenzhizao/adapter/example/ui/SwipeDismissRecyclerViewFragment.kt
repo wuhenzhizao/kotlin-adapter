@@ -4,8 +4,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.TextView
 import android.widget.Toast
-import com.gome.common.image.DraweeImageView
-import com.gome.common.image.GImageLoader
+import com.wuhenzhizao.adapter.example.image.DraweeImageView
+import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.clickInterceptor
 import com.wuhenzhizao.adapter.example.R

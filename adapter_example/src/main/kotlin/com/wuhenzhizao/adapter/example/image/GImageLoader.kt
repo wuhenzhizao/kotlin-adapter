@@ -1,4 +1,4 @@
-package com.gome.common.image
+package com.wuhenzhizao.adapter.example.image
 
 import android.app.Application
 import android.content.Context

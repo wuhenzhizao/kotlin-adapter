@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.gome.common.image.DraweeImageView xmlns:ratio="http://schemas.android.com/apk/res-auto"
+    <com.wuhenzhizao.adapter.example.image.DraweeImageView xmlns:ratio="http://schemas.android.com/apk/res-auto"
         android:id="@+id/iv"
         style="@style/fresco_rect"
         android:layout_width="match_parent"

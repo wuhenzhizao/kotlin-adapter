@@ -1,4 +1,4 @@
-package com.gome.common.image
+package com.wuhenzhizao.adapter.example.image
 
 /**
  * Created by liufei on 2017/10/11.

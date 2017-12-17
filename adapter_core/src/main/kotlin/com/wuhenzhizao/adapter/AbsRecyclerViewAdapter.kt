@@ -94,7 +94,6 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.clickI
         override fun onClick(position: Int, item: T, vh: VH) {
             block.invoke(position, item, vh)
         }
-
     })
     return this
 }
@@ -104,7 +103,6 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.longCl
         override fun onLongClick(position: Int, item: T, vh: VH) {
             block.invoke(position, item, vh)
         }
-
     })
     return this
 }

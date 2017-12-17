@@ -12,7 +12,7 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1.0">
 
-        <com.gome.common.image.DraweeImageView
+        <com.wuhenzhizao.adapter.example.image.DraweeImageView
             android:id="@+id/left_iv"
             style="@style/fresco_rect"
             android:layout_width="142dp"
@@ -65,7 +65,7 @@
         android:layout_marginTop="15dp"
         android:layout_weight="1.0">
 
-        <com.gome.common.image.DraweeImageView
+        <com.wuhenzhizao.adapter.example.image.DraweeImageView
             android:id="@+id/right_iv"
             style="@style/fresco_rect"
             android:layout_width="142dp"

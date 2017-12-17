@@ -1,7 +1,7 @@
 package com.wuhenzhizao.adapter.example
 
 import android.support.multidex.MultiDexApplication
-import com.gome.common.image.GImageLoader
+import com.wuhenzhizao.adapter.example.image.GImageLoader
 import okhttp3.OkHttpClient
 
 /**

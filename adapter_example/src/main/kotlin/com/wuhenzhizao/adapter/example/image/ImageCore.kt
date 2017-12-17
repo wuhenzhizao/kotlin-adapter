@@ -1,4 +1,4 @@
-package com.gome.common.image
+package com.wuhenzhizao.adapter.example.image
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -99,26 +99,26 @@ object ImageCore {
                     DiskCacheConfig.newBuilder(context)
                             .setBaseDirectoryPath(Environment.getExternalStorageDirectory())
                             .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR)
-                            .setMaxCacheSize(ImageCore.MAX_DISK_CACHE_SIZE.toLong())
+                            .setMaxCacheSize(MAX_DISK_CACHE_SIZE.toLong())
                             .build())
                     .setSmallImageDiskCacheConfig(
                             DiskCacheConfig.newBuilder(context)
                                     .setBaseDirectoryPath(Environment.getExternalStorageDirectory())
                                     .setBaseDirectoryName(IMAGE_PIPELINE_SMALL_CACHE_DIR)
-                                    .setMaxCacheSize((ImageCore.MAX_DISK_CACHE_SIZE / 2).toLong())
+                                    .setMaxCacheSize((MAX_DISK_CACHE_SIZE / 2).toLong())
                                     .build())
         } else {
             configBuilder.setMainDiskCacheConfig(
                     DiskCacheConfig.newBuilder(context)
                             .setBaseDirectoryPath(context.applicationContext.cacheDir)
                             .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR)
-                            .setMaxCacheSize(ImageCore.MAX_DISK_CACHE_SIZE.toLong())
+                            .setMaxCacheSize(MAX_DISK_CACHE_SIZE.toLong())
                             .build())
                     .setSmallImageDiskCacheConfig(
                             DiskCacheConfig.newBuilder(context)
                                     .setBaseDirectoryPath(context.applicationContext.cacheDir)
                                     .setBaseDirectoryName(IMAGE_PIPELINE_SMALL_CACHE_DIR)
-                                    .setMaxCacheSize((ImageCore.MAX_DISK_CACHE_SIZE / 2).toLong())
+                                    .setMaxCacheSize((MAX_DISK_CACHE_SIZE / 2).toLong())
                                     .build())
         }
     }

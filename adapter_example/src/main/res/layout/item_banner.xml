@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.gome.common.image.DraweeImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.wuhenzhizao.adapter.example.image.DraweeImageView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/iv_banner"
     style="@style/fresco_banner"
     android:layout_width="match_parent"

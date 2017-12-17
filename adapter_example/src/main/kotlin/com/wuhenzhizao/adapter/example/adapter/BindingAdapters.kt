@@ -2,8 +2,8 @@ package com.wuhenzhizao.adapter.example.adapter
 
 import android.databinding.BindingAdapter
 import android.view.View
-import com.gome.common.image.DraweeImageView
-import com.gome.common.image.GImageLoader
+import com.wuhenzhizao.adapter.example.image.DraweeImageView
+import com.wuhenzhizao.adapter.example.image.GImageLoader
 
 /**
  * Created by liufei on 2017/12/15.

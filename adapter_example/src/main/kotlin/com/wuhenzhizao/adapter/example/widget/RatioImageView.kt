@@ -2,7 +2,7 @@ package com.wuhenzhizao.adapter.example.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import com.gome.common.image.DraweeImageView
+import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.R
 
 /**

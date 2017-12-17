@@ -1,4 +1,4 @@
-package com.gome.common.image
+package com.wuhenzhizao.adapter.example.image
 
 import com.facebook.drawee.view.SimpleDraweeView
 
