@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="main_tabs">
+        <item>SingleType(ListView)</item>
+        <item>SingleType(RecyclerView)</item>
+        <item>SingleType(RecyclerView + DataBinding)</item>
+        <item>MultipleType(ListView)</item>
+        <item>MultipleType(RecyclerView)</item>
+        <item>Sticky(RecyclerView)</item>
+        <item>SwipeMenu(RecyclerView)</item>
+        <item>Drag(RecyclerView)</item>
+        <item>SwipeDismiss(RecyclerView)</item>
+    </string-array>
+</resources>

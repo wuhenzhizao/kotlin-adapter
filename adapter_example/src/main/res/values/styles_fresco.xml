@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--fresco:fadeDuration="300"&lt;!&ndash; 渐变时间 &ndash;&gt;
+    fresco:actualImageScaleType="focusCrop"&lt;!&ndash; 图片缩放类型 &ndash;&gt;
+    fresco:placeholderImage="@color/wait_color"&lt;!&ndash; 占位图 &ndash;&gt;
+    fresco:placeholderImageScaleType="fitCenter"&lt;!&ndash; 占位图缩放类型 &ndash;&gt;
+    fresco:failureImage="@drawaerrorTitlerror"&lt;!&ndash; 加载失败占位图 &ndash;&gt;
+    fresco:failureImageScaleType="centerInside"&lt;!&ndash; 加载失败占位图缩放类型 &ndash;&gt;
+    fresco:retryImage="@drawable/retrying"&lt;!&ndash; 重试加载图 &ndash;&gt;
+    fresco:retryImageScaleType="centerCrop"&lt;!&ndash; 重视加载图缩放类型 &ndash;&gt;
+    fresco:progressBarImage="@drawable/progress_bar"&lt;!&ndash; 进度条图片 &ndash;&gt;
+    fresco:progressBarImageScaleType="centerInside"&lt;!&ndash; 进度条图片缩放类型 &ndash;&gt;
+    fresco:progressBarAutoRotateInterval="1000"&lt;!&ndash; 旋转间隔 &ndash;&gt;
+    fresco:backgroundImage="@color/blue"&lt;!&ndash; 背景图 &ndash;&gt;
+    fresco:overlayImage="@drawable/watermark"&lt;!&ndash; 叠加图图片 &ndash;&gt;
+    fresco:pressedStateOverlayImage="@color/red"&lt;!&ndash; 按压状态叠加图 &ndash;&gt;
+    fresco:roundAsCircle="false"&lt;!&ndash; 是否为圆 &ndash;&gt;
+    fresco:roundedCornerRadius="1dp"&lt;!&ndash; 半径 &ndash;&gt;
+    fresco:roundTopLeft="true"&lt;!&ndash; 左上角是否为圆弧 &ndash;&gt;
+    fresco:roundTopRight="false"&lt;!&ndash; 右上角是否为圆弧 &ndash;&gt;
+    fresco:roundBottomLeft="false"&lt;!&ndash; 左下角是否为圆弧 &ndash;&gt;
+    fresco:roundBottomRight="true"&lt;!&ndash; 右下角是否为圆弧 &ndash;&gt;
+    fresco:roundWithOverlayColor="@color/corner_color"&lt;!&ndash; 圆形叠加图颜色 &ndash;&gt;
+    fresco:roundingBorderWidth="2dp"&lt;!&ndash; 圆形边框宽度 &ndash;&gt;
+    fresco:roundingBorderColor="@color/border_color"&lt;!&ndash; 圆形边框颜色 &ndash;&gt;-->
+    <!--fresco:viewAspectRatio-->
+
+
+    <!-- 通用SimpleDraweeView标签配置  矩形图片 -->
+    <style name="fresco_rect">
+        <item name="fadeDuration">300</item>
+        <item name="actualImageScaleType">centerCrop</item>
+        <item name="backgroundImage">@color/comm_transparent</item>
+        <item name="placeholderImage">@drawable/comm_default_image</item>
+        <item name="placeholderImageScaleType">none</item>
+        <item name="failureImage">@drawable/comm_default_image</item>
+        <item name="failureImageScaleType">none</item>
+        <item name="retryImage">@drawable/comm_default_image</item>
+        <item name="retryImageScaleType">none</item>
+        <item name="overlayImage">@color/comm_transparent</item>
+        <item name="pressedStateOverlayImage">@color/comm_transparent</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <!-- 通用SimpleDraweeView标签配置  轮播图片 -->
+    <style name="fresco_banner">
+        <item name="fadeDuration">300</item>
+        <item name="actualImageScaleType">centerCrop</item>
+        <item name="backgroundImage">@color/comm_transparent</item>
+        <item name="placeholderImage">@drawable/comm_default_image</item>
+        <item name="placeholderImageScaleType">none</item>
+        <item name="failureImage">@drawable/comm_default_image</item>
+        <item name="failureImageScaleType">none</item>
+        <item name="retryImage">@drawable/comm_default_image</item>
+        <item name="retryImageScaleType">none</item>
+        <item name="overlayImage">@color/comm_transparent</item>
+        <item name="pressedStateOverlayImage">@color/comm_transparent</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <!-- 通用SimpleDraweeView标签配置  圆形头像 -->
+    <style name="fresco_circle">
+        <item name="fadeDuration">300</item>
+        <item name="actualImageScaleType">centerCrop</item>
+        <item name="backgroundImage">@color/comm_transparent</item>
+        <item name="placeholderImage">@drawable/comm_default_image</item>
+        <item name="placeholderImageScaleType">centerCrop</item>
+        <item name="failureImage">@drawable/comm_default_image</item>
+        <item name="failureImageScaleType">centerCrop</item>
+        <item name="retryImage">@drawable/comm_default_image</item>
+        <item name="retryImageScaleType">centerCrop</item>
+        <item name="overlayImage">@color/comm_transparent</item>
+        <item name="pressedStateOverlayImage">@color/comm_transparent</item>
+        <item name="roundAsCircle">true</item>
+        <item name="viewAspectRatio">1.0</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+</resources>

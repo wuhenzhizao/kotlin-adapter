@@ -6,4 +6,10 @@ import android.view.View
 /**
  * Created by liufei on 2017/12/3.
  */
-class RecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view)
+class RecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    var layoutId: Int = 0
+
+    operator fun <T : View> get(id: Int): T {
+        return itemView.findViewById(id) as T
+    }
+}

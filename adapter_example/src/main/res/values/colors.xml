@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#ffd022</color>
+    <color name="colorPrimaryDark">#ffd022</color>
+    <color name="colorAccent">#ffd022</color>
+
+    <color name="comm_white">#FFFFFF</color>
+    <color name="comm_transparent">#00000000</color>
+    <color name="comm_yellow">#ffd022</color>
+    <color name="comm_line">#dddddd</color>
+    <color name="comm_price">#B4282D</color>
+    <color name="comm_bg">#f2f2f2</color>
 </resources>

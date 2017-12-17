@@ -4,11 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.AbsListView
 import android.widget.BaseAdapter
-import com.wuhenzhizao.adapter.extension.addItems
-import com.wuhenzhizao.adapter.interfaces.Interceptor
-import com.wuhenzhizao.adapter.interfaces.LayoutInterceptor
-import com.wuhenzhizao.adapter.interfaces.ViewHolderBindInterceptor
-import com.wuhenzhizao.adapter.interfaces.ViewHolderCreateInterceptor
+import com.wuhenzhizao.adapter.extension.putItems
+import com.wuhenzhizao.adapter.interfaces.*
 import kotlin.reflect.KClass
 
 /**
@@ -16,15 +13,17 @@ import kotlin.reflect.KClass
  */
 abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter() {
     val items: MutableList<T> = arrayListOf()
-    protected val itemTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
+    val itemTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-    protected var layoutInterceptor: LayoutInterceptor<T, VH>? = null
-    protected var viewHolderCreateInterceptor: ViewHolderCreateInterceptor<T, VH>? = null
-    protected var viewHolderBindInterceptor: ViewHolderBindInterceptor<T, VH>? = null
+    protected var innerLayoutInterceptor: LayoutInterceptor<VH>? = null
+    protected var innerClickInterceptor: ClickInterceptor<VH>? = null
+    protected var innerLongClickInterceptor: LongClickInterceptor<VH>? = null
+    protected var innerHolderCreateInterceptor: ViewHolderCreateInterceptor<VH>? = null
+    protected var innerHolderBindInterceptor: ViewHolderBindInterceptor<VH>? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {
-            addItems(items)
+            putItems(items)
         }
     }
 
@@ -47,60 +46,74 @@ abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter()
         val itemTypeChain = itemTypes[item::class]
         if (itemTypeChain != null) {
             return itemTypeChain.itemLayoutId
-        } else if (layoutInterceptor != null) {
-            return layoutInterceptor!!.run {
-                getLayoutId(position, item)
+        } else if (innerLayoutInterceptor != null) {
+            return innerLayoutInterceptor!!.run {
+                getLayoutId(position)
             }
         }
         throw RuntimeException("Could not found the specified class")
     }
 
-    fun setInterceptor(interceptor: Interceptor<T, VH>) {
+    fun setInterceptor(interceptor: Interceptor<VH>) {
         when (interceptor) {
-            is LayoutInterceptor<T, VH> -> layoutInterceptor = interceptor
-            is ViewHolderCreateInterceptor<T, VH> -> viewHolderCreateInterceptor = interceptor
-            is ViewHolderBindInterceptor<T, VH> -> viewHolderBindInterceptor = interceptor
+            is LayoutInterceptor<VH> -> innerLayoutInterceptor = interceptor
+            is ViewHolderCreateInterceptor<VH> -> innerHolderCreateInterceptor = interceptor
+            is ViewHolderBindInterceptor<VH> -> innerHolderBindInterceptor = interceptor
+            is ClickInterceptor<VH> -> innerClickInterceptor = interceptor
+            is LongClickInterceptor<VH> -> innerLongClickInterceptor = interceptor
         }
     }
+}
 
-    fun items(items: Collection<T>): AbsListViewAdapter<T, VH> {
-        this.items.clear()
-        this.items.addAll(items)
-        return this
-    }
+fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.attach(absListView: AbsListView): Adapter {
+    absListView.adapter = this
+    return this
+}
 
-    inline fun <reified KC> match(itemLayoutId: Int): AbsListViewAdapter<T, VH> {
-        itemTypes.put(KC::class, ItemTypeChain(KC::class, itemLayoutId))
-        return this
-    }
+fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int): Adapter {
+    itemTypes.put(kClass, ItemTypeChain(kClass, itemLayoutId))
+    return this
+}
 
-    inline fun layoutInterceptor(crossinline block: (position: Int, item: T) -> Int): AbsListViewAdapter<T, VH> {
-        setInterceptor(object : LayoutInterceptor<T, VH> {
-            override fun getLayoutId(position: Int, item: T): Int = block.invoke(position, item)
-        })
-        return this
-    }
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.layoutInterceptor(crossinline block: (position: Int) -> Int): Adapter {
+    setInterceptor(object : LayoutInterceptor<VH> {
+        override fun getLayoutId(position: Int): Int = block.invoke(position)
+    })
+    return this
+}
 
-    inline fun viewHolderCreateInterceptor(crossinline block: (vh: VH) -> Unit): AbsListViewAdapter<T, VH> {
-        setInterceptor(object : ViewHolderCreateInterceptor<T, VH> {
-            override fun onCreateViewHolder(vh: VH) {
-                block.invoke(vh)
-            }
-        })
-        return this
-    }
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.clickInterceptor(crossinline block: (position: Int, vh: VH) -> Unit): Adapter {
+    setInterceptor(object : ClickInterceptor<VH> {
+        override fun onClick(position: Int, vh: VH) {
+            block.invoke(position, vh)
+        }
+    })
+    return this
+}
 
-    inline fun viewHolderBindInterceptor(crossinline block: (position: Int, item: T, vh: VH) -> Unit): AbsListViewAdapter<T, VH> {
-        setInterceptor(object : ViewHolderBindInterceptor<T, VH> {
-            override fun onBindViewHolder(position: Int, item: T, vh: VH) {
-                block.invoke(position, item, vh)
-            }
-        })
-        return this
-    }
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.longClickInterceptor(crossinline block: (position: Int, vh: VH) -> Unit): Adapter {
+    setInterceptor(object : LongClickInterceptor<VH> {
+        override fun onLongClick(position: Int, vh: VH) {
+            block.invoke(position, vh)
+        }
+    })
+    return this
+}
 
-    fun attach(absListView: AbsListView): AbsListViewAdapter<T, VH> {
-        absListView.adapter = this
-        return this
-    }
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCreateInterceptor(crossinline block: (vh: VH) -> Unit): Adapter {
+    setInterceptor(object : ViewHolderCreateInterceptor<VH> {
+        override fun onCreateViewHolder(vh: VH) {
+            block.invoke(vh)
+        }
+    })
+    return this
+}
+
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderBindInterceptor(crossinline block: (position: Int, vh: VH) -> Unit): Adapter {
+    setInterceptor(object : ViewHolderBindInterceptor<VH> {
+        override fun onBindViewHolder(position: Int, vh: VH) {
+            block.invoke(position, vh)
+        }
+    })
+    return this
 }

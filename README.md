@@ -1,2 +1,2 @@
 # kotlin-adapter
-Base adapter for recyclerview 
+Base adapter for RecyclerView，AbsListView, support multiple item type, Sticky , Drag, Swipe...

@@ -1,11 +1,11 @@
-package com.wuhenzhizao.adapter.extension.sticky
+package com.wuhenzhizao.adapter.extension.stickyHeader
 
 import android.view.ViewGroup
 
 /**
  * Created by liufei on 2017/12/4.
  */
-interface StickyHeaderAdapter<VH> {
+interface StickyAdapterInterface<VH> {
 
     fun getHeaderId(position: Int): Long
 
@@ -13,5 +13,5 @@ interface StickyHeaderAdapter<VH> {
     fun onCreateHeaderViewHolder(parent: ViewGroup, position: Int): VH?
 
 
-    fun onBindHeaderViewHolder(viewholder: VH, position: Int)
+    fun onBindHeaderViewHolder(viewHolder: VH, position: Int)
 }

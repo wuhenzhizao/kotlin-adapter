@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/comm_line">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+
+        <com.gjiazhe.wavesidebar.WaveSideBar xmlns:bar="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/slideBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingRight="10dp"
+            android:textSize="8dp"
+            bar:sidebar_lazy_respond="false"
+            bar:sidebar_position="right"
+            bar:sidebar_text_alignment="center"
+            bar:sidebar_text_color="#666666" />
+    </RelativeLayout>
+</layout>
