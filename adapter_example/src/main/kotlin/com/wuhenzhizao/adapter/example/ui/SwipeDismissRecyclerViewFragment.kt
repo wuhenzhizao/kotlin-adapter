@@ -43,12 +43,6 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
         binding.rv.addItemDecoration(decoration)
 
         bindAdapter()
-
-
-        // 1. drag swipeDismiss 控制开关  回调 closed
-        // TODO 1. 回调参数统一
-        // TODO 2. swipeMenu页面
-        // TODO 3. multipleListView页面
     }
 
     private fun bindAdapter() {

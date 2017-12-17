@@ -2,11 +2,11 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 
-def siteUrl = 'https://github.com/wuhenzhizao/android-titlebar'
-def gitUrl = 'https://github.com/wuhenzhizao/android-titlebar.git'
-def artifact = "titlebar"
+def siteUrl = 'https://github.com/wuhenzhizao/kotlin-adapter'
+def gitUrl = 'https://github.com/wuhenzhizao/kotlin-adapter.git'
+def artifact = "kotlin-adapter"
 group = "com.wuhenzhizao"
-version = "1.0.5"
+version = "1.0.0"
 project.archivesBaseName = artifact
 
 task sourcesJar(type: Jar) {
@@ -47,7 +47,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name 'titlebar'
+                name artifact
                 url siteUrl
                 // Set your license
                 licenses {
@@ -83,7 +83,7 @@ bintray {
 
     pkg {
         repo = "maven"
-        name = "titlebar"
+        name = artifact
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]
