@@ -96,3 +96,49 @@ data class Topic(
         @SerializedName("smallImg") val smallImg: String = "",
         @SerializedName("title") val title: String = "" //潮流数码
 )
+
+
+data class ShoppingCartList(
+        @SerializedName("carts") val carts: List<Cart> = listOf(),
+        @SerializedName("notice") val notice: Notice = Notice(),
+        @SerializedName("recommendProductList") val recommendProductList: List<RecommendProduct> = listOf()
+)
+
+data class RecommendProduct(
+        @SerializedName("itemType") val itemType: Int = 0,
+        @SerializedName("itemId") val itemId: String = "",
+        @SerializedName("name") val name: String = "",
+        @SerializedName("imageUrl") val imageUrl: String = "",
+        @SerializedName("price") val price: String = ""
+)
+
+data class Cart(
+        @SerializedName("shopId") val shopId: Int = 0, //-1
+        @SerializedName("shopName") val shopName: String = "",
+        @SerializedName("items") val items: List<Item> = listOf()
+)
+
+data class Item(
+        @SerializedName("Discount") val discount: Double = 0.0,
+        @SerializedName("stockState") val stockState: String = "",
+        @SerializedName("propertyTags") val propertyTags: PropertyTags = PropertyTags(),
+        @SerializedName("stockCode") val stockCode: Int = 0,
+        @SerializedName("maxNum") val maxNum: Int = 0,
+        @SerializedName("Id") val id: String = "",
+        @SerializedName("Name") val name: String = "",
+        @SerializedName("Num") val num: Int = 0,
+        @SerializedName("Price") val price: Double = 0.0,
+        @SerializedName("PriceShow") val priceShow: String = "",
+        @SerializedName("ImgUrl") val imgUrl: String = "",
+        @SerializedName("CheckType") val checkType: Int = 0
+)
+
+data class PropertyTags(
+        @SerializedName("b") val b: String = "",
+        @SerializedName("a") val a: String = ""
+)
+
+data class Notice(
+        @SerializedName("imgUrl") val imgUrl: String = "",
+        @SerializedName("text") val text: String = ""
+)
