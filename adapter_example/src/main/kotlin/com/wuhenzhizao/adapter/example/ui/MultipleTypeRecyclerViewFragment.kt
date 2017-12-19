@@ -102,14 +102,41 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun bindAdapter() {
+//        adapter = RecyclerViewAdapter<Any>(context)
+//                .match(BannerList::class, R.layout.item_multiple_type_recycler_view_banner)
+//                .match(Promotion::class, R.layout.item_multiple_type_recycler_view_promotion)
+//                .match(Divider::class, R.layout.item_multiple_type_recycler_view_divider)
+//                .match(HeaderLine::class, R.layout.item_multiple_type_recycler_view_headine)
+//                .match(HeaderLineProductList::class, R.layout.item_multiple_type_recycler_view_headine_product)
+//                .match(Recommend::class, R.layout.item_multiple_type_recycler_view_recommend)
+//                .match(RecommendProducts::class, R.layout.item_multiple_type_recycler_view_recommend_item)
+//                .holderCreateInterceptor {
+//                    onViewHolderCreate(it)
+//                }
+//                .holderBindInterceptor { position, viewHolder ->
+//                    onViewHolderBind(position, viewHolder)
+//                }
+//                .clickInterceptor { position, holder ->
+//
+//                }
+//                .attach(binding.rv)
+
+        // replace multiple match() with layoutInterceptor
         adapter = RecyclerViewAdapter<Any>(context)
-                .match(BannerList::class, R.layout.item_multiple_type_recycler_view_banner)
-                .match(Promotion::class, R.layout.item_multiple_type_recycler_view_promotion)
-                .match(Divider::class, R.layout.item_multiple_type_recycler_view_divider)
-                .match(HeaderLine::class, R.layout.item_multiple_type_recycler_view_headine)
-                .match(HeaderLineProductList::class, R.layout.item_multiple_type_recycler_view_headine_product)
-                .match(Recommend::class, R.layout.item_multiple_type_recycler_view_recommend)
-                .match(RecommendProducts::class, R.layout.item_multiple_type_recycler_view_recommend_item)
+                .layoutInterceptor {
+                    when (adapter.getItem(it)) {
+                        is BannerList -> R.layout.item_multiple_type_recycler_view_banner
+                        is Promotion -> R.layout.item_multiple_type_recycler_view_promotion
+                        is Divider -> R.layout.item_multiple_type_recycler_view_divider
+                        is HeaderLine -> R.layout.item_multiple_type_recycler_view_headine
+                        is HeaderLineProductList -> R.layout.item_multiple_type_recycler_view_headine_product
+                        is Recommend -> R.layout.item_multiple_type_recycler_view_recommend
+                        is RecommendProducts -> R.layout.item_multiple_type_recycler_view_recommend_item
+                        else -> {
+                            0
+                        }
+                    }
+                }
                 .holderCreateInterceptor {
                     onViewHolderCreate(it)
                 }
@@ -119,7 +146,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                 .clickInterceptor { position, holder ->
 
                 }
-        binding.rv.adapter = adapter
+                .attach(binding.rv)
     }
 
     private fun onViewHolderCreate(holder: RecyclerViewHolder) {
@@ -210,7 +237,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                     holder.get<TextView>(R.id.name, { text = product.name })
                     holder.get<TextView>(R.id.price, { text = "¥ ${product.price}" })
                 }
-                .attach(recyclerView!!)
+                .attach(recyclerView)
     }
 
     private fun bindHeadLineProductList(item: HeaderLineProductList, holder: RecyclerViewHolder) {
