@@ -6,7 +6,7 @@
     <com.daimajia.swipe.SwipeLayout xmlns:swipe="http://schemas.android.com/apk/res-auto"
         android:id="@id/swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="116dp"
+        android:layout_height="115dp"
         swipe:clickToClose="true"
         swipe:drag_edge="right"
         swipe:show_mode="pull_out">
@@ -38,17 +38,17 @@
                 android:id="@+id/ib_select"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="42dp"
                 android:background="@color/comm_transparent"
                 android:src="@drawable/shopping_cart_check_selector" />
 
-            <com.mx.engine.widget.DraweeImageView
+            <com.wuhenzhizao.adapter.example.image.DraweeImageView
                 android:id="@+id/iv_sku_logo"
                 style="@style/fresco_rect"
-                android:layout_width="77dp"
-                android:layout_height="91dp"
-                android:layout_marginTop="15dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/ib_select" />
 
             <TextView
@@ -84,10 +84,8 @@
                 android:id="@+id/ll_sku_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignBottom="@id/iv_sku_logo"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="10dp"
                 android:layout_marginRight="15dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -96,15 +94,15 @@
 
                 <ImageButton
                     android:id="@+id/btn_sku_quantity_minus"
-                    android:layout_width="28dp"
-                    android:layout_height="22dp"
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/shopping_cart_minus_selector"
                     android:src="@mipmap/shopping_cart_minus_normal" />
 
                 <EditText
                     android:id="@+id/et_sku_quantity_input"
-                    android:layout_width="40dp"
-                    android:layout_height="22dp"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     android:background="@drawable/shopping_cart_input_selector"
@@ -118,13 +116,13 @@
                     android:minWidth="21dp"
                     android:text="1"
                     android:textColor="#333333"
-                    android:textSize="15dp"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
 
                 <ImageButton
                     android:id="@+id/btn_sku_quantity_plus"
-                    android:layout_width="28dp"
-                    android:layout_height="22dp"
+                    android:layout_width="25dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/shopping_cart_plus_selector"
                     android:src="@mipmap/shopping_cart_plus_normal" />
 
@@ -134,8 +132,7 @@
                 android:id="@+id/tv_sku_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
+                android:layout_alignBottom="@id/iv_sku_logo"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/ll_sku_quantity"
@@ -144,7 +141,7 @@
                 android:lines="1"
                 android:maxWidth="110dp"
                 android:textColor="@color/comm_price"
-                android:textSize="16dp" />
+                android:textSize="15dp" />
         </RelativeLayout>
     </com.daimajia.swipe.SwipeLayout>
 

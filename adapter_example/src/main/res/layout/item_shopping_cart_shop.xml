@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="46dp"
+    android:layout_height="wrap_content"
     android:background="@color/comm_white">
 
     <ImageButton
@@ -10,34 +10,41 @@
         android:layout_height="38dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="9dp"
         android:background="@color/comm_transparent"
         android:src="@drawable/shopping_cart_check_selector" />
 
-    <com.facebook.drawee.view.DraweeView
+    <ImageView
         android:id="@+id/iv_shop_logo"
-        style="@style/fresco_circle"
-        android:layout_width="26dp"
-        android:layout_height="26dp"
+        android:layout_width="21dp"
+        android:layout_height="21dp"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@id/ib_shop_select" />
+        android:layout_toRightOf="@id/ib_shop_select"
+        android:src="@mipmap/shopping_cart_shop" />
 
     <TextView
         android:id="@+id/tv_shop_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="15dp"
         android:layout_toRightOf="@id/iv_shop_logo"
         android:includeFontPadding="false"
         android:lines="1"
         android:textColor="#333333"
-        android:textSize="13dp" />
+        android:textSize="14dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/head_line_arrow" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_below="@id/ib_shop_select"
         android:background="@color/comm_line" />
 </RelativeLayout>

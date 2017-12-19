@@ -29,4 +29,10 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
         initViews()
         return binding.root
     }
+
+    protected fun simulateLoadData(block: () -> Unit) {
+        binding.root.postDelayed({
+            block()
+        }, 1500)
+    }
 }

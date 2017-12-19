@@ -3,7 +3,7 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/ll_checkout"
@@ -70,15 +70,21 @@
                 android:textSize="15dp" />
         </LinearLayout>
 
+        <View
+            android:id="@+id/ll_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_above="@id/ll_checkout"
+            android:background="@color/comm_line" />
+
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:refresh="http://schemas.android.com/apk/res-auto"
             android:id="@+id/refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@id/ll_checkout"
+            android:layout_above="@id/ll_line"
             android:background="@color/comm_bg"
-            refresh:srlEnableLoadmore="false"
             refresh:srlEnableOverScrollDrag="true">
 
             <com.scwang.smartrefresh.layout.header.ClassicsHeader

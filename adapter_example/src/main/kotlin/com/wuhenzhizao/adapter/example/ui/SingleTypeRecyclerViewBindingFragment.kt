@@ -46,18 +46,18 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
     private fun bindListener() {
         binding.refresh.setOnRefreshLoadmoreListener(object : OnRefreshLoadmoreListener {
             override fun onRefresh(refreshlayout: RefreshLayout) {
-                binding.refresh.postDelayed({
+                simulateLoadData {
                     currentPage = 1
                     adapter.putItems(contentList.subList(0, PAGE_SIZE))
                     refreshlayout.finishRefresh()
                     refreshlayout.isEnableLoadmore = true
                     refreshlayout.resetNoMoreData()
-                }, 1500)
+                }
             }
 
             override fun onLoadmore(refreshlayout: RefreshLayout) {
-                binding.refresh.postDelayed({
-                    val pageStartIndex = currentPage * PAGE_SIZE
+                simulateLoadData {
+                val pageStartIndex = currentPage * PAGE_SIZE
                     val pageEndIndex = Math.min((currentPage + 1) * PAGE_SIZE, contentList.size)
                     adapter.addItems(contentList.subList(pageStartIndex, pageEndIndex))
                     if (pageEndIndex < contentList.size) {
@@ -68,7 +68,7 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
                         refreshlayout.finishLoadmoreWithNoMoreData()
                     }
                     currentPage++
-                }, 1500)
+                }
             }
         })
     }

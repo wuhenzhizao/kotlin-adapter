@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
 /**
  * Created by liufei on 2017/12/4.
  */
-class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items), StickyAdapterInterface<RecyclerViewHolder> {
+open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items), StickyAdapterInterface<RecyclerViewHolder> {
     val headerTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
     internal var innerHeaderClickInterceptor: HeaderClickInterceptor<RecyclerViewHolder>? = null
     private var innerHeaderHolderCreateInterceptor: HeaderViewHolderCreateInterceptor<RecyclerViewHolder>? = null
@@ -26,6 +26,9 @@ class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>
 
     override fun onCreateHeaderViewHolder(parent: ViewGroup, position: Int): RecyclerViewHolder? {
         val item = getItem(position)
+        if (position == 23) {
+            println(position)
+        }
         val viewType = headerTypes[item::class]!!.itemLayoutId
         val itemView = inflater.inflate(viewType, parent, false)
         val holder = RecyclerViewHolder(itemView)
@@ -52,7 +55,7 @@ class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>
     }
 }
 
-fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: RecyclerView): Adapter {
+fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: RecyclerView): Adapter {
     val stickyDecoration = StickyRecyclerItemDecoration(this)
     rv.addItemDecoration(stickyDecoration)
     rv.adapter = this
@@ -64,12 +67,12 @@ fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: Recycle
     return this
 }
 
-fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader(kClass: KClass<T>, itemLayoutId: Int): Adapter {
+fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader(kClass: KClass<*>, itemLayoutId: Int): Adapter {
     headerTypes.put(kClass, ItemTypeChain(kClass, itemLayoutId))
     return this
 }
 
-inline fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickInterceptor(crossinline block: (position: Int, stickyId: Long) -> Unit): Adapter {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickInterceptor(crossinline block: (position: Int, stickyId: Long) -> Unit): Adapter {
     setInterceptor(object : HeaderClickInterceptor<RecyclerViewHolder> {
         override fun onHeaderClick(position: Int, stickyId: Long) {
             block.invoke(position, stickyId)
@@ -78,7 +81,7 @@ inline fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClick
     return this
 }
 
-inline fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderCreateInterceptor(crossinline block: (viewHolder: RecyclerViewHolder) -> Unit): Adapter {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderCreateInterceptor(crossinline block: (viewHolder: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : HeaderViewHolderCreateInterceptor<RecyclerViewHolder> {
         override fun onCreateHeaderViewHolder(vh: RecyclerViewHolder) {
             block.invoke(vh)
@@ -87,7 +90,7 @@ inline fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolde
     return this
 }
 
-inline fun <T : Any, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderBindInterceptor(crossinline block: (position: Int, viewHolder: RecyclerViewHolder) -> Unit): Adapter {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderBindInterceptor(crossinline block: (position: Int, viewHolder: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : HeaderViewHolderBindInterceptor<RecyclerViewHolder> {
         override fun onBindHeaderViewHolder(position: Int, vh: RecyclerViewHolder) {
             block.invoke(position, vh)

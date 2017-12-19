@@ -54,7 +54,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     private fun bindListener() {
         binding.refresh.setOnRefreshLoadmoreListener(object : OnRefreshLoadmoreListener {
             override fun onRefresh(refreshlayout: RefreshLayout) {
-                binding.refresh.postDelayed({
+                simulateLoadData {
                     currentPage = 1
                     adapter.clear()
                     val list = arrayListOf<Any>()
@@ -71,11 +71,11 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                     refreshlayout.finishRefresh()
                     refreshlayout.isEnableLoadmore = true
                     refreshlayout.resetNoMoreData()
-                }, 1500)
+                }
             }
 
             override fun onLoadmore(refreshlayout: RefreshLayout) {
-                binding.refresh.postDelayed({
+                simulateLoadData {
                     val list = mutableListOf<RecommendProducts>()
                     val pageStartIndex = currentPage * PAGE_SIZE
                     val pageEndIndex = Math.min((currentPage + 1) * PAGE_SIZE, productList.size)
@@ -97,7 +97,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                         refreshlayout.finishLoadmoreWithNoMoreData()
                     }
                     currentPage++
-                }, 1500)
+                }
             }
         })
     }
