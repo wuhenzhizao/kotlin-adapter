@@ -23,9 +23,9 @@ interface LayoutInterceptor<in VH> : Interceptor<VH> {
 interface ClickInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param vh
+     * @param holder
      */
-    fun onClick(position: Int, vh: VH)
+    fun onClick(position: Int, holder: VH)
 }
 
 /**
@@ -34,9 +34,9 @@ interface ClickInterceptor<in VH> : Interceptor<VH> {
 interface LongClickInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param vh
+     * @param holder
      */
-    fun onLongClick(position: Int, vh: VH)
+    fun onLongClick(position: Int, holder: VH)
 }
 
 /**
@@ -44,9 +44,9 @@ interface LongClickInterceptor<in VH> : Interceptor<VH> {
  */
 interface ViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param vh
+     * @param holder
      */
-    fun onCreateViewHolder(vh: VH)
+    fun onCreateViewHolder(holder: VH)
 }
 
 /**
@@ -55,7 +55,7 @@ interface ViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
 interface ViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param vh
+     * @param holder
      */
-    fun onBindViewHolder(position: Int, vh: VH)
+    fun onBindViewHolder(position: Int, holder: VH)
 }

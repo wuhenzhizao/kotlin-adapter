@@ -8,25 +8,25 @@ import com.wuhenzhizao.adapter.interfaces.Interceptor
  */
 interface HeaderViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param vh
+     * @param holder
      */
-    fun onCreateHeaderViewHolder(vh: VH)
+    fun onCreateHeaderViewHolder(holder: VH)
 }
 
 interface HeaderViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
-     * @param vh
+     * @param holder
      */
-    fun onBindHeaderViewHolder(position: Int, vh: VH)
+    fun onBindHeaderViewHolder(position: Int, holder: VH)
 }
 
 
 interface HeaderClickInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param vh
+     * @param holder
      * @param clickView
      * @param position
      */
-    fun onHeaderClick(vh: VH, clickView: View, position: Int)
+    fun onHeaderClick(holder: VH, clickView: View, position: Int)
 }

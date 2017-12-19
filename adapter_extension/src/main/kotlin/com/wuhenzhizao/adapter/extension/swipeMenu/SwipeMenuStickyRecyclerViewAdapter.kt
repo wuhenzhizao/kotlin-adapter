@@ -63,9 +63,9 @@ class SwipeMenuStickyRecyclerViewAdapter<T : StickyBean>(context: Context, items
         mItemManger.mode = mode
     }
 
-    override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
-        super.onBindViewHolder(viewHolder, position)
-        bindSwipeListener(viewHolder, position)
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        bindSwipeListener(holder, position)
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>?) {
@@ -73,24 +73,24 @@ class SwipeMenuStickyRecyclerViewAdapter<T : StickyBean>(context: Context, items
         bindSwipeListener(holder, position)
     }
 
-    private fun bindSwipeListener(vh: RecyclerViewHolder, position: Int) {
-        if (!vh.has<SwipeLayout>(R.id.swipe_layout)) {
+    private fun bindSwipeListener(holder: RecyclerViewHolder, position: Int) {
+        if (!holder.has<SwipeLayout>(R.id.swipe_layout)) {
             return
         }
-        vh.get<SwipeLayout>(R.id.swipe_layout, {
-            mItemManger.bindView(vh.itemView, position)
+        holder.get<SwipeLayout>(R.id.swipe_layout, {
+            mItemManger.bindView(holder.itemView, position)
             addSwipeListener(object : SwipeLayout.SwipeListener {
                 override fun onOpen(layout: SwipeLayout) {
                     closeAllExcept(layout)
                 }
 
-                override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {}
+                override fun onUpdate(layout: SwipeLayout, leftOffset: Int, topOffset: Int) {}
 
-                override fun onStartOpen(layout: SwipeLayout?) {}
+                override fun onStartOpen(layout: SwipeLayout) {}
 
-                override fun onStartClose(layout: SwipeLayout?) {}
+                override fun onStartClose(layout: SwipeLayout) {}
 
-                override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
+                override fun onHandRelease(layout: SwipeLayout, xVel: Float, yVel: Float) {}
 
                 override fun onClose(layout: SwipeLayout?) {}
             })

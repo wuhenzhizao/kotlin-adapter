@@ -30,9 +30,9 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
         return holder.convertView
     }
 
-    override fun onCreateViewHolder(holder: ListViewHolder) {
+    override fun onCreateViewHolder(vh: ListViewHolder) {
         innerHolderCreateInterceptor?.apply {
-            onCreateViewHolder(holder)
+            onCreateViewHolder(vh)
         }
     }
 

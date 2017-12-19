@@ -26,10 +26,10 @@ class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?
         }
     }
 
-    override fun onItemSwipe(vh: RecyclerViewHolder, direction: Int) {
-        removeItemAt(vh.adapterPosition)
+    override fun onItemSwipe(holder: RecyclerViewHolder, direction: Int) {
+        removeItemAt(holder.adapterPosition)
         innerSwipeInterceptor?.apply {
-            onItemSwipe(vh, direction)
+            onItemSwipe(holder, direction)
         }
     }
 
@@ -53,8 +53,8 @@ inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragI
 
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.swipeInterceptor(crossinline block: (viewHolder: RecyclerViewHolder, direction: Int) -> Unit): Adapter {
     setInterceptor(object : ItemSwipeInterceptor<RecyclerViewHolder> {
-        override fun onItemSwipe(vh: RecyclerViewHolder, direction: Int) {
-            block.invoke(vh, direction)
+        override fun onItemSwipe(holder: RecyclerViewHolder, direction: Int) {
+            block.invoke(holder, direction)
         }
     })
     return this

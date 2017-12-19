@@ -15,7 +15,6 @@ class ListViewHolder(val convertView: View) {
         convertView.tag = this
     }
 
-    @Suppress("UNCHECKED_CAST")
     fun <T : View> get(viewId: Int): T {
         var view = views.get(viewId)
         if (view == null) {

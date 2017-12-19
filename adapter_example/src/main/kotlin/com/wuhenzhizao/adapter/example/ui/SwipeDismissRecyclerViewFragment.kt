@@ -56,7 +56,7 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
                     viewHolder.get<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.bigImg) })
                     viewHolder.get<TextView>(R.id.name, { text = topic.title })
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
                     val topic = adapter.getItem(position)
                     showToast("position $position, ${topic.title} clicked")
                 }

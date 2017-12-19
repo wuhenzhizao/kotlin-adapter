@@ -88,7 +88,7 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
                     val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
                     binding.vm = adapter.getItem(position)
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
                     val content = adapter.getItem(position)
                     showToast("position $position, ${content.title}")
                 }

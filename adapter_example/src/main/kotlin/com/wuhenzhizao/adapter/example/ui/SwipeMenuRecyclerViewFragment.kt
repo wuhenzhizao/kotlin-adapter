@@ -142,59 +142,59 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                 .match(RecommendProducts::class, R.layout.item_shopping_cart_recommend)
                 .matchHeader(ItemViewBean::class, R.layout.item_shopping_cart_shop)
                 .matchHeader(RecommendProducts::class, R.layout.item_shopping_cart_recommend_header)
-                .holderBindInterceptor { position, vh ->
-                    onHolderBind(position, vh)
+                .holderBindInterceptor { position, holder ->
+                    onHolderBind(position, holder)
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
 
                 }
-                .headerHolderBindInterceptor { position, vh ->
+                .headerHolderBindInterceptor { position, holder ->
                     val item = adapter.getItem(position)
                     when (item) {
                         is ItemViewBean -> {
-                            vh.get<TextView>(R.id.tv_shop_name).text = item.shop.shopName
+                            holder.get<TextView>(R.id.tv_shop_name).text = item.shop.shopName
                         }
                     }
                 }
-                .headerClickInterceptor { vh, clickView, position ->
+                .headerClickInterceptor { holder, clickView, position ->
                     showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
                 }
                 .attach(binding.rv)
     }
 
-    private fun onHolderBind(position: Int, vh: RecyclerViewHolder) {
+    private fun onHolderBind(position: Int, holder: RecyclerViewHolder) {
         val item = adapter.getItem(position)
         when (item) {
             is Notice -> {
-                vh.get<DraweeImageView>(R.id.iv_notice, { GImageLoader.displayUrl(context, this, item.imgUrl) })
-                vh.get<TextView>(R.id.tv_notice, { text = item.text })
+                holder.get<DraweeImageView>(R.id.iv_notice, { GImageLoader.displayUrl(context, this, item.imgUrl) })
+                holder.get<TextView>(R.id.tv_notice, { text = item.text })
             }
             is ItemViewBean -> {
-                vh.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
-                vh.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })
-                vh.get<TextView>(R.id.tv_sku_name, { text = item.name })
-                vh.get<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
-                vh.get<TextView>(R.id.tv_sku_price, { text = item.priceShow })
-                vh.get<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
-                vh.get<TextView>(R.id.tv_shopping_cart_delete, {
+                holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+                holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })
+                holder.get<TextView>(R.id.tv_sku_name, { text = item.name })
+                holder.get<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
+                holder.get<TextView>(R.id.tv_sku_price, { text = item.priceShow })
+                holder.get<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
+                holder.get<TextView>(R.id.tv_shopping_cart_delete, {
                     setOnClickListener {
                         adapter.closeAllItems()
                     }
                 })
             }
             is RecommendProducts -> {
-                vh.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
-                vh.get<TextView>(R.id.left_name, { text = item.leftProduct.name })
-                vh.get<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
-                vh.get<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
+                holder.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
+                holder.get<TextView>(R.id.left_name, { text = item.leftProduct.name })
+                holder.get<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
+                holder.get<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
 
                 if (item.rightProduct != null) {
-                    vh.get<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
-                    vh.get<TextView>(R.id.right_name, { text = item.rightProduct.name })
-                    vh.get<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
-                    vh.get<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
+                    holder.get<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
+                    holder.get<TextView>(R.id.right_name, { text = item.rightProduct.name })
+                    holder.get<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
+                    holder.get<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
                 } else {
-                    vh.get<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
+                    holder.get<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
                 }
             }
         }

@@ -90,7 +90,7 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                         }
                     })
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
                     val product = adapter.getItem(position)
                     showToast("position $position, ${product.name} clicked")
                 }
