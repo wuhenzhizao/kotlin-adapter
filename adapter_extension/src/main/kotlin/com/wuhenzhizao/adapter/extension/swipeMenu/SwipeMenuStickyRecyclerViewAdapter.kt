@@ -9,6 +9,7 @@ import com.daimajia.swipe.util.Attributes
 import com.wuhenzhizao.adapter.extension.R
 import com.wuhenzhizao.adapter.extension.stickyHeader.StickyBean
 import com.wuhenzhizao.adapter.extension.stickyHeader.StickyRecyclerViewAdapter
+import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 
 /**
  * Created by liufei on 2017/12/4.
@@ -60,5 +61,39 @@ class SwipeMenuStickyRecyclerViewAdapter<T : StickyBean>(context: Context, items
 
     override fun setMode(mode: Attributes.Mode) {
         mItemManger.mode = mode
+    }
+
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        bindSwipeListener(holder, position)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>?) {
+        super.onBindViewHolder(holder, position, payloads)
+        bindSwipeListener(holder, position)
+    }
+
+    private fun bindSwipeListener(holder: RecyclerViewHolder, position: Int) {
+        if (!holder.has<SwipeLayout>(R.id.swipe_layout)) {
+            return
+        }
+        holder.get<SwipeLayout>(R.id.swipe_layout, {
+            mItemManger.bindView(holder.itemView, position)
+            addSwipeListener(object : SwipeLayout.SwipeListener {
+                override fun onOpen(layout: SwipeLayout) {
+                    closeAllExcept(layout)
+                }
+
+                override fun onUpdate(layout: SwipeLayout, leftOffset: Int, topOffset: Int) {}
+
+                override fun onStartOpen(layout: SwipeLayout) {}
+
+                override fun onStartClose(layout: SwipeLayout) {}
+
+                override fun onHandRelease(layout: SwipeLayout, xVel: Float, yVel: Float) {}
+
+                override fun onClose(layout: SwipeLayout?) {}
+            })
+        })
     }
 }

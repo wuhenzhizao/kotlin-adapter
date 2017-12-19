@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 
 /**
@@ -34,5 +35,13 @@ abstract class BaseFragment<DB : ViewDataBinding> : Fragment() {
         binding.root.postDelayed({
             block()
         }, 1500)
+    }
+
+    protected fun showToast(toast: CharSequence, duration: Int) {
+        Toast.makeText(context, toast, duration).show()
+    }
+
+    protected fun showToast(toast: CharSequence) {
+        Toast.makeText(context, toast, Toast.LENGTH_SHORT).show()
     }
 }

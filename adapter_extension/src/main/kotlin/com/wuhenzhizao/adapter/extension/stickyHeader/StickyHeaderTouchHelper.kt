@@ -3,6 +3,7 @@ package com.wuhenzhizao.adapter.extension.stickyHeader
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.wuhenzhizao.adapter.extension.R
 
 
 /**
@@ -33,8 +34,8 @@ class StickyHeaderTouchHelper(
         }
         if (e.action == MotionEvent.ACTION_DOWN) {
             val headerPos = decoration.findHeaderPositionUnder(e.x, e.y)
-            val position = headerPos.first
-            return position != -1
+            val viewHolder = headerPos.first
+            return viewHolder != null
         }
         return false
     }
@@ -42,17 +43,17 @@ class StickyHeaderTouchHelper(
     private inner class SingleTapDetector : GestureDetector.SimpleOnGestureListener() {
         override fun onSingleTapUp(e: MotionEvent): Boolean {
             val headerPos = decoration.findHeaderPositionUnder(e.x, e.y)
-            val position = headerPos.first
-            if (position != -1) {
-                val headerView = headerPos.second
-                performClick(headerView!!, e)
+            val viewHolder = headerPos.first
+            val clickView = headerPos.second
+            if (viewHolder != null) {
+                performClick(clickView!!, e)
                 val adapter = recyclerView.adapter as StickyRecyclerViewAdapter<*>
-                val headerId = adapter.getHeaderId(position)
+                val position = viewHolder.itemView.getTag(R.id.sticky_position) as Int
                 adapter.innerHeaderClickInterceptor?.apply {
-                    onHeaderClick(position, headerId)
+                    onHeaderClick(viewHolder, clickView, position)
                 }
                 recyclerView.playSoundEffect(SoundEffectConstants.CLICK)
-                headerView.onTouchEvent(e)
+                clickView.onTouchEvent(e)
                 return true
             }
             return false

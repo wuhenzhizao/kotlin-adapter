@@ -15,8 +15,8 @@ interface ItemDragInterceptor<in VH> : Interceptor<VH> {
 
 interface ItemSwipeInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param vh
-     * @param direction : {@link ItemTouchHelper.Left...}
+     * @param holder
+     * @param direction : { @link ItemTouchHelper.Left...}
      */
-    fun onItemSwipe(vh: VH, direction: Int)
+    fun onItemSwipe(holder: VH, direction: Int)
 }

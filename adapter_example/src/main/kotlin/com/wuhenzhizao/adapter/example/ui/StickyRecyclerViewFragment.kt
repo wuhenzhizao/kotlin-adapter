@@ -86,12 +86,12 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
                         text = country.letter
                     })
                 }
-                .headerClickInterceptor { position, stickyId ->
-                    Toast.makeText(context, "sticky header clicked, headerId = $stickyId", Toast.LENGTH_SHORT).show()
+                .headerClickInterceptor { holder, clickView, position ->
+                    showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
                     val country = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${country.countryName} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${country.countryName} clicked")
                 }
                 .attach(binding.rv)
         adapter.putItems(countryList)

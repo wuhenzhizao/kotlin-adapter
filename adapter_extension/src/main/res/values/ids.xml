@@ -15,4 +15,5 @@
  -->
 <resources>
     <item name="swipe_layout" type="id" />
+    <item name="sticky_position" type="id" />
 </resources>

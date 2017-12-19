@@ -47,12 +47,12 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
                     viewHolder.get<RatioImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.smallImg) })
                     viewHolder.get<TextView>(R.id.name, { text = topic.title })
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
                     val topic = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${topic.title} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${topic.title} clicked")
                 }
                 .dragInterceptor { from, target ->
-                    Toast.makeText(context, "item draged, from ${from.adapterPosition} to ${target.adapterPosition}", Toast.LENGTH_SHORT).show()
+                    showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
                 }
                 .attach(binding.rv)
         adapter.putItems(topicList)

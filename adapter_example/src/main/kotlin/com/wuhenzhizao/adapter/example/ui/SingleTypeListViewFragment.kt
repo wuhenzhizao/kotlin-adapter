@@ -32,9 +32,9 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                     viewHolder.get<TextView>(R.id.tv, { text = province.name })
                     viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
                 }
-                .clickInterceptor { position, vh ->
+                .clickInterceptor { position, holder ->
                     val province = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${province.name} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${province.name} clicked")
                     adapter.items.forEachIndexed { index, province ->
                         province.checked = (index == position)
                     }

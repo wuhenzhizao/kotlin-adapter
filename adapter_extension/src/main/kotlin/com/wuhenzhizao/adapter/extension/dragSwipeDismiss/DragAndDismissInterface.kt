@@ -7,5 +7,5 @@ interface DragAndDismissInterface<in VH> {
 
     fun onItemDrag(from: VH, target: VH)
 
-    fun onItemSwipe(vh: VH, direction: Int)
+    fun onItemSwipe(holder: VH, direction: Int)
 }
