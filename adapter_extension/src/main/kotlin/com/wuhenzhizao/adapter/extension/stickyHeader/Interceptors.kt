@@ -1,5 +1,6 @@
 package com.wuhenzhizao.adapter.extension.stickyHeader
 
+import android.view.View
 import com.wuhenzhizao.adapter.interfaces.Interceptor
 
 /**
@@ -23,8 +24,9 @@ interface HeaderViewHolderBindInterceptor<in VH> : Interceptor<VH> {
 
 interface HeaderClickInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param stickyPosition
-     * @param stickyId
+     * @param vh
+     * @param clickView
+     * @param position
      */
-    fun onHeaderClick(stickyPosition: Int, stickyId: Long)
+    fun onHeaderClick(vh: VH, clickView: View, position: Int)
 }

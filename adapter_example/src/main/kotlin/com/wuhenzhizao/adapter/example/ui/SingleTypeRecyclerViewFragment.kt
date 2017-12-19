@@ -92,7 +92,7 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                 }
                 .clickInterceptor { position, vh ->
                     val product = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${product.name} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${product.name} clicked")
                 }
                 .attach(binding.rv)
     }

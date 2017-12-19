@@ -58,9 +58,8 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
      *
      * @param x x-coordinate
      * @param y y-coordinate
-     * @return position of header, or -1 if not found
      */
-    fun findHeaderPositionUnder(x: Float, y: Float): Pair<Int, View?> {
+    fun findHeaderPositionUnder(x: Float, y: Float): Pair<RecyclerViewHolder?, View?> {
         for (holder in mHeaderCache.values) {
             val child = holder.itemView
             val translationX = child.translationX
@@ -69,11 +68,10 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
                     x <= child.right + translationX &&
                     y >= child.top + translationY &&
                     y <= child.bottom + translationY) {
-                val items = ArrayList(mHeaderCache.values)
-                return Pair(items.indexOf(holder), child)
+                return Pair(holder, child)
             }
         }
-        return Pair(-1, null)
+        return Pair(null, null)
     }
 
 

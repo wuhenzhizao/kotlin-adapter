@@ -157,8 +157,8 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                         }
                     }
                 }
-                .headerClickInterceptor { position, stickyId ->
-
+                .headerClickInterceptor { vh, clickView, position ->
+                    showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
                 }
                 .attach(binding.rv)
     }

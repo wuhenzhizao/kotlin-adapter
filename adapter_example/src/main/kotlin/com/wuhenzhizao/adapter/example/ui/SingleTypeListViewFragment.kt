@@ -34,7 +34,7 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                 }
                 .clickInterceptor { position, vh ->
                     val province = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${province.name} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${province.name} clicked")
                     adapter.items.forEachIndexed { index, province ->
                         province.checked = (index == position)
                     }

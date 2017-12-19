@@ -58,10 +58,10 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
                 }
                 .clickInterceptor { position, vh ->
                     val topic = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${topic.title} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${topic.title} clicked")
                 }
                 .swipeInterceptor { viewHolder, direction ->
-                    Toast.makeText(context, "position ${viewHolder.adapterPosition} dismissed", Toast.LENGTH_SHORT).show()
+                    showToast("position ${viewHolder.adapterPosition} dismissed")
                 }
                 .attach(binding.rv)
         adapter.putItems(topicList)

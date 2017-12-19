@@ -7,10 +7,4 @@ open class StickyBean(var stickyId: Long = STICKY_NONE) {
     companion object {
         val STICKY_NONE: Long = -1L
     }
-
-    override fun toString(): String {
-        return "StickyBean(stickyId=$stickyId)"
-    }
-
-
 }

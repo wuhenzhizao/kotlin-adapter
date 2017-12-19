@@ -1,7 +1,6 @@
 package com.wuhenzhizao.adapter.example.ui
 
 import android.support.v7.widget.LinearLayoutManager
-import android.widget.Toast
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -57,7 +56,7 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
 
             override fun onLoadmore(refreshlayout: RefreshLayout) {
                 simulateLoadData {
-                val pageStartIndex = currentPage * PAGE_SIZE
+                    val pageStartIndex = currentPage * PAGE_SIZE
                     val pageEndIndex = Math.min((currentPage + 1) * PAGE_SIZE, contentList.size)
                     adapter.addItems(contentList.subList(pageStartIndex, pageEndIndex))
                     if (pageEndIndex < contentList.size) {
@@ -91,7 +90,7 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
                 }
                 .clickInterceptor { position, vh ->
                     val content = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${content.title}", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${content.title}")
                 }
                 .attach(binding.rv)
     }

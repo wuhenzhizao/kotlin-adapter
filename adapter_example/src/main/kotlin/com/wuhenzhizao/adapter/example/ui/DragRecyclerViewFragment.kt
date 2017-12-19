@@ -49,10 +49,10 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
                 }
                 .clickInterceptor { position, vh ->
                     val topic = adapter.getItem(position)
-                    Toast.makeText(context, "position $position, ${topic.title} clicked", Toast.LENGTH_SHORT).show()
+                    showToast("position $position, ${topic.title} clicked")
                 }
                 .dragInterceptor { from, target ->
-                    Toast.makeText(context, "item draged, from ${from.adapterPosition} to ${target.adapterPosition}", Toast.LENGTH_SHORT).show()
+                    showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
                 }
                 .attach(binding.rv)
         adapter.putItems(topicList)

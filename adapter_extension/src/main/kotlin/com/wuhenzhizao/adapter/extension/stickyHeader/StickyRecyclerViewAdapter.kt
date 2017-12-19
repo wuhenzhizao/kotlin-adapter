@@ -2,6 +2,7 @@ package com.wuhenzhizao.adapter.extension.stickyHeader
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import android.view.ViewGroup
 import com.wuhenzhizao.adapter.ItemTypeChain
 import com.wuhenzhizao.adapter.RecyclerViewAdapter
@@ -37,6 +38,7 @@ open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: Li
     }
 
     override fun onBindHeaderViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
+        viewHolder.itemView.tag = position
         innerHeaderHolderBindInterceptor?.apply {
             onBindHeaderViewHolder(position, viewHolder)
         }
@@ -69,10 +71,10 @@ fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader
     return this
 }
 
-inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickInterceptor(crossinline block: (position: Int, stickyId: Long) -> Unit): Adapter {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickInterceptor(crossinline block: (vh: RecyclerViewHolder, clickView: View, position: Int) -> Unit): Adapter {
     setInterceptor(object : HeaderClickInterceptor<RecyclerViewHolder> {
-        override fun onHeaderClick(position: Int, stickyId: Long) {
-            block.invoke(position, stickyId)
+        override fun onHeaderClick(vh: RecyclerViewHolder, clickView: View, position: Int) {
+            block.invoke(vh, clickView, position)
         }
     })
     return this

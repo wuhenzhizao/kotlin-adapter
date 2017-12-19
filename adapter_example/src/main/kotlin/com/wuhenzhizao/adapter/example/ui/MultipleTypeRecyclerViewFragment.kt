@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.bigkoo.convenientbanner.holder.Holder
 import com.google.gson.Gson
@@ -166,7 +165,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
             setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
             setPageIndicator(intArrayOf(R.drawable.banner_indicator_unselected, R.drawable.banner_indicator_selected))
             setOnItemClickListener {
-                Toast.makeText(context, "banner index $it clicked", Toast.LENGTH_SHORT).show()
+                showToast("banner index $it clicked")
             }
         })
     }
