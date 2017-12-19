@@ -26,9 +26,6 @@ open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: Li
 
     override fun onCreateHeaderViewHolder(parent: ViewGroup, position: Int): RecyclerViewHolder? {
         val item = getItem(position)
-        if (position == 23) {
-            println(position)
-        }
         val viewType = headerTypes[item::class]!!.itemLayoutId
         val itemView = inflater.inflate(viewType, parent, false)
         val holder = RecyclerViewHolder(itemView)

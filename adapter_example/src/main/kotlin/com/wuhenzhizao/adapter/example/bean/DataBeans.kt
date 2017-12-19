@@ -108,7 +108,7 @@ data class Shop(
         @SerializedName("shopId") val shopId: Int = 0, //-1
         @SerializedName("shopName") val shopName: String = "",
         @SerializedName("items") val items: List<Item> = listOf()
-) : StickyBean()
+)
 
 data class Item(
         @SerializedName("Discount") val discount: Double = 0.0,
@@ -122,11 +122,7 @@ data class Item(
         @SerializedName("Price") val price: Double = 0.0,
         @SerializedName("PriceShow") val priceShow: String = "",
         @SerializedName("ImgUrl") val imgUrl: String = "",
-        @SerializedName("CheckType") val checkType: Int = 0,
-
-        // 拓展屬性，方便本地逻辑操作
-        var shop: Shop
-) : StickyBean()
+        @SerializedName("CheckType") val checkType: Int = 0)
 
 data class PropertyTags(
         @SerializedName("b") val b: String = "",

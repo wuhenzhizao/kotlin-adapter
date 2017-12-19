@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.daimajia.swipe.SwipeLayout
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -19,6 +20,7 @@ import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.putItems
 import com.wuhenzhizao.adapter.extension.stickyHeader.*
 import com.wuhenzhizao.adapter.extension.swipeMenu.SwipeMenuStickyRecyclerViewAdapter
+import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 import com.wuhenzhizao.adapter.holderBindInterceptor
 import com.wuhenzhizao.adapter.match
 
@@ -32,7 +34,7 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
     private val PAGE_SIZE = 10
     private var currentPage = 1
 
-    private val ID_RECOMMAND = 111L
+    private val ID_RECOMMAND = 8888L
 
     override fun getContentViewId(): Int = R.layout.fragment_swipe_menu_recycler_view
 
@@ -51,15 +53,34 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
     private fun translateFirstPageData() {
         list.clear()
         list.add(originData.notice)
-        list.add(Divider())
+        // 接口返回的数据中，店铺持有item信息，在列表展示时，转换为item持有店铺信息
         originData.carts.forEach { shop ->
-            shop.stickyId = shop.shopId.toLong()
+            val shopViewBean = ShopViewBean(
+                    shopId = shop.shopId,
+                    shopName = shop.shopName,
+                    stickyId = shop.shopId.toLong()
+            )
             shop.items.map {
-                it.stickyId = shop.stickyId
-                it.shop = shop
+                list.add(ItemViewBean(
+                        discount = it.discount,
+                        stockState = it.stockState,
+                        propertyTags = it.propertyTags,
+                        stockCode = it.stockCode,
+                        maxNum = it.maxNum,
+                        id = it.id,
+                        name = it.name,
+                        num = it.num,
+                        price = it.price,
+                        priceShow = it.priceShow,
+                        imgUrl = it.imgUrl,
+                        checkType = it.checkType,
+                        shop = shop,
+                        stickyId = shopViewBean.stickyId
+                ))
             }
-            list.addAll(shop.items)
-            list.add(Divider())
+            val divider = Divider()
+            divider.stickyId = shopViewBean.stickyId
+            list.add(divider)
         }
         val recommendProductList = originData.recommendProductList
         val firstPageRecommendList = (0 until PAGE_SIZE).map {
@@ -118,41 +139,12 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
         adapter = SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context)
                 .match(Notice::class, R.layout.item_shopping_cart_notice)
                 .match(Divider::class, R.layout.item_shopping_cart_divider)
-                .match(Item::class, R.layout.item_shopping_cart_sku)
+                .match(ItemViewBean::class, R.layout.item_shopping_cart_sku)
                 .match(RecommendProducts::class, R.layout.item_shopping_cart_recommend)
-                .matchHeader(Item::class, R.layout.item_shopping_cart_shop)
+                .matchHeader(ItemViewBean::class, R.layout.item_shopping_cart_shop)
                 .matchHeader(RecommendProducts::class, R.layout.item_shopping_cart_recommend_header)
                 .holderBindInterceptor { position, vh ->
-                    val item = adapter.getItem(position)
-                    when (item) {
-                        is Notice -> {
-                            GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.iv_notice), item.imgUrl)
-                            vh.get<TextView>(R.id.tv_notice).text = item.text
-                        }
-                        is Item -> {
-                            GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.iv_sku_logo), item.imgUrl)
-                            vh.get<ImageButton>(R.id.ib_select).isSelected = item.checkType != 0
-                            vh.get<TextView>(R.id.tv_sku_name).text = item.name
-                            vh.get<TextView>(R.id.tv_sku_attributes).text = "${item.propertyTags.a}, ${item.propertyTags.b}"
-                            vh.get<TextView>(R.id.tv_sku_price).text = item.priceShow
-                            vh.get<EditText>(R.id.et_sku_quantity_input).setText(item.num.toString())
-                        }
-                        is RecommendProducts -> {
-                            GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.left_iv), item.leftProduct.imageUrl)
-                            vh.get<TextView>(R.id.left_name).text = item.leftProduct.name
-                            vh.get<TextView>(R.id.left_price).text = "¥ ${item.leftProduct.price}"
-                            vh.get<TextView>(R.id.left_reviews).text = item.leftProduct.reviews
-
-                            if (item.rightProduct != null) {
-                                GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.right_iv), item.rightProduct.imageUrl)
-                                vh.get<TextView>(R.id.right_name).text = item.rightProduct.name
-                                vh.get<TextView>(R.id.right_price).text = "¥ ${item.rightProduct.price}"
-                                vh.get<RelativeLayout>(R.id.right_view).visibility = View.VISIBLE
-                            } else {
-                                vh.get<RelativeLayout>(R.id.right_view).visibility = View.INVISIBLE
-                            }
-                        }
-                    }
+                    onHolderBind(position, vh)
                 }
                 .clickInterceptor { position, vh ->
 
@@ -160,7 +152,7 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                 .headerHolderBindInterceptor { position, vh ->
                     val item = adapter.getItem(position)
                     when (item) {
-                        is Item -> {
+                        is ItemViewBean -> {
                             vh.get<TextView>(R.id.tv_shop_name).text = item.shop.shopName
                         }
                     }
@@ -169,5 +161,59 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
 
                 }
                 .attach(binding.rv)
+    }
+
+    private fun onHolderBind(position: Int, vh: RecyclerViewHolder) {
+        val item = adapter.getItem(position)
+        when (item) {
+            is Notice -> {
+                vh.get<DraweeImageView>(R.id.iv_notice, { GImageLoader.displayUrl(context, this, item.imgUrl) })
+                vh.get<TextView>(R.id.tv_notice, { text = item.text })
+            }
+            is ItemViewBean -> {
+                vh.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+                vh.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })
+                vh.get<TextView>(R.id.tv_sku_name, { text = item.name })
+                vh.get<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
+                vh.get<TextView>(R.id.tv_sku_price, { text = item.priceShow })
+                vh.get<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
+
+                bindSwipeListener(position, vh)
+            }
+            is RecommendProducts -> {
+                vh.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
+                vh.get<TextView>(R.id.left_name, { text = item.leftProduct.name })
+                vh.get<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
+                vh.get<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
+
+                if (item.rightProduct != null) {
+                    vh.get<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
+                    vh.get<TextView>(R.id.right_name, { text = item.rightProduct.name })
+                    vh.get<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
+                    vh.get<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
+                } else {
+                    vh.get<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
+                }
+            }
+        }
+    }
+
+    private fun bindSwipeListener(position: Int, vh: RecyclerViewHolder) {
+        val swipeLayout = vh.get<SwipeLayout>(R.id.swipe_layout)
+        swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
+            override fun onOpen(layout: SwipeLayout) {
+                adapter.closeAllExcept(layout)
+            }
+
+            override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {}
+
+            override fun onStartOpen(layout: SwipeLayout?) {}
+
+            override fun onStartClose(layout: SwipeLayout?) {}
+
+            override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
+
+            override fun onClose(layout: SwipeLayout?) {}
+        })
     }
 }

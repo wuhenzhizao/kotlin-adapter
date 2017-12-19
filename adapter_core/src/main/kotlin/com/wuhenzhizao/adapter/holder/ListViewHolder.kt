@@ -16,12 +16,23 @@ class ListViewHolder(val convertView: View) {
     }
 
     @Suppress("UNCHECKED_CAST")
-    operator fun <T : View> get(id: Int): T {
-        var childView: View? = views.get(id)
-        if (childView == null) {
-            childView = convertView.findViewById(id)
-            views.put(id, childView)
+    fun <T : View> get(viewId: Int): T {
+        var view = views.get(viewId)
+        if (view == null) {
+            view = convertView.findViewById(viewId)
+            views.put(viewId, view)
         }
-        return childView as T
+        if (view != null) {
+            return view as T
+        }
+        throw Exception("The specified view id is not found")
+    }
+
+    inline fun <T : View> get(viewId: Int, crossinline block: T.(view: T) -> Unit): T {
+        val view = get<T>(viewId)
+        view.apply {
+            block(view)
+        }
+        return view
     }
 }

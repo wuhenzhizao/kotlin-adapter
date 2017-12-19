@@ -1,7 +1,6 @@
 package com.wuhenzhizao.adapter.example.ui
 
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.gson.Gson
@@ -76,11 +75,16 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
                 }
                 .holderBindInterceptor { position, viewHolder ->
                     val country = adapter.getItem(position)
-                    viewHolder.get<TextView>(R.id.country_name).text = country.countryName
+                    viewHolder.get<TextView>(R.id.country_name, {
+                        text = country.countryName
+                    })
+
                 }
                 .headerHolderBindInterceptor { position, viewHolder ->
                     val country = adapter.getItem(position)
-                    viewHolder.get<TextView>(R.id.sticky_name).text = country.letter
+                    viewHolder.get<TextView>(R.id.sticky_name, {
+                        text = country.letter
+                    })
                 }
                 .headerClickInterceptor { position, stickyId ->
                     Toast.makeText(context, "sticky header clicked, headerId = $stickyId", Toast.LENGTH_SHORT).show()

@@ -162,19 +162,21 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun initBanner(vh: RecyclerViewHolder) {
-        val banner = vh.get<ConvenientBanner<Banner>>(R.id.banner)
-        banner.setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
-                .setPageIndicator(intArrayOf(R.drawable.banner_indicator_unselected, R.drawable.banner_indicator_selected))
-                .setOnItemClickListener {
-                    Toast.makeText(context, "banner index $it clicked", Toast.LENGTH_SHORT).show()
-                }
+        vh.get<ConvenientBanner<Banner>>(R.id.banner, {
+            setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
+            setPageIndicator(intArrayOf(R.drawable.banner_indicator_unselected, R.drawable.banner_indicator_selected))
+            setOnItemClickListener {
+                Toast.makeText(context, "banner index $it clicked", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun bindBannerData(item: BannerList, vh: RecyclerViewHolder) {
-        val banner = vh.get<ConvenientBanner<Banner>>(R.id.banner)
-        banner.setPages({ BannerViewHolder() }, item.banners)
-                .startTurning(3000)
-                .setcurrentitem(banner.currentItem)
+        vh.get<ConvenientBanner<Banner>>(R.id.banner, {
+            setPages({ BannerViewHolder() }, item.banners)
+            startTurning(3000)
+            setcurrentitem(it.currentItem)
+        })
     }
 
     private class BannerViewHolder : Holder<Banner> {
@@ -192,23 +194,24 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun initHeadLineProductList(vh: RecyclerViewHolder) {
-        val recyclerView = vh.get<RecyclerView>(R.id.rv)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val decoration = LinearOffsetsItemDecoration(LinearOffsetsItemDecoration.LINEAR_OFFSETS_HORIZONTAL)
-        decoration.setOffsetEdge(false)
-        decoration.setOffsetLast(false)
-        decoration.setItemOffsets(ScreenUtils.dp2PxInt(context, 12f))
-        recyclerView.addItemDecoration(decoration)
+        val recyclerView = vh.get<RecyclerView>(R.id.rv, {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            val decoration = LinearOffsetsItemDecoration(LinearOffsetsItemDecoration.LINEAR_OFFSETS_HORIZONTAL)
+            decoration.setOffsetEdge(false)
+            decoration.setOffsetLast(false)
+            decoration.setItemOffsets(ScreenUtils.dp2PxInt(context, 12f))
+            addItemDecoration(decoration)
+        })
 
         productAdapter = RecyclerViewAdapter<Product>(context)
                 .match(Product::class, R.layout.item_multiple_type_recycler_view_headine_item)
                 .holderBindInterceptor { position, vh ->
                     val product = productAdapter.getItem(position)
-                    GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.iv), product.imageUrl)
-                    vh.get<TextView>(R.id.name).text = product.name
-                    vh.get<TextView>(R.id.price).text = "¥ ${product.price}"
+                    vh.get<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, product.imageUrl) })
+                    vh.get<TextView>(R.id.name, { text = product.name })
+                    vh.get<TextView>(R.id.price, { text = "¥ ${product.price}" })
                 }
-                .attach(recyclerView)
+                .attach(recyclerView!!)
     }
 
     private fun bindHeadLineProductList(item: HeaderLineProductList, vh: RecyclerViewHolder) {
@@ -216,19 +219,18 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun bindRecommendProducts(item: RecommendProducts, vh: RecyclerViewHolder) {
-        GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.left_iv), item.leftProduct.imageUrl)
-        vh.get<TextView>(R.id.left_name).text = item.leftProduct.name
-        vh.get<TextView>(R.id.left_price).text = "¥ ${item.leftProduct.price}"
-        vh.get<TextView>(R.id.left_reviews).text = item.leftProduct.reviews
-
+        vh.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
+        vh.get<TextView>(R.id.left_name, { text = item.leftProduct.name })
+        vh.get<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
+        vh.get<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
         if (item.rightProduct != null) {
-            GImageLoader.displayUrl(context, vh.get<DraweeImageView>(R.id.right_iv), item.rightProduct.imageUrl)
-            vh.get<TextView>(R.id.right_name).text = item.rightProduct.name
-            vh.get<TextView>(R.id.right_price).text = "¥ ${item.rightProduct.price}"
-            vh.get<TextView>(R.id.right_reviews).text = item.rightProduct.reviews
-            vh.get<RelativeLayout>(R.id.right_view).visibility = View.VISIBLE
+            vh.get<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
+            vh.get<TextView>(R.id.right_name, { text = item.rightProduct.name })
+            vh.get<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
+            vh.get<TextView>(R.id.right_reviews, { text = item.rightProduct.reviews })
+            vh.get<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
         } else {
-            vh.get<RelativeLayout>(R.id.right_view).visibility = View.INVISIBLE
+            vh.get<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
         }
     }
 }
