@@ -29,8 +29,8 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                 }
                 .holderBindInterceptor { position, viewHolder ->
                     val province = adapter.getItem(position)
-                    viewHolder.get<TextView>(R.id.tv).text = province.name
-                    viewHolder.get<CheckBox>(R.id.cb).isChecked = province.checked
+                    viewHolder.get<TextView>(R.id.tv, { text = province.name })
+                    viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
                 }
                 .clickInterceptor { position, vh ->
                     val province = adapter.getItem(position)

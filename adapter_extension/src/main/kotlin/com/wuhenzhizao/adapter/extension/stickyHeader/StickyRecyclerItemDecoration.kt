@@ -2,7 +2,6 @@ package com.wuhenzhizao.adapter.extension.stickyHeader
 
 import android.graphics.Canvas
 import android.graphics.Rect
-import android.support.v4.view.ViewCompat
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +10,12 @@ import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 /**
  * Created by liufei on 2017/12/4.
  */
-class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerViewHolder>, var renderInline: Boolean) : RecyclerView.ItemDecoration() {
-    val NO_HEADER_ID = -1L
+class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerViewHolder>, private var renderInline: Boolean) : RecyclerView.ItemDecoration() {
+
+    companion object {
+        val NO_HEADER_ID = -1L
+    }
+
     private var mHeaderCache: MutableMap<Long, RecyclerViewHolder> = hashMapOf()
 
     /**
@@ -30,7 +33,6 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
         if (position != RecyclerView.NO_POSITION
                 && hasHeader(position)
                 && showHeaderAboveItem(position)) {
-
             val header = getHeader(parent, position).itemView
             headerHeight = getHeaderHeightForLayout(header)
         }
@@ -39,7 +41,8 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
     }
 
     private fun showHeaderAboveItem(itemAdapterPosition: Int): Boolean {
-        return itemAdapterPosition == 0 || adapter.getHeaderId(itemAdapterPosition - 1) != adapter.getHeaderId(itemAdapterPosition)
+        return itemAdapterPosition == 0
+                || adapter.getHeaderId(itemAdapterPosition - 1) != adapter.getHeaderId(itemAdapterPosition)
     }
 
     /**
@@ -120,7 +123,6 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
         for (layoutPos in 0 until count) {
             val child = parent.getChildAt(layoutPos)
             val adapterPos = parent.getChildAdapterPosition(child)
-
             if (adapterPos != RecyclerView.NO_POSITION && hasHeader(adapterPos)) {
                 val headerId = adapter.getHeaderId(adapterPos)
 
@@ -153,7 +155,7 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
                 val adapterPosHere = parent.getChildAdapterPosition(parent.getChildAt(i))
                 if (adapterPosHere != RecyclerView.NO_POSITION) {
                     val nextId = adapter.getHeaderId(adapterPosHere)
-                    if (nextId != currentId) {
+                    if (nextId != currentId && hasHeader(adapterPosHere)) {
                         val next = parent.getChildAt(i)
                         val offset = next.y.toInt() - (headerHeight + getHeader(parent, adapterPosHere).itemView.height)
                         return if (offset < 0) {

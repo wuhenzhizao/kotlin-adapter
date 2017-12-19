@@ -6,14 +6,14 @@ import com.daimajia.swipe.implments.SwipeItemRecyclerMangerImpl
 import com.daimajia.swipe.interfaces.SwipeAdapterInterface
 import com.daimajia.swipe.interfaces.SwipeItemMangerInterface
 import com.daimajia.swipe.util.Attributes
-import com.wuhenzhizao.adapter.RecyclerViewAdapter
 import com.wuhenzhizao.adapter.extension.R
-import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
+import com.wuhenzhizao.adapter.extension.stickyHeader.StickyBean
+import com.wuhenzhizao.adapter.extension.stickyHeader.StickyRecyclerViewAdapter
 
 /**
  * Created by liufei on 2017/12/4.
  */
-class SwipeMenuRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items), SwipeAdapterInterface, SwipeItemMangerInterface {
+class SwipeMenuStickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>?) : StickyRecyclerViewAdapter<T>(context, items), SwipeAdapterInterface, SwipeItemMangerInterface {
     private val mItemManger = SwipeItemRecyclerMangerImpl(this)
 
     constructor(context: Context) : this(context, null)
@@ -60,22 +60,5 @@ class SwipeMenuRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) :
 
     override fun setMode(mode: Attributes.Mode) {
         mItemManger.mode = mode
-    }
-
-    override fun onBindViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
-        super.onBindViewHolder(viewHolder, position)
-        bindSwipeListener(viewHolder, position)
-    }
-
-    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>?) {
-        super.onBindViewHolder(holder, position, payloads)
-        bindSwipeListener(holder, position)
-    }
-
-    private fun bindSwipeListener(vh: RecyclerViewHolder, position: Int) {
-        val swipeLayout = vh.get<SwipeLayout>(R.id.swipe_layout)
-        swipeLayout?.apply {
-
-        }
     }
 }

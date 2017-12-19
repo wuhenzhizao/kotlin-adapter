@@ -26,7 +26,7 @@ class MainTabFragmentAdapter(context: Context, fm: FragmentManager) : FragmentSt
 
         4 -> MultipleTypeRecyclerViewFragment()
         5 -> StickyRecyclerViewFragment()
-
+        6 -> SwipeMenuRecyclerViewFragment()
         7 -> DragRecyclerViewFragment()
         8 -> SwipeDismissRecyclerViewFragment()
         else -> SingleTypeRecyclerViewFragment()

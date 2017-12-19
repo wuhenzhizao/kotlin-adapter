@@ -43,10 +43,9 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
 
                 }
                 .holderBindInterceptor { position, viewHolder ->
-                    val imageView = viewHolder.get<RatioImageView>(R.id.iv)
                     val topic = adapter.getItem(position)
-                    GImageLoader.displayUrl(context, imageView, topic.smallImg)
-                    viewHolder.get<TextView>(R.id.name).text = topic.title
+                    viewHolder.get<RatioImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.smallImg) })
+                    viewHolder.get<TextView>(R.id.name, { text = topic.title })
                 }
                 .clickInterceptor { position, vh ->
                     val topic = adapter.getItem(position)

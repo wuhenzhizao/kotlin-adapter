@@ -43,17 +43,17 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
     private fun bindListener() {
         binding.refresh.setOnRefreshLoadmoreListener(object : OnRefreshLoadmoreListener {
             override fun onRefresh(refreshlayout: RefreshLayout) {
-                binding.refresh.postDelayed({
+                simulateLoadData {
                     currentPage = 1
                     adapter.putItems(productList.subList(0, PAGE_SIZE))
                     refreshlayout.finishRefresh()
                     refreshlayout.isEnableLoadmore = true
                     refreshlayout.resetNoMoreData()
-                }, 1500)
+                }
             }
 
             override fun onLoadmore(refreshlayout: RefreshLayout) {
-                binding.refresh.postDelayed({
+                simulateLoadData {
                     val pageStartIndex = currentPage * PAGE_SIZE
                     val pageEndIndex = Math.min((currentPage + 1) * PAGE_SIZE, productList.size)
                     adapter.addItems(productList.subList(pageStartIndex, pageEndIndex))
@@ -65,7 +65,7 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                         refreshlayout.finishLoadmoreWithNoMoreData()
                     }
                     currentPage++
-                }, 1500)
+                }
             }
         })
     }
@@ -78,18 +78,17 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
                 }
                 .holderBindInterceptor { position, viewHolder ->
                     val product = adapter.getItem(position)
-                    val imageView = viewHolder.get<DraweeImageView>(R.id.image)
-                    GImageLoader.displayUrl(context, imageView, product.imageUrl)
-
-                    viewHolder.get<TextView>(R.id.name).text = product.name
-                    viewHolder.get<TextView>(R.id.price).text = "¥ ${product.price}"
-                    viewHolder.get<TextView>(R.id.reviews).text = product.reviews
-
-                    viewHolder.get<View>(R.id.divider).visibility = if (position == adapter.itemCount - 1) {
-                        View.GONE
-                    } else {
-                        View.VISIBLE
-                    }
+                    viewHolder.get<DraweeImageView>(R.id.image, { GImageLoader.displayUrl(context, this, product.imageUrl) })
+                    viewHolder.get<TextView>(R.id.name, { text = product.name })
+                    viewHolder.get<TextView>(R.id.price, { text = "¥ ${product.price}" })
+                    viewHolder.get<TextView>(R.id.reviews, { text = product.reviews })
+                    viewHolder.get<View>(R.id.divider, {
+                        visibility = if (position == adapter.itemCount - 1) {
+                            View.GONE
+                        } else {
+                            View.VISIBLE
+                        }
+                    })
                 }
                 .clickInterceptor { position, vh ->
                     val product = adapter.getItem(position)

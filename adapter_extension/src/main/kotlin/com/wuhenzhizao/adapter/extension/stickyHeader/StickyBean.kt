@@ -5,7 +5,7 @@ package com.wuhenzhizao.adapter.extension.stickyHeader
  */
 open class StickyBean(var stickyId: Long = STICKY_NONE) {
     companion object {
-        val STICKY_NONE: Long = -1
+        val STICKY_NONE: Long = -1L
     }
 
     override fun toString(): String {

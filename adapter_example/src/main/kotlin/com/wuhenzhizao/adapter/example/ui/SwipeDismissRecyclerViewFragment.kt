@@ -43,12 +43,6 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
         binding.rv.addItemDecoration(decoration)
 
         bindAdapter()
-
-
-        // 1. drag swipeDismiss 控制开关  回调 closed
-        // TODO 1. 回调参数统一
-        // TODO 2. swipeMenu页面
-        // TODO 3. multipleListView页面
     }
 
     private fun bindAdapter() {
@@ -59,9 +53,8 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
                 }
                 .holderBindInterceptor { position, viewHolder ->
                     val topic = adapter.getItem(position)
-                    val imageView = viewHolder.get<DraweeImageView>(R.id.iv)
-                    GImageLoader.displayUrl(context, imageView, topic.bigImg)
-                    viewHolder.get<TextView>(R.id.name).text = topic.title
+                    viewHolder.get<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.bigImg) })
+                    viewHolder.get<TextView>(R.id.name, { text = topic.title })
                 }
                 .clickInterceptor { position, vh ->
                     val topic = adapter.getItem(position)

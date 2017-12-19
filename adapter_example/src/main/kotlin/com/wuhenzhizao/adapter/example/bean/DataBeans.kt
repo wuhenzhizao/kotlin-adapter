@@ -20,7 +20,7 @@ data class Province(
 
 data class ProductList(
         @SerializedName("products") val products: List<Product> = listOf()
-)
+) : StickyBean()
 
 data class Product(
         @SerializedName("id") val id: String = "",
@@ -62,15 +62,15 @@ data class Banner(
 
 class Promotion
 
-class Divider
+class Divider : StickyBean()
 
 class HeaderLine
 
 data class HeaderLineProductList(val products: List<Product> = listOf())
 
-class Recommend
+class Recommend : StickyBean()
 
-class RecommendProducts(val leftProduct: Product, val rightProduct: Product?)
+data class RecommendProducts(val leftProduct: Product, val rightProduct: Product?) : StickyBean()
 
 
 data class CountryList(
@@ -96,3 +96,40 @@ data class Topic(
         @SerializedName("smallImg") val smallImg: String = "",
         @SerializedName("title") val title: String = "" //潮流数码
 )
+
+
+data class ShoppingCartList(
+        @SerializedName("carts") val carts: List<Shop> = listOf(),
+        @SerializedName("notice") val notice: Notice = Notice(),
+        @SerializedName("recommendProductList") val recommendProductList: List<Product> = listOf()
+)
+
+data class Shop(
+        @SerializedName("shopId") val shopId: Int = 0, //-1
+        @SerializedName("shopName") val shopName: String = "",
+        @SerializedName("items") val items: List<Item> = listOf()
+)
+
+data class Item(
+        @SerializedName("Discount") val discount: Double = 0.0,
+        @SerializedName("stockState") val stockState: String = "",
+        @SerializedName("propertyTags") val propertyTags: PropertyTags = PropertyTags(),
+        @SerializedName("stockCode") val stockCode: Int = 0,
+        @SerializedName("maxNum") val maxNum: Int = 0,
+        @SerializedName("Id") val id: String = "",
+        @SerializedName("Name") val name: String = "",
+        @SerializedName("Num") val num: Int = 0,
+        @SerializedName("Price") val price: Double = 0.0,
+        @SerializedName("PriceShow") val priceShow: String = "",
+        @SerializedName("ImgUrl") val imgUrl: String = "",
+        @SerializedName("CheckType") val checkType: Int = 0)
+
+data class PropertyTags(
+        @SerializedName("b") val b: String = "",
+        @SerializedName("a") val a: String = ""
+)
+
+data class Notice(
+        @SerializedName("imgUrl") val imgUrl: String = "",
+        @SerializedName("text") val text: String = ""
+) : StickyBean()
