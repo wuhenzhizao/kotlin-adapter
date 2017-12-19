@@ -2,7 +2,6 @@ package com.wuhenzhizao.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import com.wuhenzhizao.adapter.extension.getItem
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 
 /**

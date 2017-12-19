@@ -3,6 +3,7 @@ package com.wuhenzhizao.adapter.extension.stickyHeader
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
 import android.view.*
+import com.wuhenzhizao.adapter.extension.R
 
 
 /**
@@ -47,7 +48,7 @@ class StickyHeaderTouchHelper(
             if (viewHolder != null) {
                 performClick(clickView!!, e)
                 val adapter = recyclerView.adapter as StickyRecyclerViewAdapter<*>
-                val position = viewHolder.itemView.tag as Int
+                val position = viewHolder.itemView.getTag(R.id.sticky_position) as Int
                 adapter.innerHeaderClickInterceptor?.apply {
                     onHeaderClick(viewHolder, clickView, position)
                 }

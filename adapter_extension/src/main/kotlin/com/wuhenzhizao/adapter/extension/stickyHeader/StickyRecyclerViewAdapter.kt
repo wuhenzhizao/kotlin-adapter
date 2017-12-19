@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.wuhenzhizao.adapter.ItemTypeChain
 import com.wuhenzhizao.adapter.RecyclerViewAdapter
+import com.wuhenzhizao.adapter.extension.R
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 import com.wuhenzhizao.adapter.interfaces.Interceptor
 import kotlin.reflect.KClass
@@ -38,7 +39,7 @@ open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: Li
     }
 
     override fun onBindHeaderViewHolder(viewHolder: RecyclerViewHolder, position: Int) {
-        viewHolder.itemView.tag = position
+        viewHolder.itemView.setTag(R.id.sticky_position, position)
         innerHeaderHolderBindInterceptor?.apply {
             onBindHeaderViewHolder(position, viewHolder)
         }
@@ -55,9 +56,11 @@ open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: Li
 }
 
 fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: RecyclerView): Adapter {
+    rv.adapter = this
     val stickyDecoration = StickyRecyclerItemDecoration(this)
     rv.addItemDecoration(stickyDecoration)
-    rv.adapter = this
+    val touchHelper = StickyHeaderTouchHelper(rv, stickyDecoration)
+    rv.addOnItemTouchListener(touchHelper)
     registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
         override fun onChanged() {
             stickyDecoration.clearHeaderCache()

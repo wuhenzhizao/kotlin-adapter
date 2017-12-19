@@ -73,9 +73,26 @@ class SwipeMenuRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) :
     }
 
     private fun bindSwipeListener(vh: RecyclerViewHolder, position: Int) {
-        val swipeLayout = vh.get<SwipeLayout>(R.id.swipe_layout)
-        swipeLayout?.apply {
-
+        if (!vh.has<SwipeLayout>(R.id.swipe_layout)) {
+            return
         }
+        vh.get<SwipeLayout>(R.id.swipe_layout, {
+            mItemManger.bindView(vh.itemView, position)
+            addSwipeListener(object : SwipeLayout.SwipeListener {
+                override fun onOpen(layout: SwipeLayout) {
+                    closeAllExcept(layout)
+                }
+
+                override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {}
+
+                override fun onStartOpen(layout: SwipeLayout?) {}
+
+                override fun onStartClose(layout: SwipeLayout?) {}
+
+                override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
+
+                override fun onClose(layout: SwipeLayout?) {}
+            })
+        })
     }
 }

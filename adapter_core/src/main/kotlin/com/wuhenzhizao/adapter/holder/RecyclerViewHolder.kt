@@ -10,6 +10,8 @@ import android.view.View
 class RecyclerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var layoutId: Int = 0
 
+    fun <T : View> has(viewId: Int): Boolean = itemView.findViewById<T>(viewId) != null
+
     fun <T : View> get(viewId: Int): T {
         val view = itemView.findViewById<T>(viewId)
         if (view != null) {

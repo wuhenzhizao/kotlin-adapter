@@ -6,7 +6,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
-import com.daimajia.swipe.SwipeLayout
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -177,8 +176,11 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                 vh.get<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
                 vh.get<TextView>(R.id.tv_sku_price, { text = item.priceShow })
                 vh.get<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
-
-                bindSwipeListener(position, vh)
+                vh.get<TextView>(R.id.tv_shopping_cart_delete, {
+                    setOnClickListener {
+                        adapter.closeAllItems()
+                    }
+                })
             }
             is RecommendProducts -> {
                 vh.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
@@ -196,24 +198,5 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                 }
             }
         }
-    }
-
-    private fun bindSwipeListener(position: Int, vh: RecyclerViewHolder) {
-        val swipeLayout = vh.get<SwipeLayout>(R.id.swipe_layout)
-        swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
-            override fun onOpen(layout: SwipeLayout) {
-                adapter.closeAllExcept(layout)
-            }
-
-            override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {}
-
-            override fun onStartOpen(layout: SwipeLayout?) {}
-
-            override fun onStartClose(layout: SwipeLayout?) {}
-
-            override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {}
-
-            override fun onClose(layout: SwipeLayout?) {}
-        })
     }
 }
