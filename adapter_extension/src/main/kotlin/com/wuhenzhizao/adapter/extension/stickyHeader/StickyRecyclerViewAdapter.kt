@@ -4,7 +4,7 @@ import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.wuhenzhizao.adapter.ItemTypeChain
+import com.wuhenzhizao.adapter.ItemType
 import com.wuhenzhizao.adapter.RecyclerViewAdapter
 import com.wuhenzhizao.adapter.extension.R
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
@@ -15,7 +15,7 @@ import kotlin.reflect.KClass
  * Created by liufei on 2017/12/4.
  */
 open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: List<T>?) : RecyclerViewAdapter<T>(context, items), StickyAdapterInterface<RecyclerViewHolder> {
-    val headerTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
+    val headerTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
     internal var innerHeaderClickInterceptor: HeaderClickInterceptor<RecyclerViewHolder>? = null
     private var innerHeaderHolderCreateInterceptor: HeaderViewHolderCreateInterceptor<RecyclerViewHolder>? = null
     private var innerHeaderHolderBindInterceptor: HeaderViewHolderBindInterceptor<RecyclerViewHolder>? = null
@@ -70,7 +70,7 @@ fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: 
 }
 
 fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader(kClass: KClass<*>, itemLayoutId: Int): Adapter {
-    headerTypes.put(kClass, ItemTypeChain(kClass, itemLayoutId))
+    headerTypes.put(kClass, ItemType(kClass, itemLayoutId))
     return this
 }
 

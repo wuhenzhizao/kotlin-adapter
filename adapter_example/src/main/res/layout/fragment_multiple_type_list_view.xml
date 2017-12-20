@@ -11,8 +11,11 @@
             android:id="@+id/lv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/comm_white"
+            android:background="@color/comm_bg"
+            android:clipChildren="false"
+            android:clipToPadding="false"
             android:divider="@null"
-            android:overScrollMode="never" />
+            android:overScrollMode="never"
+            android:paddingBottom="15dp" />
     </android.support.v4.widget.NestedScrollView>
 </layout>

@@ -13,7 +13,7 @@ import kotlin.reflect.KClass
  */
 abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter() {
     val items: MutableList<T> = arrayListOf()
-    val itemTypes: MutableMap<KClass<*>, ItemTypeChain> = hashMapOf()
+    val itemTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
     protected var innerLayoutInterceptor: LayoutInterceptor<VH>? = null
     protected var innerClickInterceptor: ClickInterceptor<VH>? = null
@@ -71,7 +71,7 @@ fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.attach(absListVie
 }
 
 fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int): Adapter {
-    itemTypes.put(kClass, ItemTypeChain(kClass, itemLayoutId))
+    itemTypes.put(kClass, ItemType(kClass, itemLayoutId))
     return this
 }
 

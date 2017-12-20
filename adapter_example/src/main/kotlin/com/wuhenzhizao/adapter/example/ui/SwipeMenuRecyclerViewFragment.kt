@@ -46,6 +46,7 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
 
         bindListener()
         bindAdapter()
+        binding.tvShoppingCartTotalPrice.text = "¥ 112,450.50"
         binding.refresh.autoRefresh(300)
     }
 
