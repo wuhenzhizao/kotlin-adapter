@@ -73,16 +73,16 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, viewHolder ->
+                .holderBindInterceptor { position, holder ->
                     val country = adapter.getItem(position)
-                    viewHolder.get<TextView>(R.id.country_name, {
+                    holder.get<TextView>(R.id.country_name, {
                         text = country.countryName
                     })
 
                 }
-                .headerHolderBindInterceptor { position, viewHolder ->
+                .headerHolderBindInterceptor { position, holder ->
                     val country = adapter.getItem(position)
-                    viewHolder.get<TextView>(R.id.sticky_name, {
+                    holder.get<TextView>(R.id.sticky_name, {
                         text = country.letter
                     })
                 }

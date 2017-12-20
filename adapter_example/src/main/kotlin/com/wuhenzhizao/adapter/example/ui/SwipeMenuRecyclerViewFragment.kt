@@ -17,6 +17,7 @@ import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.putItems
+import com.wuhenzhizao.adapter.extension.removeItemAt
 import com.wuhenzhizao.adapter.extension.stickyHeader.*
 import com.wuhenzhizao.adapter.extension.swipeMenu.SwipeMenuStickyRecyclerViewAdapter
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
@@ -153,7 +154,7 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                     val item = adapter.getItem(position)
                     when (item) {
                         is ItemViewBean -> {
-                            holder.get<TextView>(R.id.tv_shop_name).text = item.shop.shopName
+                            holder.get<TextView>(R.id.tv_shop_name, { text = item.shop.shopName })
                         }
                     }
                 }
@@ -180,6 +181,8 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                 holder.get<TextView>(R.id.tv_shopping_cart_delete, {
                     setOnClickListener {
                         adapter.closeAllItems()
+                        showToast("${item.name} is deleted")
+                        adapter.removeItemAt(position)
                     }
                 })
             }

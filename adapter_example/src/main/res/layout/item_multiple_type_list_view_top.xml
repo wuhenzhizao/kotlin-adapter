@@ -14,7 +14,7 @@
             android:id="@+id/iv_image"
             style="@style/fresco_rect"
             android:layout_width="match_parent"
-            android:layout_height="210dp"
+            android:layout_height="170dp"
             android:layout_margin="15dp" />
     </LinearLayout>
 </LinearLayout>
