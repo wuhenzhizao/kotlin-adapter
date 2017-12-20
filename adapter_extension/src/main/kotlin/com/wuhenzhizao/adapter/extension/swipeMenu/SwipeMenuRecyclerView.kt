@@ -71,7 +71,7 @@ class SwipeMenuRecyclerView : RecyclerView {
     private fun closeSwipeLayout() {
         isClosing = true
         oldSwipeLayout!!.close(true, false)
-        oldSwipeLayout!!.postDelayed({ isClosing = false }, 500)
+        isClosing = false
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {

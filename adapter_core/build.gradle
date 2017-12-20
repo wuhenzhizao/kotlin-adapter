@@ -40,8 +40,6 @@ dependencies {
     androidTestApi(rootProject.ext.dependencies["espresso"], {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    api rootProject.ext.dependencies["appcompat"]
-    api rootProject.ext.dependencies["support_v4"]
     api rootProject.ext.dependencies["recyclerview"]
     api rootProject.ext.dependencies["kotlin"]
     api rootProject.ext.dependencies["junit"]

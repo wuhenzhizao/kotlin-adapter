@@ -16,8 +16,8 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val holder: ListViewHolder
-        if (convertView == null) {
-            val itemLayoutId = getItemViewType(position)
+        val itemLayoutId = getItemViewType(position)
+        if (convertView == null || (convertView.tag as ListViewHolder).layoutId != itemLayoutId) {
             val itemView = inflater.inflate(itemLayoutId, parent, false)
             holder = ListViewHolder(itemView)
             holder.layoutId = itemLayoutId

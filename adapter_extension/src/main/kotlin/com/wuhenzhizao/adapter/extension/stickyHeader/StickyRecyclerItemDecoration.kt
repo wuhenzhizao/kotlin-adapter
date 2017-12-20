@@ -92,7 +92,11 @@ class StickyRecyclerItemDecoration(var adapter: StickyAdapterInterface<RecyclerV
                 params = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             }
 
-            adapter.onBindHeaderViewHolder((holder as RecyclerViewHolder?)!!, position)
+            try {
+                adapter.onBindHeaderViewHolder((holder as RecyclerViewHolder?)!!, position)
+            } catch (e: Exception){
+                e.printStackTrace()
+            }
 
             val widthSpec = View.MeasureSpec.makeMeasureSpec(parent.measuredWidth, View.MeasureSpec.EXACTLY)
             val heightSpec = View.MeasureSpec.makeMeasureSpec(parent.measuredHeight, View.MeasureSpec.UNSPECIFIED)

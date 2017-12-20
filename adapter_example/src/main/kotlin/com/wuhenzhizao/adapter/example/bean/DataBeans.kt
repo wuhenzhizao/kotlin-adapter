@@ -7,6 +7,13 @@ import com.wuhenzhizao.adapter.extension.stickyHeader.StickyBean
 /**
  * Created by liufei on 2017/12/7.
  */
+data class Time(val time: Long)
+
+data class TopNews(val imageUrl: String)
+
+data class NormalNews(val content: String, val imageUrl: String)
+
+
 data class ProvinceList(
         @SerializedName("provinceList") val provinceList: List<Province> = listOf()
 )

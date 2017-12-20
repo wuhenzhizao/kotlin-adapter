@@ -33,6 +33,8 @@ android {
 dependencies {
     api project(':adapter_core')
     api project(':adapter_extension')
+    api rootProject.ext.dependencies["appcompat"]
+    api rootProject.ext.dependencies["support_v4"]
     api rootProject.ext.dependencies["support_v13"]
     api rootProject.ext.dependencies["design"]
     api rootProject.ext.dependencies["constraint"]

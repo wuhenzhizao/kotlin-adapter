@@ -19,16 +19,16 @@ class MainTabFragmentAdapter(context: Context, fm: FragmentManager) : FragmentSt
 
     override fun getPageTitle(position: Int): CharSequence = titles[position]
 
-    override fun getItem(position: Int): Fragment = when (position) {
+    override fun getItem(position: Int): Fragment? = when (position) {
         0 -> SingleTypeListViewFragment()
         1 -> SingleTypeRecyclerViewFragment()
         2 -> SingleTypeRecyclerViewBindingFragment()
-
+        3 -> MultipleTypeListViewFragment()
         4 -> MultipleTypeRecyclerViewFragment()
         5 -> StickyRecyclerViewFragment()
         6 -> SwipeMenuRecyclerViewFragment()
         7 -> DragRecyclerViewFragment()
         8 -> SwipeDismissRecyclerViewFragment()
-        else -> SingleTypeRecyclerViewFragment()
+        else -> null
     }
 }
