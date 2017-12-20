@@ -23,8 +23,6 @@ Base adapter for RecyclerView，AbsListView, support multiple item type, Sticky 
 |:---:|:---:|:---:|
 |<img src="screenshots/20171220_222107.gif"  width="250">|<img src="screenshots/20171220_222633.gif"  width="250">|<img src="screenshots/20171220_222704.gif"  width="250">|
 
-[空格]
-
 |Swipe Dismiss|
 |:---:|
 |<img src="screenshots/20171220_222907.gif"  width="250">|
