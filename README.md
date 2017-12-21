@@ -56,15 +56,17 @@ dependencies {
 Usage
 =====
 
-- 提供了如下几种适配器实现 
+- 提供了如下几种适配器实现  
 
-  [ListViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/ListViewAdapter.kt): ListView适配器  
-  [RecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewAdapter): RecyclerView适配器  
-  [RecyclerViewBindingAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewBindingAdapter)：RecycerView适配器，使用DataBinding  
-  [StickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/StickyRecyclerViewAdapter): 支持Sticky Header效果的RecyclerView适配器  
-  [SwipeMenuRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuRecyclerViewAdapter): 支持侧滑菜单效果的RecyclerView适配器  
-  [SwipeMenuStickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuStickyRecyclerViewAdapter)：同时支持Sticky Header和侧滑菜单效果的RecyclerView适配器（使用场景：京东购物车）  
-  [DragAndSwipeRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/DragAndSwipeRecyclerViewAdapter)：支持拖动和滑动消失效果的RecyclerView适配器
+|类型|介绍|
+|:---|:--|  
+|[ListViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/ListViewAdapter.kt)|ListView适配器| 
+|[RecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewAdapter)|RecyclerView适配器|  
+|[RecyclerViewBindingAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewBindingAdapter)|RecycerView适配器，使用DataBinding|  
+|[StickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/StickyRecyclerViewAdapter)|支持Sticky Header效果的RecyclerView适配器|  
+|[SwipeMenuRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuRecyclerViewAdapter)|支持侧滑菜单效果的RecyclerView适配器|  
+|[SwipeMenuStickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuStickyRecyclerViewAdapter)|同时支持Sticky Header和侧滑菜单效果的RecyclerView适配器（使用场景：京东购物车）|  
+|[DragAndSwipeRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/DragAndSwipeRecyclerViewAdapter)|支持拖动和滑动消失效果的RecyclerView适配器|
   
   
 - 创建适配器（以RecyclerViewAdapter为例）  
@@ -131,6 +133,24 @@ Usage
 			}
 			.attach(binding.rv)
   	```
+
+- 更新Item数据
+  
+ ```kotlin
+holderBindInterceptor { position, holder ->  
+		holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+		holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
+		holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
+			text = item.name
+			setOnClickListener {
+				adapter.closeAllItems()
+				showToast("${item.name} is deleted")
+				adapter.removeItemAt(position)
+			}  
+		})
+
+}
+```
 
 技术交流
 ======
