@@ -62,12 +62,12 @@ Usage(更多用法见example)
 |类型|介绍|
 |:---|:--|  
 |[ListViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/ListViewAdapter.kt)|ListView适配器| 
-|[RecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewAdapter)|RecyclerView适配器|  
-|[RecyclerViewBindingAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewBindingAdapter)|RecycerView适配器，使用DataBinding|  
-|[StickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/StickyRecyclerViewAdapter)|支持Sticky Header效果的RecyclerView适配器|  
-|[SwipeMenuRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuRecyclerViewAdapter)|支持侧滑菜单效果的RecyclerView适配器|  
-|[SwipeMenuStickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuStickyRecyclerViewAdapter)|同时支持Sticky Header和侧滑菜单效果的RecyclerView适配器（使用场景：京东购物车）|  
-|[DragAndSwipeRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/DragAndSwipeRecyclerViewAdapter)|支持Drag and Drop和Swipe Dismiss效果的RecyclerView适配器|
+|[RecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewAdapter.kt)|RecyclerView适配器|  
+|[RecyclerViewBindingAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/RecyclerViewBindingAdapter.kt)|RecyclerView适配器，使用DataBinding|  
+|[StickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/StickyRecyclerViewAdapter.kt)|支持Sticky Header效果的RecyclerView适配器|  
+|[SwipeMenuRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuRecyclerViewAdapter.kt)|支持侧滑菜单效果的RecyclerView适配器|  
+|[SwipeMenuStickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuStickyRecyclerViewAdapter.kt)|同时支持Sticky Header和侧滑菜单效果的RecyclerView适配器（使用场景：京东购物车）|  
+|[DragAndSwipeRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/DragAndSwipeRecyclerViewAdapter.kt)|支持Drag & Drop和Swipe Dismiss效果的RecyclerView适配器|
   
   
 **★ 创建适配器（以RecyclerViewAdapter为例）** 
