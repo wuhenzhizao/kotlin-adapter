@@ -8,7 +8,7 @@ Base adapter for recyclerView，absListView, support multiple item view type, st
 - 语法简单，代码优雅，不需要重写ViewHolder，通过链式调用实现适配器创建；
 - 支持多种样式，解决视图复用导致的页面错乱问题；
 - 提供一系列拦截器，满足大部分场景下的页面数据刷新；
-- 封装ViewHolder，通过高阶函数简化视图数据更新；
+- 封装ViewHolder，简化View数据更新操作；
 - 提供一系列拓展函数对适配器数据进行操作，见[AdapterExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/AdapterExtensions.kt)；  
 - 支持DataBinding；
 - 封装了sticky header, swipe menu等效果，使用方便；
@@ -135,24 +135,46 @@ val adapter = RecyclerViewAdapter<Any>(context)
 
 **★ 更新Item数据**  
 
+- 方式一：内联函数+链式调用形式
+
 ```kotlin
-holderBindInterceptor { position, holder ->  
-    holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
-    holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
-    holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
-        text = item.name
-        setOnClickListener {
-            adapter.closeAllItems()
-            showToast("${item.name} is deleted")
-            adapter.removeItemAt(position)
-        }  
-    })
-}
-```  
+holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
+holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
+    text = item.name
+    setOnClickListener {
+        adapter.closeAllItems()
+        showToast("${item.name} is deleted")
+        adapter.removeItemAt(position)
+    }  
+})
+```    
+
+- 方式二：传统ViewHolder封装([ViewHolderExtension.kt](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/ViewHolderExtension.kt): Inspired by [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/src/main/java/com/chad/library/adapter/base/BaseViewHolder.java))  
+
+```kotlin
+viewHolder.setText(R.id.name, product.name)
+    .setTextColor(R.id.name, Color.WHITE)
+viewHolder.setText(R.id.price, "¥ ${product.price}")
+viewHolder.setGone(R.id.divider, position == adapter.itemCount - 1)
+```
 
 拓展
 ===  
 **★ [创建支持Sticky Header效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/StickyRecyclerViewFragment.kt)**  
+
+```kotlin
+holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
+holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
+    text = item.name
+    setOnClickListener {
+        adapter.closeAllItems()
+        showToast("${item.name} is deleted")
+        adapter.removeItemAt(position)
+    }  
+})
+```
 
 ```kotlin
 val adapter = StickyRecyclerViewAdapter<Country>(context)
@@ -217,7 +239,6 @@ val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
 
 License
 =======
-
 ```
 Copyright 2017 wuhenzhizao
 

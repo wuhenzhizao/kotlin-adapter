@@ -1,5 +1,6 @@
 package com.wuhenzhizao.adapter.example.ui
 
+import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
@@ -14,8 +15,7 @@ import com.wuhenzhizao.adapter.example.bean.ProductList
 import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
-import com.wuhenzhizao.adapter.extension.addItems
-import com.wuhenzhizao.adapter.extension.putItems
+import com.wuhenzhizao.adapter.extension.*
 
 /**
  * Created by liufei on 2017/12/13.

@@ -2,11 +2,12 @@ package com.wuhenzhizao.adapter.holder
 
 import android.util.SparseArray
 import android.view.View
+import com.wuhenzhizao.adapter.interfaces.ViewHolderDelegate
 
 /**
  * Created by liufei on 2017/12/4.
  */
-class ListViewHolder(val convertView: View) {
+class ListViewHolder(override val convertView: View) : ViewHolderDelegate {
     private var views: SparseArray<View> = SparseArray()
     var layoutId: Int = 0
     var position: Int = 0
@@ -15,7 +16,8 @@ class ListViewHolder(val convertView: View) {
         convertView.tag = this
     }
 
-    fun <T : View> get(viewId: Int): T {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : View> get(viewId: Int): T {
         var view = views.get(viewId)
         if (view == null) {
             view = convertView.findViewById(viewId)
