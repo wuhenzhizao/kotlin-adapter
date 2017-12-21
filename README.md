@@ -133,7 +133,7 @@ val adapter = RecyclerViewAdapter<Any>(context)
     .attach(binding.rv)
 ```
 
-**★ 更新Item数据**  
+**★ 更新Item数据(提供两种方式，任选一种即可)**  
 
 - 方式一：内联函数+链式调用形式
 
@@ -155,8 +155,8 @@ holder.get<TextView>(R.id.tv_shopping_cart_delete, {
 ```kotlin
 viewHolder.setText(R.id.name, product.name)
     .setTextColor(R.id.name, Color.WHITE)
-viewHolder.setText(R.id.price, "¥ ${product.price}")
-viewHolder.setGone(R.id.divider, position == adapter.itemCount - 1)
+    .setText(R.id.price, "¥ ${product.price}")
+    .setGone(R.id.divider, position == adapter.itemCount - 1)
 ```
 
 拓展
