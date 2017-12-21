@@ -2,7 +2,6 @@ package com.wuhenzhizao.adapter.example.ui
 
 import android.widget.CheckBox
 import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R

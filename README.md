@@ -142,7 +142,7 @@ holderBindInterceptor { position, holder ->
     holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
         text = item.name
         setOnClickListener {
-        adapter.closeAllItems()
+            adapter.closeAllItems()
             showToast("${item.name} is deleted")
             adapter.removeItemAt(position)
         }  

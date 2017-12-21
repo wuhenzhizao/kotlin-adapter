@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
  */
 abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(context: Context) : RecyclerView.Adapter<VH>() {
     var recyclerView: RecyclerView? = null
-    val items: MutableList<T> = arrayListOf()
+    val items: MutableList<T> = mutableListOf()
     val itemTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
     protected var innerLayoutInterceptor: LayoutInterceptor<VH>? = null

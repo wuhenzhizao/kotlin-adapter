@@ -12,7 +12,7 @@ import kotlin.reflect.KClass
  * Created by liufei on 2017/12/4.
  */
 abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter() {
-    val items: MutableList<T> = arrayListOf()
+    val items: MutableList<T> = mutableListOf()
     val itemTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
     protected var innerLayoutInterceptor: LayoutInterceptor<VH>? = null
