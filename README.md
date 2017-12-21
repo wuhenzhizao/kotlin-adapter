@@ -1,5 +1,5 @@
 # kotlin-adapter
-Base adapter for RecyclerView，AbsListView, support multiple item view type, Sticky , Drag, Swipe Dismiss
+Base adapter for RecyclerView，AbsListView, support multiple item view type, Sticky , Drag & Drop, Swipe Dismiss.
 
 [Demo Download](https://www.pgyer.com/cCxm)
 
@@ -67,7 +67,7 @@ Usage
 |[StickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/StickyRecyclerViewAdapter)|支持Sticky Header效果的RecyclerView适配器|  
 |[SwipeMenuRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuRecyclerViewAdapter)|支持侧滑菜单效果的RecyclerView适配器|  
 |[SwipeMenuStickyRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/SwipeMenuStickyRecyclerViewAdapter)|同时支持Sticky Header和侧滑菜单效果的RecyclerView适配器（使用场景：京东购物车）|  
-|[DragAndSwipeRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/DragAndSwipeRecyclerViewAdapter)|支持拖动和滑动消失效果的RecyclerView适配器|
+|[DragAndSwipeRecyclerViewAdapter](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/DragAndSwipeRecyclerViewAdapter)|支持Drag and Drop和Swipe Dismiss效果的RecyclerView适配器|
   
   
 **★ 创建适配器（以RecyclerViewAdapter为例）** 
@@ -89,19 +89,19 @@ val adapter = RecyclerViewAdapter(context, list.provinceList)
     .match(TopNews::class, R.layout.item_multiple_type_list_view_top)
     .match(NormalNews::class, R.layout.item_multiple_type_list_view_normal)
     .holderCreateInterceptor { holder ->
-    	// 布局创建时回调，用于对布局的处理，比如设置宽高(可省略)
+        	// 布局创建时回调，用于对布局的处理，比如设置宽高(可省略)
     }
-	.holderBindInterceptor { position, holder ->
-    	// 布局绑定时回调，用于更新Item UI数据，也可以设置UI监听接口
-    	val province = adapter.getItem(position)
-    	viewHolder.get<TextView>(R.id.tv, { text = province.name })
-    	viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
+    .holderBindInterceptor { position, holder ->
+        // 布局绑定时回调，用于更新Item UI数据，也可以设置UI监听接口
+        val province = adapter.getItem(position)
+        viewHolder.get<TextView>(R.id.tv, { text = province.name })
+        viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
     }
     .clickInterceptor { position, holder ->
-    	// Item最外层布局被点击回调(可省略)
+    	    // Item最外层布局被点击回调(可省略)
     }
     .longClickInterceptor { position, holder ->
-    	// Item最外层布局Long Click回调(可省略)
+    	    // Item最外层布局Long Click回调(可省略)
     }
     .attach(binding.lv)  // 绑定适配器到ListView
 ```  
@@ -125,10 +125,10 @@ val adapter = RecyclerViewAdapter<Any>(context)
     		}
     }
     .holderCreateInterceptor { holder ->
-    	onViewHolderCreate(it)
+        	onViewHolderCreate(it)
     }
     .holderBindInterceptor { position, viewHolder ->
-    	onViewHolderBind(position, viewHolder)
+    	    onViewHolderBind(position, viewHolder)
     }
     .clickInterceptor { position, holder ->
 		
@@ -143,8 +143,8 @@ holderBindInterceptor { position, holder ->
     holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
     holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
     holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
-    	text = item.name
-    	setOnClickListener {
+        text = item.name
+        setOnClickListener {
         adapter.closeAllItems()
             showToast("${item.name} is deleted")
             adapter.removeItemAt(position)
