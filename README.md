@@ -81,7 +81,7 @@ val adapter = RecyclerViewAdapter<Product>(context)
     .attach(binding.rv)
 ```
 	
-- 完整版本
+- [完整版本](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/MultipleTypeRecyclerViewFragment.kt)  
 
 ```kotlin
 val adapter = RecyclerViewAdapter(context, list.provinceList)  
@@ -106,23 +106,23 @@ val adapter = RecyclerViewAdapter(context, list.provinceList)
     .attach(binding.lv)  // 绑定适配器到ListView
 ```  
 	
-- 使用LayoutInterceptor替代match   
+- [使用LayoutInterceptor替代match](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/MultipleTypeRecyclerViewFragment.kt)   
   
 ```kotlin
 val adapter = RecyclerViewAdapter<Any>(context)
     .layoutInterceptor {
-    	when (adapter.getItem(it)) {
-    		is BannerList -> R.layout.item_multiple_type_recycler_view_banner
-    		is Promotion -> R.layout.item_multiple_type_recycler_view_promotion
-    		is Divider -> R.layout.item_multiple_type_recycler_view_divider
-    		is HeaderLine -> R.layout.item_multiple_type_recycler_view_headine
-    		is HeaderLineProductList -> R.layout.item_multiple_type_recycler_view_headine_product
-    		is Recommend -> R.layout.item_multiple_type_recycler_view_recommend
-    		is RecommendProducts -> R.layout.item_multiple_type_recycler_view_recommend_item
-    		else -> {
-    			0
+        when (adapter.getItem(it)) {
+             is BannerList -> R.layout.item_multiple_type_recycler_view_banner
+             is Promotion -> R.layout.item_multiple_type_recycler_view_promotion
+             is Divider -> R.layout.item_multiple_type_recycler_view_divider
+             is HeaderLine -> R.layout.item_multiple_type_recycler_view_headine
+             is HeaderLineProductList -> R.layout.item_multiple_type_recycler_view_headine_product
+             is Recommend -> R.layout.item_multiple_type_recycler_view_recommend
+             is RecommendProducts -> R.layout.item_multiple_type_recycler_view_recommend_item
+             else -> {
+                 0
+             }
     		}
-		}
     }
     .holderCreateInterceptor { holder ->
     	onViewHolderCreate(it)
@@ -136,8 +136,8 @@ val adapter = RecyclerViewAdapter<Any>(context)
     .attach(binding.rv)
 ```
 
-**★ 更新Item数据**
-  
+**★ 更新Item数据**  
+
 ```kotlin
 holderBindInterceptor { position, holder ->  
     holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
@@ -155,7 +155,7 @@ holderBindInterceptor { position, holder ->
 
 拓展
 ===  
-**★ 创建支持Sticky Header效果的RecyclerView适配器**  
+**★ [创建支持Sticky Header效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/StickyRecyclerViewFragment.kt)**  
 
 ```kotlin
 val adapter = StickyRecyclerViewAdapter<Country>(context)
@@ -176,7 +176,7 @@ val adapter = StickyRecyclerViewAdapter<Country>(context)
     .attach(binding.rv)
 ```  
 
-**★ 创建支持SwipeMenu效果的RecyclerView适配器**  
+**★ [创建支持SwipeMenu效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SwipeMenuRecyclerViewFragment.kt)**  
 
 ```kotlin
 val adapter = SwipeMenuRecyclerViewAdapter<StickyBean>(context)
