@@ -45,7 +45,7 @@ class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragInterceptor(crossinline block: (from: RecyclerViewHolder, target: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : ItemDragInterceptor<RecyclerViewHolder> {
         override fun onItemDrag(from: RecyclerViewHolder, target: RecyclerViewHolder) {
-            block.invoke(from, target)
+            block(from, target)
         }
     })
     return this
@@ -54,7 +54,7 @@ inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragI
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.swipeInterceptor(crossinline block: (viewHolder: RecyclerViewHolder, direction: Int) -> Unit): Adapter {
     setInterceptor(object : ItemSwipeInterceptor<RecyclerViewHolder> {
         override fun onItemSwipe(holder: RecyclerViewHolder, direction: Int) {
-            block.invoke(holder, direction)
+            block(holder, direction)
         }
     })
     return this

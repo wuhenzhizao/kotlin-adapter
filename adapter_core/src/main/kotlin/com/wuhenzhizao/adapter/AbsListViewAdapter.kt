@@ -77,7 +77,7 @@ fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.match(kClass: KCl
 
 inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.layoutInterceptor(crossinline block: (position: Int) -> Int): Adapter {
     setInterceptor(object : LayoutInterceptor<VH> {
-        override fun getLayoutId(position: Int): Int = block.invoke(position)
+        override fun getLayoutId(position: Int): Int = block(position)
     })
     return this
 }
@@ -85,7 +85,7 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.layoutInte
 inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.clickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : ClickInterceptor<VH> {
         override fun onClick(position: Int, holder: VH) {
-            block.invoke(position, holder)
+            block(position, holder)
         }
     })
     return this
@@ -93,8 +93,9 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.clickInter
 
 inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.longClickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : LongClickInterceptor<VH> {
-        override fun onLongClick(position: Int, holder: VH) {
-            block.invoke(position, holder)
+        override fun onLongClick(position: Int, holder: VH): Boolean {
+            block(position, holder)
+            return false
         }
     })
     return this
@@ -103,7 +104,7 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.longClickI
 inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCreateInterceptor(crossinline block: (holder: VH) -> Unit): Adapter {
     setInterceptor(object : ViewHolderCreateInterceptor<VH> {
         override fun onCreateViewHolder(holder: VH) {
-            block.invoke(holder)
+            block(holder)
         }
     })
     return this
@@ -112,7 +113,7 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCrea
 inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderBindInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : ViewHolderBindInterceptor<VH> {
         override fun onBindViewHolder(position: Int, holder: VH) {
-            block.invoke(position, holder)
+            block(position, holder)
         }
     })
     return this

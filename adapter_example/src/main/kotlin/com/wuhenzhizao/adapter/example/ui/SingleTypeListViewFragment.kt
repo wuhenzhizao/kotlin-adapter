@@ -40,7 +40,8 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                     adapter.notifyDataSetChanged()
                 }
                 .longClickInterceptor { position, holder ->
-
+                    val province = adapter.getItem(position)
+                    showToast("position $position, ${province.name} long clicked")
                 }
                 .attach(binding.lv)
     }

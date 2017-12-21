@@ -77,7 +77,7 @@ fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader
 inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickInterceptor(crossinline block: (holder: RecyclerViewHolder, clickView: View, position: Int) -> Unit): Adapter {
     setInterceptor(object : HeaderClickInterceptor<RecyclerViewHolder> {
         override fun onHeaderClick(holder: RecyclerViewHolder, clickView: View, position: Int) {
-            block.invoke(holder, clickView, position)
+            block(holder, clickView, position)
         }
     })
     return this
@@ -86,7 +86,7 @@ inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.head
 inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderCreateInterceptor(crossinline block: (holder: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : HeaderViewHolderCreateInterceptor<RecyclerViewHolder> {
         override fun onCreateHeaderViewHolder(holder: RecyclerViewHolder) {
-            block.invoke(holder)
+            block(holder)
         }
     })
     return this
@@ -95,7 +95,7 @@ inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.head
 inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderBindInterceptor(crossinline block: (position: Int, holder: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : HeaderViewHolderBindInterceptor<RecyclerViewHolder> {
         override fun onBindHeaderViewHolder(position: Int, holder: RecyclerViewHolder) {
-            block.invoke(position, holder)
+            block(position, holder)
         }
     })
     return this

@@ -50,7 +50,7 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
             }
         }
         innerLongClickInterceptor?.apply {
-            holder.itemView.setOnClickListener {
+            holder.itemView.setOnLongClickListener {
                 onLongClick(position, holder)
             }
         }

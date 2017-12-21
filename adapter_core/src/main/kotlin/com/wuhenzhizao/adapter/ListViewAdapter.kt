@@ -46,7 +46,7 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
             }
         }
         innerLongClickInterceptor?.apply {
-            vh.convertView.setOnClickListener {
+            vh.convertView.setOnLongClickListener {
                 onLongClick(position, vh)
             }
         }

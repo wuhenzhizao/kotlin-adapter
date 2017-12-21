@@ -35,8 +35,9 @@ interface LongClickInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
      * @param holder
+     * @return true if the callback consumed the long click, false otherwise.
      */
-    fun onLongClick(position: Int, holder: VH)
+    fun onLongClick(position: Int, holder: VH): Boolean
 }
 
 /**

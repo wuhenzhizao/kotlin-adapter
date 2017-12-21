@@ -101,8 +101,9 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.clickI
 
 inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.longClickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : LongClickInterceptor<VH> {
-        override fun onLongClick(position: Int, holder: VH) {
+        override fun onLongClick(position: Int, holder: VH): Boolean {
             block(position, holder)
+            return false
         }
     })
     return this
