@@ -89,7 +89,7 @@ val adapter = RecyclerViewAdapter(context, list.provinceList)
     .match(TopNews::class, R.layout.item_multiple_type_list_view_top)
     .match(NormalNews::class, R.layout.item_multiple_type_list_view_normal)
     .holderCreateInterceptor { holder ->
-        	// 布局创建时回调，用于对布局的处理，比如设置宽高(可省略)
+        // 布局创建时回调，用于对布局的处理，比如设置宽高(可省略)
     }
     .holderBindInterceptor { position, holder ->
         // 布局绑定时回调，用于更新Item UI数据，也可以设置UI监听接口
@@ -98,10 +98,10 @@ val adapter = RecyclerViewAdapter(context, list.provinceList)
         viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
     }
     .clickInterceptor { position, holder ->
-    	    // Item最外层布局被点击回调(可省略)
+        // Item最外层布局被点击回调(可省略)
     }
     .longClickInterceptor { position, holder ->
-    	    // Item最外层布局Long Click回调(可省略)
+        // Item最外层布局Long Click回调(可省略)
     }
     .attach(binding.lv)  // 绑定适配器到ListView
 ```  
@@ -122,13 +122,13 @@ val adapter = RecyclerViewAdapter<Any>(context)
              else -> {
                  0
              }
-    		}
+        }
     }
     .holderCreateInterceptor { holder ->
-        	onViewHolderCreate(it)
+        onViewHolderCreate(it)
     }
     .holderBindInterceptor { position, viewHolder ->
-    	    onViewHolderBind(position, viewHolder)
+        onViewHolderBind(position, viewHolder)
     }
     .attach(binding.rv)
 ```
