@@ -27,10 +27,10 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                 .holderCreateInterceptor {
 
                 }
-                .holderBindInterceptor { position, viewHolder ->
+                .holderBindInterceptor { position, holder ->
                     val province = adapter.getItem(position)
-                    viewHolder.get<TextView>(R.id.tv, { text = province.name })
-                    viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
+                    holder.get<TextView>(R.id.tv, { text = province.name })
+                    holder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
                 }
                 .clickInterceptor { position, holder ->
                     val province = adapter.getItem(position)
@@ -39,6 +39,9 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                         province.checked = (index == position)
                     }
                     adapter.notifyDataSetChanged()
+                }
+                .longClickInterceptor { position, holder ->
+
                 }
                 .attach(binding.lv)
     }
