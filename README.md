@@ -130,9 +130,6 @@ val adapter = RecyclerViewAdapter<Any>(context)
     .holderBindInterceptor { position, viewHolder ->
     	    onViewHolderBind(position, viewHolder)
     }
-    .clickInterceptor { position, holder ->
-		
-    }
     .attach(binding.rv)
 ```
 
@@ -161,11 +158,6 @@ holderBindInterceptor { position, holder ->
 val adapter = StickyRecyclerViewAdapter<Country>(context)
     .match(Country::class, R.layout.item_sticky_recycler_view)
     .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
-    .holderBindInterceptor { position, holder ->
-        val country = adapter.getItem(position)
-        holder.get<TextView>(R.id.country_name, { text = country.countryName })
-    }
-    .headerHolderCreateInterceptor { holder ->  }
     .headerHolderBindInterceptor { position, holder ->
         val country = adapter.getItem(position)
         holder.get<TextView>(R.id.sticky_name, { text = country.letter })
@@ -207,15 +199,6 @@ recyclerView.dragDirection =                 // 设置拖拽方向
 
 val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
     .match(Topic::class, R.layout.item_drag_recycler_view)
-    .holderBindInterceptor { position, viewHolder ->
-        val topic = adapter.getItem(position)
-        viewHolder.get<RatioImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.smallImg) })
-        viewHolder.get<TextView>(R.id.name, { text = topic.title })
-    }
-    .clickInterceptor { position, holder ->
-        val topic = adapter.getItem(position)
-        showToast("position $position, ${topic.title} clicked")
-    }
     .dragInterceptor { from, target ->
         showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
     }
