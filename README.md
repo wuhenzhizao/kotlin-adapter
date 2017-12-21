@@ -28,9 +28,9 @@ Preview
 |<img src="screenshots/20171220_221813.gif"  width="250">|<img src="screenshots/20171220_222005.gif"  width="250">|
 
 
-- **Extension Functions(For RecyclerView)**
+- **Extension(For RecyclerView)**
 
-|Sticky Header|Swipe Menu|Drag Item|
+|Sticky Header|Swipe Menu|Drag & Drop|
 |:---:|:---:|:---:|
 |<img src="screenshots/20171220_222107.gif"  width="250">|<img src="screenshots/20171220_222633.gif"  width="250">|<img src="screenshots/20171220_222704.gif"  width="250">|
 
