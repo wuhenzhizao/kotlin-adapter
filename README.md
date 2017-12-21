@@ -1,5 +1,5 @@
 # kotlin-adapter
-Base adapter for RecyclerView，AbsListView, support multiple item view type, Sticky , Drag & Drop, Swipe Dismiss.
+Base adapter for recyclerView，absListView, support multiple item view type, sticky header, drag & drop, swipe dismiss.
 
 [Demo Download](https://www.pgyer.com/cCxm)
 
@@ -11,7 +11,7 @@ Base adapter for RecyclerView，AbsListView, support multiple item view type, St
 - 封装ViewHolder，通过高阶函数简化视图数据更新；
 - 提供一系列拓展函数对适配器数据进行操作，见[AdapterExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/AdapterExtensions.kt)；  
 - 支持DataBinding；
-- 封装了Sticky Header, Swipe Menu等效果，使用方便；
+- 封装了sticky header, swipe menu等效果，使用方便；
 
 Preview
 =======
