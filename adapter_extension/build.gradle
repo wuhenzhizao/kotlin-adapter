@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion Integer.parseInt(COMPILE_SDK_VERSION)
@@ -25,16 +26,34 @@ android {
         enabled = true
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     api project(':adapter_core')
     api rootProject.ext.dependencies["swipe"]
-    kapt rootProject.ext.dependencies["compiler"]
-    androidTestApi 'com.android.support.test:runner:1.0.1'
-    androidTestApi 'com.android.support.test.espresso:espresso-core:3.0.1'
+    api rootProject.ext.dependencies["junit"]
+    androidTestApi(rootProject.ext.dependencies["espresso"], {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    kapt 'com.android.databinding:compiler:3.0.1'
 }
 
+publish {
+    userOrg = 'wuhenzhizao'
+    groupId = 'com.wuhenzhizao'
+    artifactId = 'kotlin-adapter-extension'
+    publishVersion = '1.0.0'
+    desc = 'Base adapter for RecyclerView, support multiple item view type, Sticky , Drag, Swipe Dismiss'
+    website = 'https://github.com/wuhenzhizao/kotlin-adapter'
+}

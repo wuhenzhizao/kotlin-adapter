@@ -25,9 +25,17 @@ android {
         enabled = true
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
+}
+
+kapt {
+    generateStubs = true
 }
 
 dependencies {
@@ -56,8 +64,9 @@ dependencies {
     api rootProject.ext.dependencies["okhttp"]
     api rootProject.ext.dependencies["okhttp_logging"]
     api rootProject.ext.dependencies["permissions"]
-
-    kapt rootProject.ext.dependencies["compiler"]
-    androidTestApi 'com.android.support.test:runner:1.0.1'
-    androidTestApi 'com.android.support.test.espresso:espresso-core:3.0.1'
+    api rootProject.ext.dependencies["junit"]
+    kapt 'com.android.databinding:compiler:3.0.1'
+    androidTestApi(rootProject.ext.dependencies["espresso"], {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
 }

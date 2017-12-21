@@ -42,9 +42,10 @@ Setup
 =====
 
 
-[![Download](https://api.bintray.com/packages/wuhenzhizao/maven/titlebar/images/download.svg) ](https://bintray.com/wuhenzhizao/maven/titlebar/_latestVersion)  
+ [ ![Download](https://api.bintray.com/packages/wuhenzhizao/maven/kotlin-adapter-core/images/download.svg) ](https://bintray.com/wuhenzhizao/maven/kotlin-adapter-core/_latestVersion) 
+ [ ![Download](https://api.bintray.com/packages/wuhenzhizao/maven/kotlin-adapter-extension/images/download.svg) ](https://bintray.com/wuhenzhizao/maven/kotlin-adapter-extension/_latestVersion)
 
-```xml
+```dsl
 dependencies {
     // 核心依赖
     compile 'com.wuhenzhizao:kotlin-adapter-core:1.0.0'
@@ -151,6 +152,10 @@ holderBindInterceptor { position, holder ->
     })
 }
 ```  
+
+拓展
+===  
+  
 
 技术交流
 ======
