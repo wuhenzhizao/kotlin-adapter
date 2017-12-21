@@ -145,10 +145,10 @@ holderBindInterceptor { position, holder ->
     holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
     	text = item.name
     	setOnClickListener {
-    	adapter.closeAllItems()
-    		showToast("${item.name} is deleted")
-    		adapter.removeItemAt(position)
-    	}  
+        adapter.closeAllItems()
+            showToast("${item.name} is deleted")
+            adapter.removeItemAt(position)
+        }  
     })
 }
 ```  
@@ -192,6 +192,35 @@ val adapter = SwipeMenuRecyclerViewAdapter<StickyBean>(context)
                 adapter.removeItemAt(position)
             }
         })
+    }
+    .attach(binding.rv)
+```  
+
+**★ [创建支持拖拽效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SwipeMenuRecyclerViewFragment.kt)**  
+
+```kotlin
+val recyclerView = binding.rv
+recyclerView.isLongPressDragEnable = true    // 开启长按拖拽
+recyclerView.isItemViewSwipeEnable = true   // 开启Swipe Dismiss
+recyclerView.dragDirection =                 // 设置拖拽方向
+    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN
+
+val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
+    .match(Topic::class, R.layout.item_drag_recycler_view)
+    .holderBindInterceptor { position, viewHolder ->
+        val topic = adapter.getItem(position)
+        viewHolder.get<RatioImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.smallImg) })
+        viewHolder.get<TextView>(R.id.name, { text = topic.title })
+    }
+    .clickInterceptor { position, holder ->
+        val topic = adapter.getItem(position)
+        showToast("position $position, ${topic.title} clicked")
+    }
+    .dragInterceptor { from, target ->
+        showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
+    }
+    .swipeInterceptor { viewHolder, direction ->
+        showToast("position ${viewHolder.adapterPosition} dismissed")
     }
     .attach(binding.rv)
 ```
