@@ -15,20 +15,20 @@ Base adapter for RecyclerView，AbsListView, support multiple item view type, St
 
 Preview
 =======
-- Single Item View Type
+- **Single Item View Type**
 
 |ListView|RecyclerView|RecyclerView + DataBinding|
 |:---:|:---:|:---:|
 |<img src="screenshots/20171220_221339.gif"  width="250">|<img src="screenshots/20171220_221506.gif"  width="250">|<img src="screenshots/20171220_221641.gif"  width="250">|
 
-- Multiple Item View Type
+- **Multiple Item View Type**
 
 |ListView|RecyclerView|
 |:---:|:---:|
 |<img src="screenshots/20171220_221813.gif"  width="250">|<img src="screenshots/20171220_222005.gif"  width="250">|
 
 
-- Extension Functions(For RecyclerView)
+- **Extension Functions(For RecyclerView)**
 
 |Sticky Header|Swipe Menu|Drag Item|
 |:---:|:---:|:---:|
@@ -72,13 +72,13 @@ Usage
   
 **★ 创建适配器（以RecyclerViewAdapter为例）** 
  
-- 简单版本  
+- [简单版本](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SingleTypeRecyclerViewFragment.kt)  
 
 ```kotlin
-val adapter = RecyclerViewAdapter(context, list.provinceList)
-    .match(Province::class, R.layout.item_single_type_list_view)  
-    .holderBindInterceptor { position, holder -> }
-    .attach(binding.lv)  
+val adapter = RecyclerViewAdapter<Product>(context)
+    .match(Product::class, R.layout.item_single_type_recycler_view)
+    .holderBindInterceptor { position, viewHolder -> }
+    .attach(binding.rv)
 ```
 	
 - 完整版本
@@ -124,7 +124,7 @@ val adapter = RecyclerViewAdapter<Any>(context)
     		}
 		}
     }
-    .holderCreateInterceptor {
+    .holderCreateInterceptor { holder ->
     	onViewHolderCreate(it)
     }
     .holderBindInterceptor { position, viewHolder ->
@@ -155,7 +155,46 @@ holderBindInterceptor { position, holder ->
 
 拓展
 ===  
-  
+**★ 创建支持Sticky Header效果的RecyclerView适配器**  
+
+```kotlin
+val adapter = StickyRecyclerViewAdapter<Country>(context)
+    .match(Country::class, R.layout.item_sticky_recycler_view)
+    .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
+    .holderBindInterceptor { position, holder ->
+        val country = adapter.getItem(position)
+        holder.get<TextView>(R.id.country_name, { text = country.countryName })
+    }
+    .headerHolderCreateInterceptor { holder ->  }
+    .headerHolderBindInterceptor { position, holder ->
+        val country = adapter.getItem(position)
+        holder.get<TextView>(R.id.sticky_name, { text = country.letter })
+    }
+    .headerClickInterceptor { holder, clickView, position ->
+        showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
+    }
+    .attach(binding.rv)
+```  
+
+**★ 创建支持SwipeMenu效果的RecyclerView适配器**  
+
+```kotlin
+val adapter = SwipeMenuRecyclerViewAdapter<StickyBean>(context)
+    .match(Notice::class, R.layout.item_shopping_cart_notice)
+    .match(Divider::class, R.layout.item_shopping_cart_divider)
+    .match(ItemViewBean::class, R.layout.item_shopping_cart_sku)
+    .match(RecommendProducts::class, R.layout.item_shopping_cart_recommend)
+    .holderBindInterceptor { position, holder ->
+        holder.get<TextView>(R.id.tv_shopping_cart_delete, {
+            setOnClickListener {
+                adapter.closeAllItems()
+                showToast("${item.name} is deleted")
+                adapter.removeItemAt(position)
+            }
+        })
+    }
+    .attach(binding.rv)
+```
 
 技术交流
 ======

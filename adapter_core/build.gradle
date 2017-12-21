@@ -41,7 +41,6 @@ kapt {
 }
 
 dependencies {
-    api fileTree(include: ['*.jar'], dir: 'libs')
     androidTestApi(rootProject.ext.dependencies["espresso"], {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
