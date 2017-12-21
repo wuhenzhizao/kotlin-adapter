@@ -139,17 +139,16 @@ val adapter = RecyclerViewAdapter<Any>(context)
   
 ```kotlin
 holderBindInterceptor { position, holder ->  
-	holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
-	holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
-	holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
-		text = item.name
-		setOnClickListener {
-			adapter.closeAllItems()
-			showToast("${item.name} is deleted")
-			adapter.removeItemAt(position)
-		}  
-	})
-
+    holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+    holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
+    holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
+    	text = item.name
+    	setOnClickListener {
+    	adapter.closeAllItems()
+    		showToast("${item.name} is deleted")
+    		adapter.removeItemAt(position)
+    	}  
+    })
 }
 ```  
 
