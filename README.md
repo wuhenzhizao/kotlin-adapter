@@ -187,8 +187,8 @@ val adapter = SwipeMenuRecyclerViewAdapter<StickyBean>(context)
     .holderBindInterceptor { position, holder ->
         holder.get<TextView>(R.id.tv_shopping_cart_delete, {
             setOnClickListener {
-                adapter.closeAllItems()
                 showToast("${item.name} is deleted")
+                adapter.closeAllItems()
                 adapter.removeItemAt(position)
             }
         })
@@ -201,7 +201,7 @@ val adapter = SwipeMenuRecyclerViewAdapter<StickyBean>(context)
 ```kotlin
 val recyclerView = binding.rv
 recyclerView.isLongPressDragEnable = true    // 开启长按拖拽
-recyclerView.isItemViewSwipeEnable = true   // 开启Swipe Dismiss
+recyclerView.isItemViewSwipeEnable = true    // 开启Swipe Dismiss
 recyclerView.dragDirection =                 // 设置拖拽方向
     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN
 
