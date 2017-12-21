@@ -164,19 +164,6 @@ viewHolder.setText(R.id.name, product.name)
 **★ [创建支持Sticky Header效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/StickyRecyclerViewFragment.kt)**  
 
 ```kotlin
-holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
-holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
-holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
-    text = item.name
-    setOnClickListener {
-        adapter.closeAllItems()
-        showToast("${item.name} is deleted")
-        adapter.removeItemAt(position)
-    }  
-})
-```
-
-```kotlin
 val adapter = StickyRecyclerViewAdapter<Country>(context)
     .match(Country::class, R.layout.item_sticky_recycler_view)
     .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
