@@ -184,8 +184,8 @@ holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })
 holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
     text = item.name
     setOnClickListener {
-        adapter.closeAllItems()
         showToast("${item.name} is deleted")
+        adapter.closeAllItems()
         adapter.removeItemAt(position)
     }  
 })
