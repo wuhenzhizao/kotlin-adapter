@@ -135,7 +135,7 @@ val adapter = RecyclerViewAdapter<Any>(context)
 
 **★ 更新Item数据(提供两种方式，任选一种即可)**  
 
-- 方式一：内联函数+链式调用形式
+- 方式一：上下文环境为View + 链式调用形式
 
 ```kotlin
 holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
@@ -150,13 +150,19 @@ holder.get<TextView>(R.id.tv_shopping_cart_delete, {
 })
 ```    
 
-- 方式二：传统ViewHolder封装([ViewHolderExtension.kt](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/ViewHolderExtension.kt): Inspired by [BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/src/main/java/com/chad/library/adapter/base/BaseViewHolder.java))  
+- 方式二：上下文环境为ViewHolder + 链式调用形式([ViewHolderExtension.kt](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/ViewHolderExtension.kt): 部分方法来自[BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/src/main/java/com/chad/library/adapter/base/BaseViewHolder.java))  
 
 ```kotlin
-viewHolder.setText(R.id.name, product.name)
+holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> 
+        // 实现图谱加载代码
+    })
+    .setText(R.id.name, product.name)
     .setTextColor(R.id.name, Color.WHITE)
     .setText(R.id.price, "¥ ${product.price}")
     .setGone(R.id.divider, position == adapter.itemCount - 1)
+    .setOnClickListener{R.id.tv_shopping_cart_delete, v-> 
+        showToast("The delete widget is clicked")
+    }
 ```
 
 拓展

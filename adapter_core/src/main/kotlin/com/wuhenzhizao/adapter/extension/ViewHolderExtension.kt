@@ -10,6 +10,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.IdRes
 import android.support.annotation.StringRes
 import android.text.util.Linkify
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.*
@@ -57,6 +58,19 @@ fun <T : ViewHolderDelegate> T.setTextColor(@IdRes viewId: Int, @ColorInt textCo
 fun <T : ViewHolderDelegate> T.setImageResource(@IdRes viewId: Int, @DrawableRes imageResId: Int): T {
     val view = get<ImageView>(viewId)
     view.setImageResource(imageResId)
+    return this
+}
+
+/**
+ * Set the image of an ImageView from a resource id.
+ *
+ * @param viewId     The view id.
+ * @param imageResId The image resource id.
+ * @return T: subclass of ViewHolderDelegate.
+ */
+fun <T : ViewHolderDelegate> T.displayImageUrl(@IdRes viewId: Int, block: (imageView: ImageView) -> Unit): T {
+    val view = get<ImageView>(viewId)
+    block(view)
     return this
 }
 
@@ -259,12 +273,14 @@ fun <T : ViewHolderDelegate> T.setRating(@IdRes viewId: Int, rating: Float, max:
  * Set the on click listener of the view.
  *
  * @param viewId   The view id.
- * @param listener The on click listener;
+ * @param block
  * @return T: subclass of ViewHolderDelegate.
  */
-fun <T : ViewHolderDelegate> T.setOnClickListener(@IdRes viewId: Int, listener: View.OnClickListener): T {
+fun <T : ViewHolderDelegate> T.setOnClickListener(@IdRes viewId: Int, block: (v: View) -> Unit): T {
     val view = get<View>(viewId)
-    view.setOnClickListener(listener)
+    view.setOnClickListener {
+        block(it)
+    }
     return this
 }
 
@@ -273,12 +289,14 @@ fun <T : ViewHolderDelegate> T.setOnClickListener(@IdRes viewId: Int, listener: 
  * Set the on touch listener of the view.
  *
  * @param viewId   The view id.
- * @param listener The on touch listener;
+ * @param block
  * @return T: subclass of ViewHolderDelegate.
  */
-fun <T : ViewHolderDelegate> T.setOnTouchListener(@IdRes viewId: Int, listener: View.OnTouchListener): T {
+fun <T : ViewHolderDelegate> T.setOnTouchListener(@IdRes viewId: Int, block: (v: View, event: MotionEvent) -> Boolean): T {
     val view = get<View>(viewId)
-    view.setOnTouchListener(listener)
+    view.setOnTouchListener { v, event ->
+        return@setOnTouchListener block(v, event)
+    }
     return this
 }
 
@@ -289,9 +307,11 @@ fun <T : ViewHolderDelegate> T.setOnTouchListener(@IdRes viewId: Int, listener: 
  * @param listener The on long click listener;
  * @return T: subclass of ViewHolderDelegate.
  */
-fun <T : ViewHolderDelegate> T.setOnLongClickListener(@IdRes viewId: Int, listener: View.OnLongClickListener): T {
+fun <T : ViewHolderDelegate> T.setOnLongClickListener(@IdRes viewId: Int, block: (v: View) -> Boolean): T {
     val view = get<View>(viewId)
-    view.setOnLongClickListener(listener)
+    view.setOnLongClickListener {
+        return@setOnLongClickListener block(it)
+    }
     return this
 }
 
@@ -302,9 +322,11 @@ fun <T : ViewHolderDelegate> T.setOnLongClickListener(@IdRes viewId: Int, listen
  * @param listener The checked change listener of compound button.
  * @return T: subclass of ViewHolderDelegate.
  */
-fun <T : ViewHolderDelegate> T.setOnCheckedChangeListener(@IdRes viewId: Int, listener: CompoundButton.OnCheckedChangeListener): T {
+fun <T : ViewHolderDelegate> T.setOnCheckedChangeListener(@IdRes viewId: Int, block: (buttonView: CompoundButton, isChecked: Boolean) -> Unit): T {
     val view = get<CompoundButton>(viewId)
-    view.setOnCheckedChangeListener(listener)
+    view.setOnCheckedChangeListener { buttonView, isChecked ->
+        block(buttonView, isChecked)
+    }
     return this
 }
 
