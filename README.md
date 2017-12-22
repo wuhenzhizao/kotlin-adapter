@@ -150,20 +150,20 @@ data class Content(
     </data>
     ...
     <Button
-    android:id="@+id/author_like"
-    android:layout_width="50dp"
-    android:layout_height="20dp"
-    android:layout_alignParentRight="true"
-    android:layout_alignTop="@id/author_avatar"
-    android:layout_marginRight="15dp"
-    android:background="@drawable/author_like_selector"
-    android:onClick="@{vm.clickListener}"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:selected="@{vm.hasLiked == 1}"
-    android:text="@{vm.hasLiked == 1 ? @string/author_liked: @string/author_unlike}"
-    android:textColor="@color/author_like_text_selector"
-    android:textSize="11dp" />
+        android:id="@+id/author_like"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/author_avatar"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/author_like_selector"
+        android:onClick="@{vm.clickListener}"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:selected="@{vm.hasLiked == 1}"
+        android:text="@{vm.hasLiked == 1 ? @string/author_liked: @string/author_unlike}"
+        android:textColor="@color/author_like_text_selector"
+        android:textSize="11dp" />
     ...
 </layout>
 ```
