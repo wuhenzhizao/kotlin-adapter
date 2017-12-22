@@ -201,7 +201,7 @@ holder.displayImageUrl(R.id.iv_sku_logo, { imageView ->
     .setTextColor(R.id.name, Color.WHITE)
     .setText(R.id.price, "¥ ${product.price}")
     .setGone(R.id.divider, position == adapter.itemCount - 1)
-    .setOnClickListener{R.id.tv_shopping_cart_delete, v-> 
+    .setOnClickListener{R.id.tv_shopping_cart_delete, v -> 
         showToast("The delete widget is clicked")
     }
 ```
