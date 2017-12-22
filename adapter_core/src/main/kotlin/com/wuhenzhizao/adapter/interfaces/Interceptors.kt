@@ -6,34 +6,35 @@ package com.wuhenzhizao.adapter.interfaces
 interface Interceptor<in VH>
 
 /**
- * 布局拦截器
+ * 布局拦截器，根据position，返回需要的布局资源id
  */
 interface LayoutInterceptor<in VH> : Interceptor<VH> {
     /**
-     * 返回布局资源id
+     * 获取布局资源id
      *
-     * @param position
+     * @param position adapter position
+     * @return item layout resource id
      */
     fun getLayoutId(position: Int): Int
 }
 
 /**
- * 单击事件拦截
+ * 单击事件拦截，item layout被点击时触发
  */
 interface ClickInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param position
+     * @param position adapter position
      * @param holder
      */
     fun onClick(position: Int, holder: VH)
 }
 
 /**
- * 长按事件拦截
+ * 长按事件拦截, item layout长按时触发
  */
 interface LongClickInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param position
+     * @param position adapter position
      * @param holder
      * @return true if the callback consumed the long click, false otherwise.
      */
@@ -41,21 +42,22 @@ interface LongClickInterceptor<in VH> : Interceptor<VH> {
 }
 
 /**
- * RecyclerView.Adapter#onCreateViewHolder()运行时拦截
+ * View Holder创建时触发，用于完成视图的初始化
+ *
  */
 interface ViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param holder
+     * @param holder adapter position
      */
     fun onCreateViewHolder(holder: VH)
 }
 
 /**
- * RecyclerView.Adapter#onBindViewHolder()运行时拦截
+ * View Holder更新时触发，用于更新Item数据
  */
 interface ViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     /**
-     * @param position
+     * @param position adapter position
      * @param holder
      */
     fun onBindViewHolder(position: Int, holder: VH)

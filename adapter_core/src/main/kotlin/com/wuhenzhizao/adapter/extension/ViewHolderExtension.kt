@@ -16,6 +16,13 @@ import android.view.animation.AlphaAnimation
 import android.widget.*
 import com.wuhenzhizao.adapter.interfaces.ViewHolderDelegate
 
+/**************************************************************************
+ *                                                                        *
+ *                ViewHolderDelegate接口的拓展函数                          *
+ *                实现ViewHolder对视图操作的链式调用                          *
+ *                                                                        *
+ **************************************************************************/
+
 /**
  * Set the text of a TextView.
  *
@@ -101,7 +108,7 @@ fun <T : ViewHolderDelegate> T.setBackgroundRes(@IdRes viewId: Int, @DrawableRes
 }
 
 /**
- * Will set the image of an ImageView from a drawable.
+ * Set the image of an ImageView from a drawable.
  *
  * @param viewId   The view id.
  * @param drawable The image drawable.

@@ -55,6 +55,9 @@ open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: Li
     }
 }
 
+/**
+ * 绑定适配器
+ */
 fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: RecyclerView): Adapter {
     rv.adapter = this
     val stickyDecoration = StickyRecyclerItemDecoration(this)
@@ -69,11 +72,17 @@ fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.attach(rv: 
     return this
 }
 
+/**
+ * 建立数据类与header布局文件之间的匹配关系
+ */
 fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader(kClass: KClass<*>, itemLayoutId: Int): Adapter {
     headerTypes.put(kClass, ItemType(kClass, itemLayoutId))
     return this
 }
 
+/**
+ * 监听header单击事件
+ */
 inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickInterceptor(crossinline block: (holder: RecyclerViewHolder, clickView: View, position: Int) -> Unit): Adapter {
     setInterceptor(object : HeaderClickInterceptor<RecyclerViewHolder> {
         override fun onHeaderClick(holder: RecyclerViewHolder, clickView: View, position: Int) {
@@ -83,6 +92,9 @@ inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.head
     return this
 }
 
+/**
+ * Header view holder创建时触发
+ */
 inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderCreateInterceptor(crossinline block: (holder: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : HeaderViewHolderCreateInterceptor<RecyclerViewHolder> {
         override fun onCreateHeaderViewHolder(holder: RecyclerViewHolder) {
@@ -92,6 +104,9 @@ inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.head
     return this
 }
 
+/**
+ * Header view holder绑定时触发
+ */
 inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderBindInterceptor(crossinline block: (position: Int, holder: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : HeaderViewHolderBindInterceptor<RecyclerViewHolder> {
         override fun onBindHeaderViewHolder(position: Int, holder: RecyclerViewHolder) {

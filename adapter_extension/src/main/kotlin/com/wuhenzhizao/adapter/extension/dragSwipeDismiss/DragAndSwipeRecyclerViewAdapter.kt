@@ -42,6 +42,9 @@ class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?
     }
 }
 
+/**
+ * 监听recyclerView item drag & drop 操作
+ */
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragInterceptor(crossinline block: (from: RecyclerViewHolder, target: RecyclerViewHolder) -> Unit): Adapter {
     setInterceptor(object : ItemDragInterceptor<RecyclerViewHolder> {
         override fun onItemDrag(from: RecyclerViewHolder, target: RecyclerViewHolder) {
@@ -51,6 +54,9 @@ inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.dragI
     return this
 }
 
+/**
+ * 监听recyclerView item swipe dismiss 操作
+ */
 inline fun <T : Any, Adapter : DragAndSwipeRecyclerViewAdapter<T>> Adapter.swipeInterceptor(crossinline block: (viewHolder: RecyclerViewHolder, direction: Int) -> Unit): Adapter {
     setInterceptor(object : ItemSwipeInterceptor<RecyclerViewHolder> {
         override fun onItemSwipe(holder: RecyclerViewHolder, direction: Int) {

@@ -21,6 +21,12 @@ class RecyclerViewHolder(override val convertView: View) : RecyclerView.ViewHold
         throw Exception("The specified view id is not found")
     }
 
+    /**
+     * 通过id获取view
+     * @param viewId View resource id
+     * @param block 闭包，闭包中的this变量为view
+     * @return T
+     */
     inline fun <T : View> get(viewId: Int, crossinline block: T.(view: T) -> Unit): T {
         val view = get<T>(viewId)
         view.apply {

@@ -11,6 +11,9 @@ import com.daimajia.swipe.interfaces.SwipeItemMangerInterface
 import java.util.*
 
 /**
+ * 自定义RecyclerView，支持Swipe Menu
+ * 采用与QQ类似的方案，滑动列表时，先关闭处于未关闭状态的菜单
+ *
  * Created by liufei on 2017/12/20.
  */
 class SwipeMenuRecyclerView : RecyclerView {
@@ -51,6 +54,9 @@ class SwipeMenuRecyclerView : RecyclerView {
         })
     }
 
+    /**
+     * 从布局中获取SwipeLayout
+     */
     private fun getSwipeLayoutView(itemView: View): SwipeLayout? {
         if (itemView is SwipeLayout) {
             return itemView
@@ -69,11 +75,12 @@ class SwipeMenuRecyclerView : RecyclerView {
     }
 
     private fun closeSwipeLayout() {
-        isClosing = true
         oldSwipeLayout!!.close(true, false)
-        isClosing = false
     }
 
+    /**
+     * 处理滑动冲突
+     */
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         val currentDispatchX = ev.x.toInt()
         val currentDispatchY = ev.y.toInt()
@@ -99,10 +106,12 @@ class SwipeMenuRecyclerView : RecyclerView {
         if (e.action == MotionEvent.ACTION_DOWN) {
             touchingPosition = getChildAdapterPosition(findChildViewUnder(e.x, e.y))
             if (touchingPosition != mOldTouchedPosition && isOldSwipeLayoutStatusOpen) {
+                // 关闭上一个SwipeLayout
                 closeSwipeLayout()
                 isIntercepted = true
             }
             if (isIntercepted) {
+                // 清空上一个SwipeLayout缓存
                 oldSwipeLayout = null
                 mOldTouchedPosition = INVALID_POSITION
             } else {
@@ -110,6 +119,7 @@ class SwipeMenuRecyclerView : RecyclerView {
                 if (vh != null) {
                     val swipeLayout = getSwipeLayoutView(vh.itemView)
                     if (swipeLayout != null) {
+                        // item被点击时，存储当前item对应的SwipeLayout
                         oldSwipeLayout = swipeLayout
                         mOldTouchedPosition = touchingPosition
                     }
@@ -117,14 +127,5 @@ class SwipeMenuRecyclerView : RecyclerView {
             }
         }
         return isIntercepted
-    }
-
-    override fun onTouchEvent(e: MotionEvent): Boolean {
-        when (e.action) {
-            MotionEvent.ACTION_MOVE -> if (isClosing) {
-                return true
-            }
-        }
-        return super.onTouchEvent(e)
     }
 }

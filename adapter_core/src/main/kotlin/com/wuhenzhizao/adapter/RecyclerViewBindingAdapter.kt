@@ -91,6 +91,10 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
     }
 }
 
+/**
+ * 建立数据类与布局文件之间的匹配关系
+ * @param variableId BR.xx
+ */
 fun <T : Any, Adapter : RecyclerViewBindingAdapter<T>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int, variableId: Int): Adapter {
     itemTypes.put(kClass, ItemType(kClass, itemLayoutId, variableId))
     return this

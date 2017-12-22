@@ -4,7 +4,7 @@ import android.view.View
 import com.wuhenzhizao.adapter.interfaces.Interceptor
 
 /**
- * Created by liufei on 2017/12/3.
+ * 监听Sticky header item view的创建
  */
 interface HeaderViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     /**
@@ -13,6 +13,9 @@ interface HeaderViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
     fun onCreateHeaderViewHolder(holder: VH)
 }
 
+/**
+ * 监听Sticky header item view的绑定
+ */
 interface HeaderViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param position
@@ -21,7 +24,9 @@ interface HeaderViewHolderBindInterceptor<in VH> : Interceptor<VH> {
     fun onBindHeaderViewHolder(position: Int, holder: VH)
 }
 
-
+/**
+ * 监听Sticky header item view的点击事件
+ */
 interface HeaderClickInterceptor<in VH> : Interceptor<VH> {
     /**
      * @param holder

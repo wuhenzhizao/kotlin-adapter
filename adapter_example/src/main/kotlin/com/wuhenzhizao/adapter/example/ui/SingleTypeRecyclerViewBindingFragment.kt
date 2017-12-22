@@ -14,6 +14,7 @@ import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.putItems
 import com.wuhenzhizao.titlebar.utils.ScreenUtils
+import kotlinx.coroutines.experimental.launch
 
 /**
  * Created by liufei on 2017/12/13.

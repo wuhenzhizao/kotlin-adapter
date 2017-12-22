@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView
 class RecyclerViewBindingHolder<out T : ViewDataBinding>(val binding: T) : RecyclerView.ViewHolder(binding.root) {
     var layoutId: Int = 0
 
+    /**
+     * 获取绑定的ViewDataBinding对象
+     */
     inline fun <reified VB> convert(): VB {
         return binding as VB
     }

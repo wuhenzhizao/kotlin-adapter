@@ -73,16 +73,26 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
     }
 }
 
+/**
+ * 绑定适配器
+ */
 fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>, RV : RecyclerView> Adapter.attach(rv: RV): Adapter {
     rv.adapter = this
     return this
 }
 
+/**
+ * 建立数据类与布局文件之间的匹配关系
+ */
 fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int): Adapter {
     itemTypes.put(kClass, ItemType(kClass, itemLayoutId))
     return this
 }
 
+
+/**
+ * 建立数据类与布局文件之间的匹配关系，当列表布局有多种样式时，可以用来代替Adapter.match()
+ */
 inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.layoutInterceptor(crossinline block: (position: Int) -> Int): Adapter {
     setInterceptor(object : LayoutInterceptor<VH> {
         override fun getLayoutId(position: Int): Int = block(position)
@@ -90,6 +100,9 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.layout
     return this
 }
 
+/**
+ * 监听item layout单击事件
+ */
 inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.clickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : ClickInterceptor<VH> {
         override fun onClick(position: Int, holder: VH) {
@@ -99,6 +112,9 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.clickI
     return this
 }
 
+/**
+ * 监听item layout长按事件
+ */
 inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.longClickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : LongClickInterceptor<VH> {
         override fun onLongClick(position: Int, holder: VH): Boolean {
@@ -109,6 +125,9 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.longCl
     return this
 }
 
+/**
+ * View Holder创建时触发
+ */
 inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.holderCreateInterceptor(crossinline block: (holder: VH) -> Unit): Adapter {
     setInterceptor(object : ViewHolderCreateInterceptor<VH> {
         override fun onCreateViewHolder(holder: VH) {
@@ -118,6 +137,9 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.holder
     return this
 }
 
+/**
+ * View Holder绑定时触发
+ */
 inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.holderBindInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
     setInterceptor(object : ViewHolderBindInterceptor<VH> {
         override fun onBindViewHolder(position: Int, holder: VH) {
