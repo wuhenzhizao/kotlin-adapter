@@ -184,7 +184,7 @@ holder.get<TextView>(R.id.tv_shopping_cart_delete, {
 
 ```kotlin
 holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> 
-        // 实现图谱加载代码
+        // 图片加载
     })
     .setText(R.id.name, product.name)
     .setTextColor(R.id.name, Color.WHITE)
