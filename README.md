@@ -3,8 +3,8 @@ Base adapter for recyclerView，absListView, support multiple item view type, st
 
 [Demo Download](https://www.pgyer.com/cCxm)
 
-特点(Features)
-=============
+Features
+========
 - 语法简单，代码优雅，不需要重写ViewHolder，通过链式调用实现适配器创建；
 - 支持多种样式，解决视图复用导致的页面错乱问题；
 - 提供一系列拦截器，满足大部分场景下的页面数据刷新；
@@ -45,7 +45,7 @@ Setup
  [ ![Download](https://api.bintray.com/packages/wuhenzhizao/maven/kotlin-adapter-core/images/download.svg) ](https://bintray.com/wuhenzhizao/maven/kotlin-adapter-core/_latestVersion) 
  [ ![Download](https://api.bintray.com/packages/wuhenzhizao/maven/kotlin-adapter-extension/images/download.svg) ](https://bintray.com/wuhenzhizao/maven/kotlin-adapter-extension/_latestVersion)
 
-```dsl
+```groovy
 dependencies {
     // 核心依赖
     compile 'com.wuhenzhizao:kotlin-adapter-core:1.0.0'
