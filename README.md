@@ -124,11 +124,41 @@ val adapter = RecyclerViewAdapter<Any>(context)
              }
         }
     }
-    .holderCreateInterceptor { holder ->
-        onViewHolderCreate(it)
-    }
+    .attach(binding.rv)
+```  
+
+- [DataBinding支持](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SingleTypeRecyclerViewBindingFragment.kt)  
+
+```xml
+<layout>
+    <data>
+        <variable
+            name="vm"
+            type="com.wuhenzhizao.adapter.example.bean.Content" />
+    </data>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/author_avatar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@id/author_avatar"
+        android:lines="1"
+        android:text="@{vm.authorName}"
+        android:textColor="#666666"
+        android:textSize="13dp" />
+</layout>
+```
+
+```kotlin
+val adapter = RecyclerViewBindingAdapter<Content>(context)
+    .match(Content::class, R.layout.item_single_type_recycler_view_binding)
     .holderBindInterceptor { position, viewHolder ->
-        onViewHolderBind(position, viewHolder)
+        val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
+        binding.vm = adapter.getItem(position)
     }
     .attach(binding.rv)
 ```
