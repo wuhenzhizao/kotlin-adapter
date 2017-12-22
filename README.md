@@ -262,7 +262,17 @@ val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
         showToast("position ${viewHolder.adapterPosition} dismissed")
     }
     .attach(binding.rv)
-```
+```  
+
+# TODO
+
+- [x] 支持RecyclerView expandable效果
+
+
+# Thanks
+- [AndroidSwipeLayout](https://github.com/daimajia/AndroidSwipeLayout)
+- [header-decor](https://github.com/edubarr/header-decor)  
+
 
 技术交流
 ======
