@@ -103,7 +103,7 @@ val adapter = RecyclerViewAdapter(context, list.provinceList)
     .longClickInterceptor { position, holder ->
         // Item最外层布局Long Click回调(可省略)
     }
-    .attach(binding.lv)  // 绑定适配器到ListView
+    .attach(binding.lv)  // 绑定适配器到RecyclerView
 ```  
 	
 - [使用LayoutInterceptor替代match](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/MultipleTypeRecyclerViewFragment.kt)   
