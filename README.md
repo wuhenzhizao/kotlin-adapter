@@ -264,11 +264,6 @@ val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
     .attach(binding.rv)
 ```  
 
-# TODO
-
-- [x] 支持RecyclerView expandable效果
-
-
 # Thanks
 - [AndroidSwipeLayout](https://github.com/daimajia/AndroidSwipeLayout)
 - [header-decor](https://github.com/edubarr/header-decor)  
