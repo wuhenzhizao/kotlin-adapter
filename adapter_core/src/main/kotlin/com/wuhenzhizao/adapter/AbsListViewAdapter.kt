@@ -43,9 +43,9 @@ abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter()
 
     override fun getItemViewType(position: Int): Int {
         val item = getItem(position)
-        val itemTypeChain = itemTypes[item::class]
-        if (itemTypeChain != null) {
-            return itemTypeChain.itemLayoutId
+        val itemType = itemTypes[item::class]
+        if (itemType != null) {
+            return itemType.itemLayoutId
         } else if (innerLayoutInterceptor != null) {
             return innerLayoutInterceptor!!.run {
                 getLayoutId(position)

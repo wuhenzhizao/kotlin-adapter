@@ -127,7 +127,19 @@ val adapter = RecyclerViewAdapter<Any>(context)
     .attach(binding.rv)
 ```  
 
-- [DataBinding支持](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SingleTypeRecyclerViewBindingFragment.kt)  
+- [DataBinding支持](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SingleTypeRecyclerViewBindingFragment.kt)
+  
+```kotlin
+data class Content(
+        @SerializedName("hasLiked") val hasLiked: Int = 0
+) : BaseObservable() {
+    fun getClickListener(): View.OnClickListener {
+        return View.OnClickListener {
+            // will be called when view clicked
+        }
+    }
+}
+```
 
 ```xml
 <layout>
@@ -136,30 +148,29 @@ val adapter = RecyclerViewAdapter<Any>(context)
             name="vm"
             type="com.wuhenzhizao.adapter.example.bean.Content" />
     </data>
-
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/author_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/author_avatar"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="3dp"
-        android:layout_toRightOf="@id/author_avatar"
-        android:lines="1"
-        android:text="@{vm.authorName}"
-        android:textColor="#666666"
-        android:textSize="13dp" />
+    ...
+    <Button
+    android:id="@+id/author_like"
+    android:layout_width="50dp"
+    android:layout_height="20dp"
+    android:layout_alignParentRight="true"
+    android:layout_alignTop="@id/author_avatar"
+    android:layout_marginRight="15dp"
+    android:background="@drawable/author_like_selector"
+    android:onClick="@{vm.clickListener}"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:selected="@{vm.hasLiked == 1}"
+    android:text="@{vm.hasLiked == 1 ? @string/author_liked: @string/author_unlike}"
+    android:textColor="@color/author_like_text_selector"
+    android:textSize="11dp" />
+    ...
 </layout>
 ```
 
 ```kotlin
 val adapter = RecyclerViewBindingAdapter<Content>(context)
-    .match(Content::class, R.layout.item_single_type_recycler_view_binding)
-    .holderBindInterceptor { position, viewHolder ->
-        val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
-        binding.vm = adapter.getItem(position)
-    }
+    .match(Content::class, R.layout.item_single_type_recycler_view_binding, BR.vm)
     .attach(binding.rv)
 ```
 
@@ -184,7 +195,7 @@ holder.get<TextView>(R.id.tv_shopping_cart_delete, {
 
 ```kotlin
 holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> 
-        // 图片加载
+        // 图片加载 
     })
     .setText(R.id.name, product.name)
     .setTextColor(R.id.name, Color.WHITE)

@@ -7,6 +7,7 @@ import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import com.wuhenzhizao.adapter.holder.RecyclerViewBindingHolder
+import kotlin.reflect.KClass
 
 /**
  * Created by liufei on 2017/12/4.
@@ -57,14 +58,23 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
         innerHolderBindInterceptor?.apply {
             onBindViewHolder(position, holder)
         }
-        holder.binding.executePendingBindings()
+        updateViewHolder(holder, position)
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
         if (isForDataBinding(payloads)) {
-            holder.binding.executePendingBindings()
+            updateViewHolder(holder, position)
         } else {
             super.onBindViewHolder(holder, position, payloads)
+        }
+    }
+
+    private fun updateViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int) {
+        val item = getItem(position)
+        val itemType = itemTypes[item::class]
+        if (itemType != null) {
+            holder.binding.setVariable(itemType.variableId, item)
+            holder.binding.executePendingBindings()
         }
     }
 
@@ -79,4 +89,9 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
         }
         return true
     }
+}
+
+fun <T : Any, Adapter : RecyclerViewBindingAdapter<T>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int, variableId: Int): Adapter {
+    itemTypes.put(kClass, ItemType(kClass, itemLayoutId, variableId))
+    return this
 }

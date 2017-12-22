@@ -44,6 +44,7 @@
             android:layout_alignTop="@id/author_avatar"
             android:layout_marginRight="15dp"
             android:background="@drawable/author_like_selector"
+            android:onClick="@{vm.clickListener}"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:selected="@{vm.hasLiked == 1}"

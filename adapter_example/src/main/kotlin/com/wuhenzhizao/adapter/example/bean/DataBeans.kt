@@ -1,6 +1,7 @@
 package com.wuhenzhizao.adapter.example.bean
 
 import android.databinding.BaseObservable
+import android.view.View
 import com.google.gson.annotations.SerializedName
 import com.wuhenzhizao.adapter.extension.stickyHeader.StickyBean
 
@@ -53,7 +54,13 @@ data class Content(
         @SerializedName("summary") val summary: String = "",
         @SerializedName("title") val title: String = "",
         @SerializedName("pageViewStr") val pageViewStr: String = ""
-) : BaseObservable()
+) : BaseObservable() {
+    fun getClickListener(): View.OnClickListener {
+        return View.OnClickListener {
+            // will be called when view clicked
+        }
+    }
+}
 
 
 data class BannerList(

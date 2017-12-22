@@ -78,15 +78,11 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
 
     private fun bindAdapter() {
         adapter = RecyclerViewBindingAdapter<Content>(context)
-                .match(Content::class, R.layout.item_single_type_recycler_view_binding)
+                .match(Content::class, R.layout.item_single_type_recycler_view_binding, BR.vm)
                 .holderCreateInterceptor {
                     // 演示在创建时，动态修改布局高度
                     val layoutParams = it.convert<ItemSingleTypeRecyclerViewBindingBinding>().imageUrl.layoutParams
                     layoutParams.height = (cardWidth * 2 / 3).toInt()
-                }
-                .holderBindInterceptor { position, viewHolder ->
-                    val binding: ItemSingleTypeRecyclerViewBindingBinding = viewHolder.convert()
-                    binding.vm = adapter.getItem(position)
                 }
                 .clickInterceptor { position, holder ->
                     val content = adapter.getItem(position)
