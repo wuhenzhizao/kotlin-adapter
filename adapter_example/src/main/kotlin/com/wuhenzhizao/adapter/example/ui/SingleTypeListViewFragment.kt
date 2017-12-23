@@ -8,6 +8,7 @@ import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Province
 import com.wuhenzhizao.adapter.example.bean.ProvinceList
 import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeListViewBinding
+import com.wuhenzhizao.adapter.extension.getItems
 
 /**
  * Created by liufei on 2017/12/13.
@@ -34,7 +35,7 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                 .clickListener { holder, position ->
                     val province = adapter.getItem(position)
                     showToast("position $position, ${province.name} clicked")
-                    adapter.items.forEachIndexed { index, province ->
+                    adapter.getItems().forEachIndexed { index, province ->
                         province.checked = (index == position)
                     }
                     adapter.notifyDataSetChanged()

@@ -5,9 +5,8 @@ Base adapter for recyclerView，absListView, support multiple item view type, st
 
 Features
 ========
-- 语法简单，代码优雅，不需要重写ViewHolder，通过链式调用实现适配器创建；
+- 代码优雅，无需重写Adapter, ViewHolder，通过链式调用实现适配器创建；
 - 支持多种样式，解决视图复用导致的页面错乱问题；
-- 提供一系列拦截器，满足大部分场景下的页面数据刷新；
 - 封装ViewHolder，简化View数据更新操作；
 - 提供一系列拓展函数对适配器数据进行操作，见[AdapterExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/AdapterExtensions.kt)；  
 - 支持DataBinding；
@@ -48,9 +47,9 @@ Setup
 ```groovy
 dependencies {
     // 核心依赖
-    compile 'com.wuhenzhizao:kotlin-adapter-core:1.0.0'
+    compile 'com.wuhenzhizao:kotlin-adapter-core:1.1.0'
     // 拓展效果依赖
-    compile 'com.wuhenzhizao:kotlin-adapter-extension:1.0.0'
+    compile 'com.wuhenzhizao:kotlin-adapter-extension:1.1.0'
 }
 ```
 
@@ -77,7 +76,7 @@ Usage(更多用法见example)
 ```kotlin
 val adapter = RecyclerViewAdapter<Product>(context)
     .match(Product::class, R.layout.item_single_type_recycler_view)
-    .holderBindInterceptor { position, viewHolder -> }
+    .holderBindInterceptor { holder, position -> }
     .attach(binding.rv)
 ```
 	
@@ -88,29 +87,29 @@ val adapter = RecyclerViewAdapter(context, list.provinceList)
     .match(Time::class, R.layout.item_multiple_type_list_view_time)
     .match(TopNews::class, R.layout.item_multiple_type_list_view_top)
     .match(NormalNews::class, R.layout.item_multiple_type_list_view_normal)
-    .holderCreateInterceptor { holder ->
+    .holderCreateListener { holder ->
         // 布局创建时回调，用于对布局的处理，比如设置宽高(可省略)
     }
-    .holderBindInterceptor { position, holder ->
+    .holderBindListener { holder, position ->
         // 布局绑定时回调，用于更新Item UI数据，也可以设置UI监听接口
         val province = adapter.getItem(position)
-        viewHolder.get<TextView>(R.id.tv, { text = province.name })
-        viewHolder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
+        holder.withView<TextView>(R.id.tv, { text = province.name })
+                .withView<CheckBox>(R.id.cb, { isChecked = province.checked })
     }
-    .clickInterceptor { position, holder ->
+    .clickListener { holder, position ->
         // Item最外层布局被点击回调(可省略)
     }
-    .longClickInterceptor { position, holder ->
+    .longClickListener { holder, position ->
         // Item最外层布局Long Click回调(可省略)
     }
     .attach(binding.lv)  // 绑定适配器到RecyclerView
 ```  
 	
-- [使用LayoutInterceptor替代match](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/MultipleTypeRecyclerViewFragment.kt)   
+- [使用LayoutFactory替代match](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/MultipleTypeRecyclerViewFragment.kt)   
   
 ```kotlin
 val adapter = RecyclerViewAdapter<Any>(context)
-    .layoutInterceptor {
+    .layoutFactory {
         when (adapter.getItem(it)) {
              is BannerList -> R.layout.item_multiple_type_recycler_view_banner
              is Promotion -> R.layout.item_multiple_type_recycler_view_promotion
@@ -130,9 +129,7 @@ val adapter = RecyclerViewAdapter<Any>(context)
 - [DataBinding支持](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SingleTypeRecyclerViewBindingFragment.kt)
   
 ```kotlin
-data class Content(
-        @SerializedName("hasLiked") val hasLiked: Int = 0
-) : BaseObservable() {
+data class Content(val hasLiked: Int = 0) : BaseObservable() {
     fun getClickListener(): View.OnClickListener {
         return View.OnClickListener {
             // will be called when view clicked
@@ -153,14 +150,8 @@ data class Content(
         android:id="@+id/author_like"
         android:layout_width="50dp"
         android:layout_height="20dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/author_avatar"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/author_like_selector"
-        android:onClick="@{vm.clickListener}"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
         android:selected="@{vm.hasLiked == 1}"
+        android:onClick="@{vm.clickListener}"
         android:text="@{vm.hasLiked == 1 ? @string/author_liked: @string/author_unlike}"
         android:textColor="@color/author_like_text_selector"
         android:textSize="11dp" />
@@ -174,37 +165,19 @@ val adapter = RecyclerViewBindingAdapter<Content>(context)
     .attach(binding.rv)
 ```
 
-**★ 更新Item数据(提供两种方式，任选一种即可)**  
+**★ 更新Item数据**  
 
-- 方式一：上下文环境为View + 链式调用形式
-
-```kotlin
-holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
-holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })  
-holder.get<TextView>(R.id.tv_shopping_cart_delete, {  
-    text = item.name
-    setOnClickListener {
-        showToast("${item.name} is deleted")
-        adapter.closeAllItems()
-        adapter.removeItemAt(position)
-    }  
-})
-```    
-
-- 方式二：上下文环境为ViewHolder + 链式调用形式([ViewHolderExtension.kt](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/ViewHolderExtension.kt): 部分方法来自[BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/src/main/java/com/chad/library/adapter/base/BaseViewHolder.java))  
+- 使用View的方法  
 
 ```kotlin
-holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> 
-        // 图片加载 
-    })
-    .setText(R.id.name, product.name)
-    .setTextColor(R.id.name, Color.WHITE)
-    .setText(R.id.price, "¥ ${product.price}")
-    .setGone(R.id.divider, position == adapter.itemCount - 1)
-    .setOnClickListener{R.id.tv_shopping_cart_delete, v -> 
-        showToast("The delete widget is clicked")
-    }
-```
+holder.withView<DraweeImageView>(R.id.left_iv, { 
+        GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
+    .withView<TextView>(R.id.left_name, { text = item.leftProduct.name })
+    .withView<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
+    .withView<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
+```  
+
+- 使用ViewHolder提供的方法(见[ViewHolderSupport](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/interfaces/ViewHolderSupport.kt))
 
 拓展
 ===  
@@ -214,11 +187,15 @@ holder.displayImageUrl(R.id.iv_sku_logo, { imageView ->
 val adapter = StickyRecyclerViewAdapter<Country>(context)
     .match(Country::class, R.layout.item_sticky_recycler_view)
     .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
-    .headerHolderBindInterceptor { position, holder ->
+    .holderBindListener { holder, position ->
         val country = adapter.getItem(position)
-        holder.get<TextView>(R.id.sticky_name, { text = country.letter })
+        holder.withView<TextView>(R.id.country_name, { text = country.countryName })
     }
-    .headerClickInterceptor { holder, clickView, position ->
+    .headerHolderBindListener { holder, position ->
+        val country = adapter.getItem(position)
+        holder.withView<TextView>(R.id.sticky_name, { text = country.letter })
+    }
+    .headerClickListener { holder, clickView, position ->
         showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
     }
     .attach(binding.rv)
@@ -227,21 +204,21 @@ val adapter = StickyRecyclerViewAdapter<Country>(context)
 **★ [创建支持SwipeMenu效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SwipeMenuRecyclerViewFragment.kt)**  
 
 ```kotlin
-val adapter = SwipeMenuRecyclerViewAdapter<StickyBean>(context)
+val SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context)
     .match(Notice::class, R.layout.item_shopping_cart_notice)
     .match(Divider::class, R.layout.item_shopping_cart_divider)
-    .match(ItemViewBean::class, R.layout.item_shopping_cart_sku)
-    .match(RecommendProducts::class, R.layout.item_shopping_cart_recommend)
-    .holderBindInterceptor { position, holder ->
-        holder.get<TextView>(R.id.tv_shopping_cart_delete, {
-            setOnClickListener {
-                showToast("${item.name} is deleted")
-                adapter.closeAllItems()
-                adapter.removeItemAt(position)
-            }
-        })
+    .holderBindListener { holder, position ->
+        holder.withView<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+            .withView<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
+            .withView<TextView>(R.id.tv_shopping_cart_delete, {
+                setOnClickListener {
+                    adapter.closeAllItems()
+                    showToast("${item.name} is deleted")
+                    adapter.removeItemAt(position)
+                }
+            })
     }
-    .attach(binding.rv)
+   
 ```  
 
 **★ [创建支持拖拽效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SwipeMenuRecyclerViewFragment.kt)**  
