@@ -76,7 +76,7 @@ class SwipeMenuRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) :
         if (!holder.has<SwipeLayout>(R.id.swipe_layout)) {
             return
         }
-        holder.get<SwipeLayout>(R.id.swipe_layout, {
+        holder.withView<SwipeLayout>(R.id.swipe_layout, {
             mItemManger.bindView(holder.itemView, position)
             addSwipeListener(object : SwipeLayout.SwipeListener {
                 override fun onOpen(layout: SwipeLayout) {

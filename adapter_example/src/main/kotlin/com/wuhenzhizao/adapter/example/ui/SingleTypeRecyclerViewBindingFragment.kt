@@ -14,7 +14,6 @@ import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.putItems
 import com.wuhenzhizao.titlebar.utils.ScreenUtils
-import kotlinx.coroutines.experimental.launch
 
 /**
  * Created by liufei on 2017/12/13.
@@ -80,12 +79,12 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
     private fun bindAdapter() {
         adapter = RecyclerViewBindingAdapter<Content>(context)
                 .match(Content::class, R.layout.item_single_type_recycler_view_binding, BR.vm)
-                .holderCreateInterceptor {
+                .holderCreateListener {
                     // 演示在创建时，动态修改布局高度
-                    val layoutParams = it.convert<ItemSingleTypeRecyclerViewBindingBinding>().imageUrl.layoutParams
+                    val layoutParams = it.getBinding<ItemSingleTypeRecyclerViewBindingBinding>().imageUrl.layoutParams
                     layoutParams.height = (cardWidth * 2 / 3).toInt()
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
                     val content = adapter.getItem(position)
                     showToast("position $position, ${content.title}")
                 }

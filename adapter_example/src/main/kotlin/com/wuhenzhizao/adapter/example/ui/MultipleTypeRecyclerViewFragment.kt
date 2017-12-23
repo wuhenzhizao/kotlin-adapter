@@ -110,20 +110,20 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
 //                .match(HeaderLineProductList::class, R.layout.item_multiple_type_recycler_view_headine_product)
 //                .match(Recommend::class, R.layout.item_multiple_type_recycler_view_recommend)
 //                .match(RecommendProducts::class, R.layout.item_multiple_type_recycler_view_recommend_item)
-//                .holderCreateInterceptor {
+//                .holderCreateListener {
 //                    onViewHolderCreate(it)
 //                }
-//                .holderBindInterceptor { position, viewHolder ->
-//                    onViewHolderBind(position, viewHolder)
+//                .holderBindListener { holder, position ->
+//                    onViewHolderBind(holder, position)
 //                }
-//                .clickInterceptor { position, holder ->
+//                .clickListener { holder, position ->
 //
 //                }
 //                .attach(binding.rv)
 
-        // replace multiple match() with layoutInterceptor
+        // replace multiple match() getView layoutFactory
         adapter = RecyclerViewAdapter<Any>(context)
-                .layoutInterceptor {
+                .layoutFactory {
                     when (adapter.getItem(it)) {
                         is BannerList -> R.layout.item_multiple_type_recycler_view_banner
                         is Promotion -> R.layout.item_multiple_type_recycler_view_promotion
@@ -137,20 +137,20 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
                         }
                     }
                 }
-                .holderCreateInterceptor {
+                .holderCreateListener {
                     onViewHolderCreate(it)
                 }
-                .holderBindInterceptor { position, viewHolder ->
-                    onViewHolderBind(position, viewHolder)
+                .holderBindListener { holder, position ->
+                    onViewHolderBind(holder, position)
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
 
                 }
                 .attach(binding.rv)
     }
 
     private fun onViewHolderCreate(holder: RecyclerViewHolder) {
-        when (holder.layoutId) {
+        when (holder.viewType) {
             R.layout.item_multiple_type_recycler_view_banner -> {
                 initBanner(holder)
             }
@@ -160,7 +160,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
         }
     }
 
-    private fun onViewHolderBind(position: Int, holder: RecyclerViewHolder) {
+    private fun onViewHolderBind(holder: RecyclerViewHolder, position: Int) {
         val item = adapter.getItem(position)
         when (item) {
             is BannerList -> {
@@ -188,7 +188,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun initBanner(holder: RecyclerViewHolder) {
-        holder.get<ConvenientBanner<Banner>>(R.id.banner, {
+        holder.withView<ConvenientBanner<Banner>>(R.id.banner, {
             setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL)
             setPageIndicator(intArrayOf(R.drawable.banner_indicator_unselected, R.drawable.banner_indicator_selected))
             setOnItemClickListener {
@@ -198,7 +198,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun bindBannerData(item: BannerList, holder: RecyclerViewHolder) {
-        holder.get<ConvenientBanner<Banner>>(R.id.banner, {
+        holder.withView<ConvenientBanner<Banner>>(R.id.banner, {
             setPages({ BannerViewHolder() }, item.banners)
             startTurning(3000)
             setcurrentitem(it.currentItem)
@@ -220,7 +220,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun initHeadLineProductList(holder: RecyclerViewHolder) {
-        val recyclerView = holder.get<RecyclerView>(R.id.rv, {
+        holder.withView<RecyclerView>(R.id.rv, {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             val decoration = LinearOffsetsItemDecoration(LinearOffsetsItemDecoration.LINEAR_OFFSETS_HORIZONTAL)
             decoration.setOffsetEdge(false)
@@ -231,13 +231,13 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
 
         productAdapter = RecyclerViewAdapter<Product>(context)
                 .match(Product::class, R.layout.item_multiple_type_recycler_view_headine_item)
-                .holderBindInterceptor { position, holder ->
+                .holderBindListener { holder, position ->
                     val product = productAdapter.getItem(position)
-                    holder.get<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, product.imageUrl) })
-                    holder.get<TextView>(R.id.name, { text = product.name })
-                    holder.get<TextView>(R.id.price, { text = "¥ ${product.price}" })
+                    holder.withView<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, product.imageUrl) })
+                            .withView<TextView>(R.id.name, { text = product.name })
+                            .withView<TextView>(R.id.price, { text = "¥ ${product.price}" })
                 }
-                .attach(recyclerView)
+                .attach(holder.getView<RecyclerView>(R.id.rv))
     }
 
     private fun bindHeadLineProductList(item: HeaderLineProductList, holder: RecyclerViewHolder) {
@@ -245,18 +245,18 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     }
 
     private fun bindRecommendProducts(item: RecommendProducts, holder: RecyclerViewHolder) {
-        holder.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
-        holder.get<TextView>(R.id.left_name, { text = item.leftProduct.name })
-        holder.get<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
-        holder.get<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
+        holder.withView<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
+                .withView<TextView>(R.id.left_name, { text = item.leftProduct.name })
+                .withView<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
+                .withView<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
         if (item.rightProduct != null) {
-            holder.get<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
-            holder.get<TextView>(R.id.right_name, { text = item.rightProduct.name })
-            holder.get<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
-            holder.get<TextView>(R.id.right_reviews, { text = item.rightProduct.reviews })
-            holder.get<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
+            holder.withView<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
+                    .withView<TextView>(R.id.right_name, { text = item.rightProduct.name })
+                    .withView<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
+                    .withView<TextView>(R.id.right_reviews, { text = item.rightProduct.reviews })
+                    .withView<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
         } else {
-            holder.get<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
+            holder.withView<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
         }
     }
 }

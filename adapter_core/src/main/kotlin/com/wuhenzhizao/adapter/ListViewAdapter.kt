@@ -16,11 +16,10 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val holder: ListViewHolder
-        val itemLayoutId = getItemViewType(position)
-        if (convertView == null || (convertView.tag as ListViewHolder).layoutId != itemLayoutId) {
-            val itemView = inflater.inflate(itemLayoutId, parent, false)
-            holder = ListViewHolder(itemView)
-            holder.layoutId = itemLayoutId
+        val viewType = getItemViewType(position)
+        if (convertView == null || (convertView.tag as ListViewHolder).viewType != viewType) {
+            val itemView = inflater.inflate(viewType, parent, false)
+            holder = ListViewHolder(itemView, viewType)
             onCreateViewHolder(holder)
         } else {
             holder = convertView.tag as ListViewHolder
@@ -31,23 +30,23 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
     }
 
     override fun onCreateViewHolder(vh: ListViewHolder) {
-        innerHolderCreateInterceptor?.apply {
+        innerHolderCreateListener?.apply {
             onCreateViewHolder(vh)
         }
     }
 
     override fun onBindViewHolder(position: Int, item: T, vh: ListViewHolder) {
-        innerHolderBindInterceptor?.apply {
-            onBindViewHolder(position, vh)
+        innerHolderBindListener?.apply {
+            onBindViewHolder(vh, position)
         }
-        innerClickInterceptor?.apply {
+        innerClickListener?.apply {
             vh.convertView.setOnClickListener {
-                onClick(position, vh)
+                onClick(vh, position)
             }
         }
-        innerLongClickInterceptor?.apply {
+        innerLongClickListener?.apply {
             vh.convertView.setOnLongClickListener {
-                onLongClick(position, vh)
+                onLongClick(vh, position)
             }
         }
     }

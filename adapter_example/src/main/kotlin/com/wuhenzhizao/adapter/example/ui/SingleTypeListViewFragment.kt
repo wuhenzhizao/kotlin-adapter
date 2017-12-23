@@ -23,15 +23,15 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
 
         adapter = ListViewAdapter(context, list.provinceList)
                 .match(Province::class, R.layout.item_single_type_list_view)
-                .holderCreateInterceptor {
+                .holderCreateListener {
 
                 }
-                .holderBindInterceptor { position, holder ->
+                .holderBindListener { holder, position ->
                     val province = adapter.getItem(position)
-                    holder.get<TextView>(R.id.tv, { text = province.name })
-                    holder.get<CheckBox>(R.id.cb, { isChecked = province.checked })
+                    holder.withView<TextView>(R.id.tv, { text = province.name })
+                            .withView<CheckBox>(R.id.cb, { isChecked = province.checked })
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
                     val province = adapter.getItem(position)
                     showToast("position $position, ${province.name} clicked")
                     adapter.items.forEachIndexed { index, province ->
@@ -39,7 +39,7 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                     }
                     adapter.notifyDataSetChanged()
                 }
-                .longClickInterceptor { position, holder ->
+                .longClickListener { holder, position ->
                     val province = adapter.getItem(position)
                     showToast("position $position, ${province.name} long clicked")
                 }

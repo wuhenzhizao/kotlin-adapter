@@ -79,25 +79,25 @@ class MultipleTypeListViewFragment : BaseFragment<FragmentMultipleTypeListViewBi
                 .match(Time::class, R.layout.item_multiple_type_list_view_time)
                 .match(TopNews::class, R.layout.item_multiple_type_list_view_top)
                 .match(NormalNews::class, R.layout.item_multiple_type_list_view_normal)
-                .holderCreateInterceptor {
+                .holderCreateListener {
 
                 }
-                .holderBindInterceptor { position, viewHolder ->
+                .holderBindListener { holder, position ->
                     val item = adapter.getItem(position)
                     when (item) {
                         is Time -> {
-                            viewHolder.get<TextView>(R.id.tv_time, { text = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(item.time) })
+                            holder.withView<TextView>(R.id.tv_time, { text = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(item.time) })
                         }
                         is TopNews -> {
-                            viewHolder.get<DraweeImageView>(R.id.iv_image, { GImageLoader.displayUrl(context, it, item.imageUrl) })
+                            holder.withView<DraweeImageView>(R.id.iv_image, { GImageLoader.displayUrl(context, it, item.imageUrl) })
                         }
                         is NormalNews -> {
-                            viewHolder.get<TextView>(R.id.tv_content, { text = item.content })
-                            viewHolder.get<DraweeImageView>(R.id.iv_image, { GImageLoader.displayUrl(context, it, item.imageUrl) })
+                            holder.withView<TextView>(R.id.tv_content, { text = item.content })
+                                    .withView<DraweeImageView>(R.id.iv_image, { GImageLoader.displayUrl(context, it, item.imageUrl) })
                         }
                     }
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
 
                 }
                 .attach(binding.lv)
