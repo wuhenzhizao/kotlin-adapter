@@ -68,7 +68,7 @@ class SwipeMenuStickyRecyclerViewAdapter<T : StickyBean>(context: Context, items
         bindSwipeListener(holder, position)
     }
 
-    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>?) {
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
         bindSwipeListener(holder, position)
     }

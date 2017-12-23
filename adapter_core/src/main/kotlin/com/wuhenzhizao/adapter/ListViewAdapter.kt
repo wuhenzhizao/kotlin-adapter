@@ -37,7 +37,7 @@ open class ListViewAdapter<T : Any>(context: Context, items: List<T>?) : AbsList
 
     override fun onBindViewHolder(position: Int, item: T, vh: ListViewHolder) {
         innerHolderBindListener?.apply {
-            onBindViewHolder(vh, position)
+            onBindViewHolder(vh, position, null)
         }
         innerClickListener?.apply {
             vh.convertView.setOnClickListener {

@@ -140,7 +140,7 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCrea
  */
 inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderBindListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
     setListener(object : ViewHolderBindListener<VH> {
-        override fun onBindViewHolder(holder: VH, position: Int) {
+        override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
             block(holder, position)
         }
     })

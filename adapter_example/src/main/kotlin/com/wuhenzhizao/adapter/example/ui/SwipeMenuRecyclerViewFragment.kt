@@ -177,7 +177,7 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                         .withView<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
                         .withView<TextView>(R.id.tv_sku_price, { text = item.priceShow })
                         .withView<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
-                        .withView<TextView>(R.id.tv_shopping_cart_delete, {
+                        .withView<RelativeLayout>(R.id.rl_delete, {
                             setOnClickListener {
                                 showToast("${item.name} is deleted")
                                 adapter.closeAllItems()
