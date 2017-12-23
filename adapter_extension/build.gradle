@@ -35,10 +35,6 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
-
 dependencies {
     api project(':adapter_core')
     api rootProject.ext.dependencies["swipe"]

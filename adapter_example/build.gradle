@@ -34,10 +34,6 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
-
 dependencies {
     api project(':adapter_core')
     api project(':adapter_extension')
