@@ -76,7 +76,6 @@ Usage(更多用法见example)
 ```kotlin
 val adapter = RecyclerViewAdapter<Product>(context)
     .match(Product::class, R.layout.item_single_type_recycler_view)
-    .holderBindInterceptor { holder, position -> }
     .attach(binding.rv)
 ```
 	
@@ -177,7 +176,19 @@ holder.withView<DraweeImageView>(R.id.left_iv, {
     .withView<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
 ```  
 
-- 使用ViewHolder提供的方法(见[ViewHolderSupport](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/interfaces/ViewHolderSupport.kt))
+- 使用ViewHolder提供的方法(见[ViewHolderSupport](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/interfaces/ViewHolderSupport.kt)): 部分方法来自[BaseRecyclerViewAdapterHelper](https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/library/src/main/java/com/chad/library/adapter/base/BaseViewHolder.java)
+
+```kotlin
+holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> })
+    .setText(R.id.tv_sku_name, item.name)
+    .setText(R.id.tv_sku_price, item.priceShow)
+    .setTextColor(R.id.tv_sku_price, Color.RED)
+    .setOnClickListener(R.id.rl_delete, {
+        adapter.closeAllItems()
+        showToast("${item.name} is deleted")
+        adapter.removeItemAt(position)
+    })
+```
 
 拓展
 ===  
@@ -232,10 +243,10 @@ recyclerView.dragDirection =                 // 设置拖拽方向
 
 val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
     .match(Topic::class, R.layout.item_drag_recycler_view)
-    .dragInterceptor { from, target ->
+    .dragListener { from, target ->
         showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
     }
-    .swipeInterceptor { viewHolder, direction ->
+    .swipeListener { holder, direction ->
         showToast("position ${viewHolder.adapterPosition} dismissed")
     }
     .attach(binding.rv)

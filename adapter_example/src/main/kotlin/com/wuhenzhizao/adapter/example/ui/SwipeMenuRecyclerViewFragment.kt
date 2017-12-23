@@ -1,5 +1,6 @@
 package com.wuhenzhizao.adapter.example.ui
 
+import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
@@ -15,9 +16,7 @@ import com.wuhenzhizao.adapter.example.bean.*
 import com.wuhenzhizao.adapter.example.databinding.FragmentSwipeMenuRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
-import com.wuhenzhizao.adapter.extension.addItems
-import com.wuhenzhizao.adapter.extension.putItems
-import com.wuhenzhizao.adapter.extension.removeItemAt
+import com.wuhenzhizao.adapter.extension.*
 import com.wuhenzhizao.adapter.extension.stickyHeader.*
 import com.wuhenzhizao.adapter.extension.swipeMenu.SwipeMenuStickyRecyclerViewAdapter
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
@@ -180,11 +179,21 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                         .withView<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
                         .withView<TextView>(R.id.tv_shopping_cart_delete, {
                             setOnClickListener {
-                                adapter.closeAllItems()
                                 showToast("${item.name} is deleted")
+                                adapter.closeAllItems()
                                 adapter.removeItemAt(position)
                             }
                         })
+
+//                holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> })
+//                        .setText(R.id.tv_sku_name, item.name)
+//                        .setText(R.id.tv_sku_price, item.priceShow)
+//                        .setTextColor(R.id.tv_sku_price, Color.RED)
+//                        .setOnClickListener(R.id.rl_delete, {
+//                            adapter.closeAllItems()
+//                            showToast("${item.name} is deleted")
+//                            adapter.removeItemAt(position)
+//                        })
             }
             is RecommendProducts -> {
                 holder.withView<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
