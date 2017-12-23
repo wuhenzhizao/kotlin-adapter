@@ -61,7 +61,7 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
-        if (isInvalidPayLoads(payloads)) {
+        if (isValidPayLoads(payloads)) {
             onBindViewHolder(holder, position)
         } else {
             super.onBindViewHolder(holder, position, payloads)
@@ -77,7 +77,7 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
         }
     }
 
-    private fun isInvalidPayLoads(payloads: List<Any>): Boolean {
+    private fun isValidPayLoads(payloads: List<Any>): Boolean {
         if (payloads.isEmpty()) {
             return false
         }

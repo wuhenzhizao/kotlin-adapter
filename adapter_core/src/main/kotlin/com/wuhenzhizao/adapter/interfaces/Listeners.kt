@@ -1,7 +1,5 @@
 package com.wuhenzhizao.adapter.interfaces
 
-import com.wuhenzhizao.adapter.ItemType
-
 
 interface Listener<in VH>
 
@@ -46,6 +44,7 @@ interface ViewHolderBindListener<in VH> : Listener<VH> {
     /**
      * @param holder
      * @param position adapter position
+     * @param payloads A non-null list of merged payloads. Can be empty list if requires full update
      */
-    fun onBindViewHolder(holder: VH, position: Int)
+    fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?)
 }

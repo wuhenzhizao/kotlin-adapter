@@ -13,15 +13,15 @@ import kotlin.reflect.KClass
  * Created by liufei on 2017/12/3.
  */
 abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(context: Context) : RecyclerView.Adapter<VH>() {
-    var recyclerView: RecyclerView? = null
-    val items: MutableList<T> = mutableListOf()
-    val itemTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
+    internal val items: MutableList<T> = mutableListOf()
+    internal val itemTypes: MutableMap<KClass<*>, ItemType> = mutableMapOf()
+    protected var recyclerView: RecyclerView? = null
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-    protected var innerLayoutFactory: LayoutFactory? = null
     protected var innerClickListener: ClickListener<VH>? = null
     protected var innerLongClickListener: LongClickListener<VH>? = null
     protected var innerHolderCreateListener: ViewHolderCreateListener<VH>? = null
     protected var innerHolderBindListener: ViewHolderBindListener<VH>? = null
+    private var innerLayoutFactory: LayoutFactory? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {
@@ -71,7 +71,7 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
         }
     }
 
-    fun setFactory(factory: Factory) {
+    open fun setFactory(factory: Factory) {
         when (factory) {
             is LayoutFactory -> innerLayoutFactory = factory
         }
@@ -98,7 +98,8 @@ fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.match(kClass:
 /**
  * 建立数据类与布局文件之间的匹配关系，当列表布局有多种样式时，可以用来代替Adapter.match()
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.layoutFactory(crossinline block: (position: Int) -> Int): Adapter {
+inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.layoutFactory(crossinline block: (position: Int) -> Int): Adapter {
     setFactory(object : LayoutFactory {
         override fun getLayoutId(position: Int): Int = block(position)
     })
@@ -108,7 +109,8 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.layout
 /**
  * 监听item layout单击事件
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.clickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
+inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.clickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
     setListener(object : ClickListener<VH> {
         override fun onClick(holder: VH, position: Int) {
             block(holder, position)
@@ -120,7 +122,8 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.clickL
 /**
  * 监听item layout长按事件
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.longClickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
+inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.longClickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
     setListener(object : LongClickListener<VH> {
         override fun onLongClick(holder: VH, position: Int): Boolean {
             block(holder, position)
@@ -133,7 +136,8 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.longCl
 /**
  * View Holder创建时触发
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.holderCreateListener(crossinline block: (holder: VH) -> Unit): Adapter {
+inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.holderCreateListener(crossinline block: (holder: VH) -> Unit): Adapter {
     setListener(object : ViewHolderCreateListener<VH> {
         override fun onCreateViewHolder(holder: VH) {
             block(holder)
@@ -145,10 +149,21 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.holder
 /**
  * View Holder绑定时触发
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.holderBindListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
+inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.holderBindListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
     setListener(object : ViewHolderBindListener<VH> {
-        override fun onBindViewHolder(holder: VH, position: Int) {
+        override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
             block(holder, position)
+        }
+    })
+    return this
+}
+
+inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.holderBindListener(crossinline block: (holder: VH, position: Int, payloads: MutableList<Any>?) -> Unit): Adapter {
+    setListener(object : ViewHolderBindListener<VH> {
+        override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
+            block(holder, position, payloads)
         }
     })
     return this

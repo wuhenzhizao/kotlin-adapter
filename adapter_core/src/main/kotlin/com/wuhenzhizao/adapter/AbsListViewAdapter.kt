@@ -14,14 +14,14 @@ import kotlin.reflect.KClass
  * Created by liufei on 2017/12/4.
  */
 abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter() {
-    val items: MutableList<T> = mutableListOf()
-    val itemTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
+    internal var items: MutableList<T> = mutableListOf()
+    internal var itemTypes: MutableMap<KClass<*>, ItemType> = mutableMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-    protected var innerLayoutFactory: LayoutFactory? = null
     protected var innerClickListener: ClickListener<VH>? = null
     protected var innerLongClickListener: LongClickListener<VH>? = null
     protected var innerHolderCreateListener: ViewHolderCreateListener<VH>? = null
     protected var innerHolderBindListener: ViewHolderBindListener<VH>? = null
+    private var innerLayoutFactory: LayoutFactory? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {

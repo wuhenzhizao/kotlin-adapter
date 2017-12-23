@@ -34,7 +34,23 @@ open class RecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : Abs
             }
         }
         innerHolderBindListener?.apply {
-            onBindViewHolder(holder, position)
+            onBindViewHolder(holder, position, null)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>) {
+        innerClickListener?.apply {
+            holder.itemView.setOnClickListener {
+                onClick(holder, position)
+            }
+        }
+        innerLongClickListener?.apply {
+            holder.itemView.setOnLongClickListener {
+                onLongClick(holder, position)
+            }
+        }
+        innerHolderBindListener?.apply {
+            onBindViewHolder(holder, position, payloads)
         }
     }
 }

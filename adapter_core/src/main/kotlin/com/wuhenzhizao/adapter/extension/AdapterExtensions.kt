@@ -10,6 +10,11 @@ import com.wuhenzhizao.adapter.AbsRecyclerViewAdapter
  ***************************************************************************/
 
 /**
+ * 获取所有数据
+ */
+fun <T : Any> AbsRecyclerViewAdapter<T, *>.getItems(): MutableList<T> = items
+
+/**
  * 获取指定位置的数据
  */
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.getItem(index: Int): T = items[index]
@@ -109,6 +114,11 @@ private fun <T : Any> AbsRecyclerViewAdapter<T, *>.checkDataValid(index: Int) {
  *                     AbsListViewAdapter属性拓展                           *
  *                                                                         *
  ***************************************************************************/
+
+/**
+ * 获取所有数据
+ */
+fun <T : Any> AbsListViewAdapter<T, *>.getItems(): MutableList<T> = items
 
 /**
  * 获取指定位置的数据

@@ -2,6 +2,7 @@ package com.wuhenzhizao.adapter.extension.dragSwipeDismiss
 
 import android.content.Context
 import com.wuhenzhizao.adapter.RecyclerViewAdapter
+import com.wuhenzhizao.adapter.extension.getItems
 import com.wuhenzhizao.adapter.extension.removeItemAt
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
 import com.wuhenzhizao.adapter.interfaces.Listener
@@ -19,7 +20,7 @@ class DragAndSwipeRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?
     override fun onItemDrag(from: RecyclerViewHolder, target: RecyclerViewHolder) {
         val fromPosition = from.adapterPosition
         val targetPosition = target.adapterPosition
-        Collections.swap(items, fromPosition, targetPosition)
+        Collections.swap(getItems(), fromPosition, targetPosition)
         super.notifyItemMoved(fromPosition, targetPosition)
         innerDragListener?.apply {
             onItemDrag(from, target)
