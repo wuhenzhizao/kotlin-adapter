@@ -167,7 +167,7 @@ val adapter = RecyclerViewBindingAdapter<Content>(context)
 
 **★ 更新Item数据**  
 
-- 使用View的方法  
+- 使用ViewHolder.withView()  
 
 ```kotlin
 holder.withView<DraweeImageView>(R.id.left_iv, { 
