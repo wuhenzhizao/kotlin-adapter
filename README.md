@@ -6,9 +6,10 @@ Base adapter for recyclerView，absListView, support multiple item view type, st
 Features
 ========
 - 代码优雅，无需重写Adapter, ViewHolder，通过链式调用实现适配器创建；
-- 支持多种样式，解决视图复用导致的页面错乱问题；
-- 封装ViewHolder，简化View数据更新操作；
-- 提供一系列拓展函数对适配器数据进行操作，见[AdapterExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/AdapterExtensions.kt)；  
+- 支持多种样式，解决视图复用导致的页面错乱问题；  
+- 提供一系列拦回调方法，满足大部分场景下的业务需求  
+- 未使用反射创建对象，有一定性能优势
+- 拓展ViewHolder，见[AdapterExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/AdapterExtensions.kt), [ViewHolderExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/ViewHolderExtensions.kt)，简化View数据更新操作；  
 - 支持DataBinding；
 - 封装了sticky header, swipe menu等效果，使用方便；
 
