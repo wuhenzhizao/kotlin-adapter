@@ -1,10 +1,8 @@
 package com.wuhenzhizao.adapter.example.ui
 
-import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -15,7 +13,8 @@ import com.wuhenzhizao.adapter.example.bean.ProductList
 import com.wuhenzhizao.adapter.example.databinding.FragmentSingleTypeRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
-import com.wuhenzhizao.adapter.extension.*
+import com.wuhenzhizao.adapter.extension.addItems
+import com.wuhenzhizao.adapter.extension.putItems
 
 /**
  * Created by liufei on 2017/12/13.
@@ -73,24 +72,24 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
     private fun bindAdapter() {
         adapter = RecyclerViewAdapter<Product>(context)
                 .match(Product::class, R.layout.item_single_type_recycler_view)
-                .holderCreateInterceptor {
+                .holderCreateListener {
 
                 }
-                .holderBindInterceptor { position, viewHolder ->
+                .holderBindListener { holder, position ->
                     val product = adapter.getItem(position)
-                    viewHolder.get<DraweeImageView>(R.id.image, { GImageLoader.displayUrl(context, this, product.imageUrl) })
-                    viewHolder.get<TextView>(R.id.name, { text = product.name })
-                    viewHolder.get<TextView>(R.id.price, { text = "¥ ${product.price}" })
-                    viewHolder.get<TextView>(R.id.reviews, { text = product.reviews })
-                    viewHolder.get<View>(R.id.divider, {
-                        visibility = if (position == adapter.itemCount - 1) {
-                            View.GONE
-                        } else {
-                            View.VISIBLE
-                        }
-                    })
+                    holder.withView<DraweeImageView>(R.id.image, { GImageLoader.displayUrl(context, this, product.imageUrl) })
+                            .withView<TextView>(R.id.name, { text = product.name })
+                            .withView<TextView>(R.id.price, { text = "¥ ${product.price}" })
+                            .withView<TextView>(R.id.reviews, { text = product.reviews })
+                            .withView<View>(R.id.divider, {
+                                visibility = if (position == adapter.itemCount - 1) {
+                                    View.GONE
+                                } else {
+                                    View.VISIBLE
+                                }
+                            })
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
                     val product = adapter.getItem(position)
                     showToast("position $position, ${product.name} clicked")
                 }

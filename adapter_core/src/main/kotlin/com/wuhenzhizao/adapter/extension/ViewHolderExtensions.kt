@@ -14,11 +14,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.widget.*
-import com.wuhenzhizao.adapter.interfaces.ViewHolderDelegate
+import com.wuhenzhizao.adapter.interfaces.ViewHolderSupport
 
 /**************************************************************************
  *                                                                        *
- *                ViewHolderDelegate接口的拓展函数                          *
  *                实现ViewHolder对视图操作的链式调用                          *
  *                                                                        *
  **************************************************************************/
@@ -28,16 +27,16 @@ import com.wuhenzhizao.adapter.interfaces.ViewHolderDelegate
  *
  * @param viewId The view id.
  * @param value  The text to put in the text view.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setText(@IdRes viewId: Int, value: CharSequence): T {
-    val view = get<TextView>(viewId)
+fun <T : ViewHolderSupport> T.setText(@IdRes viewId: Int, value: CharSequence): T {
+    val view = getView<TextView>(viewId)
     view.text = value
     return this
 }
 
-fun <T : ViewHolderDelegate> T.setText(@IdRes viewId: Int, @StringRes strId: Int): T {
-    val view = get<TextView>(viewId)
+fun <T : ViewHolderSupport> T.setText(@IdRes viewId: Int, @StringRes strId: Int): T {
+    val view = getView<TextView>(viewId)
     view.setText(strId)
     return this
 }
@@ -47,10 +46,10 @@ fun <T : ViewHolderDelegate> T.setText(@IdRes viewId: Int, @StringRes strId: Int
  *
  * @param viewId    The view id.
  * @param textColor The text color (not a resource id).
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setTextColor(@IdRes viewId: Int, @ColorInt textColor: Int): T {
-    val view = get<TextView>(viewId)
+fun <T : ViewHolderSupport> T.setTextColor(@IdRes viewId: Int, @ColorInt textColor: Int): T {
+    val view = getView<TextView>(viewId)
     view.setTextColor(textColor)
     return this
 }
@@ -60,10 +59,10 @@ fun <T : ViewHolderDelegate> T.setTextColor(@IdRes viewId: Int, @ColorInt textCo
  *
  * @param viewId     The view id.
  * @param imageResId The image resource id.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setImageResource(@IdRes viewId: Int, @DrawableRes imageResId: Int): T {
-    val view = get<ImageView>(viewId)
+fun <T : ViewHolderSupport> T.setImageResource(@IdRes viewId: Int, @DrawableRes imageResId: Int): T {
+    val view = getView<ImageView>(viewId)
     view.setImageResource(imageResId)
     return this
 }
@@ -73,10 +72,10 @@ fun <T : ViewHolderDelegate> T.setImageResource(@IdRes viewId: Int, @DrawableRes
  *
  * @param viewId     The view id.
  * @param imageResId The image resource id.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.displayImageUrl(@IdRes viewId: Int, block: (imageView: ImageView) -> Unit): T {
-    val view = get<ImageView>(viewId)
+fun <T : ViewHolderSupport> T.displayImageUrl(@IdRes viewId: Int, block: (imageView: ImageView) -> Unit): T {
+    val view = getView<ImageView>(viewId)
     block(view)
     return this
 }
@@ -86,10 +85,10 @@ fun <T : ViewHolderDelegate> T.displayImageUrl(@IdRes viewId: Int, block: (image
  *
  * @param viewId The view id.
  * @param color  A color, not a resource id.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setBackgroundColor(@IdRes viewId: Int, @ColorInt color: Int): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setBackgroundColor(@IdRes viewId: Int, @ColorInt color: Int): T {
+    val view = getView<View>(viewId)
     view.setBackgroundColor(color)
     return this
 }
@@ -99,10 +98,10 @@ fun <T : ViewHolderDelegate> T.setBackgroundColor(@IdRes viewId: Int, @ColorInt 
  *
  * @param viewId        The view id.
  * @param backgroundRes A resource to use as a background.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setBackgroundRes(@IdRes viewId: Int, @DrawableRes backgroundRes: Int): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setBackgroundRes(@IdRes viewId: Int, @DrawableRes backgroundRes: Int): T {
+    val view = getView<View>(viewId)
     view.setBackgroundResource(backgroundRes)
     return this
 }
@@ -112,10 +111,10 @@ fun <T : ViewHolderDelegate> T.setBackgroundRes(@IdRes viewId: Int, @DrawableRes
  *
  * @param viewId   The view id.
  * @param drawable The image drawable.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setImageDrawable(@IdRes viewId: Int, drawable: Drawable): T {
-    val view = get<ImageView>(viewId)
+fun <T : ViewHolderSupport> T.setImageDrawable(@IdRes viewId: Int, drawable: Drawable): T {
+    val view = getView<ImageView>(viewId)
     view.setImageDrawable(drawable)
     return this
 }
@@ -124,8 +123,8 @@ fun <T : ViewHolderDelegate> T.setImageDrawable(@IdRes viewId: Int, drawable: Dr
 /**
  * Add an action to set the image of an image view. Can be called multiple times.
  */
-fun <T : ViewHolderDelegate> T.setImageBitmap(@IdRes viewId: Int, bitmap: Bitmap): T {
-    val view = get<ImageView>(viewId)
+fun <T : ViewHolderSupport> T.setImageBitmap(@IdRes viewId: Int, bitmap: Bitmap): T {
+    val view = getView<ImageView>(viewId)
     view.setImageBitmap(bitmap)
     return this
 }
@@ -134,15 +133,15 @@ fun <T : ViewHolderDelegate> T.setImageBitmap(@IdRes viewId: Int, bitmap: Bitmap
  * Add an action to set the alpha of a view. Can be called multiple times.
  * Alpha between 0-1.
  */
-fun <T : ViewHolderDelegate> T.setAlpha(@IdRes viewId: Int, value: Float): T {
+fun <T : ViewHolderSupport> T.setAlpha(@IdRes viewId: Int, value: Float): T {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-        get<View>(viewId).alpha = value
+        getView<View>(viewId).alpha = value
     } else {
         // Pre-honeycomb hack to set Alpha value
         val alpha = AlphaAnimation(value, value)
         alpha.duration = 0
         alpha.fillAfter = true
-        get<View>(viewId).startAnimation(alpha)
+        getView<View>(viewId).startAnimation(alpha)
     }
     return this
 }
@@ -152,10 +151,10 @@ fun <T : ViewHolderDelegate> T.setAlpha(@IdRes viewId: Int, value: Float): T {
  *
  * @param viewId  The view id.
  * @param visible True for VISIBLE, false for GONE.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setGone(@IdRes viewId: Int, visible: Boolean): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setGone(@IdRes viewId: Int, visible: Boolean): T {
+    val view = getView<View>(viewId)
     view.visibility = if (visible) View.VISIBLE else View.GONE
     return this
 }
@@ -165,10 +164,10 @@ fun <T : ViewHolderDelegate> T.setGone(@IdRes viewId: Int, visible: Boolean): T 
  *
  * @param viewId  The view id.
  * @param visible True for VISIBLE, false for INVISIBLE.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setVisible(@IdRes viewId: Int, visible: Boolean): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setVisible(@IdRes viewId: Int, visible: Boolean): T {
+    val view = getView<View>(viewId)
     view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     return this
 }
@@ -177,10 +176,10 @@ fun <T : ViewHolderDelegate> T.setVisible(@IdRes viewId: Int, visible: Boolean):
  * Add links into a TextView.
  *
  * @param viewId The id of the TextView to linkify.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.linkify(@IdRes viewId: Int): T {
-    val view = get<TextView>(viewId)
+fun <T : ViewHolderSupport> T.linkify(@IdRes viewId: Int): T {
+    val view = getView<TextView>(viewId)
     Linkify.addLinks(view, Linkify.ALL)
     return this
 }
@@ -188,8 +187,8 @@ fun <T : ViewHolderDelegate> T.linkify(@IdRes viewId: Int): T {
 /**
  * Apply the typeface to the given viewId, and enable subpixel rendering.
  */
-fun <T : ViewHolderDelegate> T.setTypeface(@IdRes viewId: Int, typeface: Typeface): T {
-    val view = get<TextView>(viewId)
+fun <T : ViewHolderSupport> T.setTypeface(@IdRes viewId: Int, typeface: Typeface): T {
+    val view = getView<TextView>(viewId)
     view.typeface = typeface
     view.paintFlags = view.getPaintFlags() or Paint.SUBPIXEL_TEXT_FLAG
     return this
@@ -198,9 +197,9 @@ fun <T : ViewHolderDelegate> T.setTypeface(@IdRes viewId: Int, typeface: Typefac
 /**
  * Apply the typeface to all the given viewIds, and enable subpixel rendering.
  */
-fun <T : ViewHolderDelegate> T.setTypeface(typeface: Typeface, vararg viewIds: Int): T {
+fun <T : ViewHolderSupport> T.setTypeface(typeface: Typeface, vararg viewIds: Int): T {
     for (viewId in viewIds) {
-        val view = get<TextView>(viewId)
+        val view = getView<TextView>(viewId)
         view.typeface = typeface
         view.paintFlags = view.paintFlags or Paint.SUBPIXEL_TEXT_FLAG
     }
@@ -212,10 +211,10 @@ fun <T : ViewHolderDelegate> T.setTypeface(typeface: Typeface, vararg viewIds: I
  *
  * @param viewId   The view id.
  * @param progress The progress.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setProgress(@IdRes viewId: Int, progress: Int): T {
-    val view = get<ProgressBar>(viewId)
+fun <T : ViewHolderSupport> T.setProgress(@IdRes viewId: Int, progress: Int): T {
+    val view = getView<ProgressBar>(viewId)
     view.progress = progress
     return this
 }
@@ -226,10 +225,10 @@ fun <T : ViewHolderDelegate> T.setProgress(@IdRes viewId: Int, progress: Int): T
  * @param viewId   The view id.
  * @param progress The progress.
  * @param max      The max value of a ProgressBar.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setProgress(@IdRes viewId: Int, progress: Int, max: Int): T {
-    val view = get<ProgressBar>(viewId)
+fun <T : ViewHolderSupport> T.setProgress(@IdRes viewId: Int, progress: Int, max: Int): T {
+    val view = getView<ProgressBar>(viewId)
     view.max = max
     view.progress = progress
     return this
@@ -240,10 +239,10 @@ fun <T : ViewHolderDelegate> T.setProgress(@IdRes viewId: Int, progress: Int, ma
  *
  * @param viewId The view id.
  * @param max    The max value of a ProgressBar.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setMax(@IdRes viewId: Int, max: Int): T {
-    val view = get<ProgressBar>(viewId)
+fun <T : ViewHolderSupport> T.setMax(@IdRes viewId: Int, max: Int): T {
+    val view = getView<ProgressBar>(viewId)
     view.max = max
     return this
 }
@@ -253,10 +252,10 @@ fun <T : ViewHolderDelegate> T.setMax(@IdRes viewId: Int, max: Int): T {
  *
  * @param viewId The view id.
  * @param rating The rating.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setRating(@IdRes viewId: Int, rating: Float): T {
-    val view = get<RatingBar>(viewId)
+fun <T : ViewHolderSupport> T.setRating(@IdRes viewId: Int, rating: Float): T {
+    val view = getView<RatingBar>(viewId)
     view.rating = rating
     return this
 }
@@ -267,10 +266,10 @@ fun <T : ViewHolderDelegate> T.setRating(@IdRes viewId: Int, rating: Float): T {
  * @param viewId The view id.
  * @param rating The rating.
  * @param max    The range of the RatingBar to 0...max.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setRating(@IdRes viewId: Int, rating: Float, max: Int): T {
-    val view = get<RatingBar>(viewId)
+fun <T : ViewHolderSupport> T.setRating(@IdRes viewId: Int, rating: Float, max: Int): T {
+    val view = getView<RatingBar>(viewId)
     view.max = max
     view.rating = rating
     return this
@@ -281,10 +280,10 @@ fun <T : ViewHolderDelegate> T.setRating(@IdRes viewId: Int, rating: Float, max:
  *
  * @param viewId   The view id.
  * @param block
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setOnClickListener(@IdRes viewId: Int, block: (v: View) -> Unit): T {
-    val view = get<View>(viewId)
+inline fun <T : ViewHolderSupport> T.setOnClickListener(@IdRes viewId: Int, crossinline block: (v: View) -> Unit): T {
+    val view = getView<View>(viewId)
     view.setOnClickListener {
         block(it)
     }
@@ -297,10 +296,11 @@ fun <T : ViewHolderDelegate> T.setOnClickListener(@IdRes viewId: Int, block: (v:
  *
  * @param viewId   The view id.
  * @param block
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setOnTouchListener(@IdRes viewId: Int, block: (v: View, event: MotionEvent) -> Boolean): T {
-    val view = get<View>(viewId)
+inline fun <T : ViewHolderSupport> T.setOnTouchListener(
+        @IdRes viewId: Int, crossinline block: (v: View, event: MotionEvent) -> Boolean): T {
+    val view = getView<View>(viewId)
     view.setOnTouchListener { v, event ->
         return@setOnTouchListener block(v, event)
     }
@@ -312,10 +312,11 @@ fun <T : ViewHolderDelegate> T.setOnTouchListener(@IdRes viewId: Int, block: (v:
  *
  * @param viewId   The view id.
  * @param listener The on long click listener;
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setOnLongClickListener(@IdRes viewId: Int, block: (v: View) -> Boolean): T {
-    val view = get<View>(viewId)
+inline fun <T : ViewHolderSupport> T.setOnLongClickListener(
+        @IdRes viewId: Int, crossinline block: (v: View) -> Boolean): T {
+    val view = getView<View>(viewId)
     view.setOnLongClickListener {
         return@setOnLongClickListener block(it)
     }
@@ -327,10 +328,11 @@ fun <T : ViewHolderDelegate> T.setOnLongClickListener(@IdRes viewId: Int, block:
  *
  * @param viewId   The view id.
  * @param listener The checked change listener of compound button.
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setOnCheckedChangeListener(@IdRes viewId: Int, block: (buttonView: CompoundButton, isChecked: Boolean) -> Unit): T {
-    val view = get<CompoundButton>(viewId)
+inline fun <T : ViewHolderSupport> T.setOnCheckedChangeListener(
+        @IdRes viewId: Int, crossinline block: (buttonView: CompoundButton, isChecked: Boolean) -> Unit): T {
+    val view = getView<CompoundButton>(viewId)
     view.setOnCheckedChangeListener { buttonView, isChecked ->
         block(buttonView, isChecked)
     }
@@ -342,10 +344,10 @@ fun <T : ViewHolderDelegate> T.setOnCheckedChangeListener(@IdRes viewId: Int, bl
  *
  * @param viewId The view id.
  * @param tag    The tag;
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setTag(@IdRes viewId: Int, tag: Any): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setTag(@IdRes viewId: Int, tag: Any): T {
+    val view = getView<View>(viewId)
     view.tag = tag
     return this
 }
@@ -356,10 +358,10 @@ fun <T : ViewHolderDelegate> T.setTag(@IdRes viewId: Int, tag: Any): T {
  * @param viewId The view id.
  * @param key    The key of tag;
  * @param tag    The tag;
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setTag(@IdRes viewId: Int, key: Int, tag: Any): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setTag(@IdRes viewId: Int, key: Int, tag: Any): T {
+    val view = getView<View>(viewId)
     view.setTag(key, tag)
     return this
 }
@@ -369,10 +371,10 @@ fun <T : ViewHolderDelegate> T.setTag(@IdRes viewId: Int, key: Int, tag: Any): T
  *
  * @param viewId  The view id.
  * @param checked The checked status;
- * @return T: subclass of ViewHolderDelegate.
+ * @return T: subclass of ViewHolderSupport.
  */
-fun <T : ViewHolderDelegate> T.setChecked(@IdRes viewId: Int, checked: Boolean): T {
-    val view = get<View>(viewId)
+fun <T : ViewHolderSupport> T.setChecked(@IdRes viewId: Int, checked: Boolean): T {
+    val view = getView<View>(viewId)
     // View unable cast to Checkable
     if (view is Checkable) {
         (view as Checkable).isChecked = checked

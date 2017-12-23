@@ -1,12 +1,12 @@
 package com.wuhenzhizao.adapter.extension.stickyHeader
 
 import android.view.View
-import com.wuhenzhizao.adapter.interfaces.Interceptor
+import com.wuhenzhizao.adapter.interfaces.Listener
 
 /**
  * 监听Sticky header item view的创建
  */
-interface HeaderViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
+interface HeaderViewHolderCreateListener<in VH> : Listener<VH> {
     /**
      * @param holder
      */
@@ -16,18 +16,18 @@ interface HeaderViewHolderCreateInterceptor<in VH> : Interceptor<VH> {
 /**
  * 监听Sticky header item view的绑定
  */
-interface HeaderViewHolderBindInterceptor<in VH> : Interceptor<VH> {
+interface HeaderViewHolderBindListener<in VH> : Listener<VH> {
     /**
-     * @param position
      * @param holder
+     * @param position
      */
-    fun onBindHeaderViewHolder(position: Int, holder: VH)
+    fun onBindHeaderViewHolder(holder: VH, position: Int)
 }
 
 /**
  * 监听Sticky header item view的点击事件
  */
-interface HeaderClickInterceptor<in VH> : Interceptor<VH> {
+interface HeaderClickListener<in VH> : Listener<VH> {
     /**
      * @param holder
      * @param clickView

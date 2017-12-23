@@ -1,11 +1,11 @@
 package com.wuhenzhizao.adapter.extension.dragSwipeDismiss
 
-import com.wuhenzhizao.adapter.interfaces.Interceptor
+import com.wuhenzhizao.adapter.interfaces.Listener
 
 /**
  * Item 被拖拽时触发
  */
-interface ItemDragInterceptor<in VH> : Interceptor<VH> {
+interface ItemDragListener<in VH> : Listener<VH> {
     /**
      * @param from 开始位置的ViewHolder
      * @param target 结束位置的ViewHolder
@@ -16,7 +16,7 @@ interface ItemDragInterceptor<in VH> : Interceptor<VH> {
 /**
  * Item 滑动时触发
  */
-interface ItemSwipeInterceptor<in VH> : Interceptor<VH> {
+interface ItemSwipeListener<in VH> : Listener<VH> {
     /**
      * @param holder
      * @param direction : 方向{ @link ItemTouchHelper.Left...}

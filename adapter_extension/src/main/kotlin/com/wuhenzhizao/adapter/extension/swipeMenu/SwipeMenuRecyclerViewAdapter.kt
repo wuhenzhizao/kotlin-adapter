@@ -67,7 +67,7 @@ class SwipeMenuRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) :
         bindSwipeListener(holder, position)
     }
 
-    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>?) {
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>) {
         super.onBindViewHolder(holder, position, payloads)
         bindSwipeListener(holder, position)
     }
@@ -76,7 +76,7 @@ class SwipeMenuRecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) :
         if (!holder.has<SwipeLayout>(R.id.swipe_layout)) {
             return
         }
-        holder.get<SwipeLayout>(R.id.swipe_layout, {
+        holder.withView<SwipeLayout>(R.id.swipe_layout, {
             mItemManger.bindView(holder.itemView, position)
             addSwipeListener(object : SwipeLayout.SwipeListener {
                 override fun onOpen(layout: SwipeLayout) {

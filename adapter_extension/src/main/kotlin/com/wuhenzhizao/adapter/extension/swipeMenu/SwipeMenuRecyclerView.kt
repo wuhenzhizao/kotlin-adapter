@@ -19,7 +19,6 @@ import java.util.*
 class SwipeMenuRecyclerView : RecyclerView {
     private val INVALID_POSITION = -1
     private var oldSwipeLayout: SwipeLayout? = null
-    private var isClosing = false
     private var mOldTouchedPosition = INVALID_POSITION
 
     private var lastDispatchX = 0

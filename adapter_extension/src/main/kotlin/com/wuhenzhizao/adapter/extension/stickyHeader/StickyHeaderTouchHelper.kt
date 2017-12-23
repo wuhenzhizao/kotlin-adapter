@@ -49,7 +49,7 @@ class StickyHeaderTouchHelper(
                 performClick(clickView!!, e)
                 val adapter = recyclerView.adapter as StickyRecyclerViewAdapter<*>
                 val position = viewHolder.itemView.getTag(R.id.sticky_position) as Int
-                adapter.innerHeaderClickInterceptor?.apply {
+                adapter.innerHeaderClickListener?.apply {
                     onHeaderClick(viewHolder, clickView, position)
                 }
                 recyclerView.playSoundEffect(SoundEffectConstants.CLICK)
