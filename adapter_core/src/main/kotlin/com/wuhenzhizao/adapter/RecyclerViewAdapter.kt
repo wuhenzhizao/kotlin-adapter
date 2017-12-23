@@ -15,27 +15,42 @@ open class RecyclerViewAdapter<T : Any>(context: Context, items: List<T>?) : Abs
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewHolder {
         val itemView = inflater.inflate(viewType, parent, false)
-        val holder = RecyclerViewHolder(itemView)
-        holder.layoutId = viewType
-        innerHolderCreateInterceptor?.apply {
+        val holder = RecyclerViewHolder(itemView, viewType)
+        innerHolderCreateListener?.apply {
             onCreateViewHolder(holder)
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
-        innerClickInterceptor?.apply {
+        innerClickListener?.apply {
             holder.itemView.setOnClickListener {
-                onClick(position, holder)
+                onClick(holder, position)
             }
         }
-        innerLongClickInterceptor?.apply {
+        innerLongClickListener?.apply {
             holder.itemView.setOnLongClickListener {
-                onLongClick(position, holder)
+                onLongClick(holder, position)
             }
         }
-        innerHolderBindInterceptor?.apply {
-            onBindViewHolder(position, holder)
+        innerHolderBindListener?.apply {
+            onBindViewHolder(holder, position, null)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int, payloads: MutableList<Any>) {
+        innerClickListener?.apply {
+            holder.itemView.setOnClickListener {
+                onClick(holder, position)
+            }
+        }
+        innerLongClickListener?.apply {
+            holder.itemView.setOnLongClickListener {
+                onLongClick(holder, position)
+            }
+        }
+        innerHolderBindListener?.apply {
+            onBindViewHolder(holder, position, payloads)
         }
     }
 }

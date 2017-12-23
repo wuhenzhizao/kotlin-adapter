@@ -3,7 +3,6 @@ package com.wuhenzhizao.adapter.example.ui
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
@@ -48,15 +47,15 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
     private fun bindAdapter() {
         adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
                 .match(Topic::class, R.layout.item_swipe_dismiss_recycler_view)
-                .holderCreateInterceptor {
+                .holderCreateListener {
 
                 }
-                .holderBindInterceptor { position, viewHolder ->
+                .holderBindListener { holder, position ->
                     val topic = adapter.getItem(position)
-                    viewHolder.get<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.bigImg) })
-                    viewHolder.get<TextView>(R.id.name, { text = topic.title })
+                    holder.withView<DraweeImageView>(R.id.iv, { GImageLoader.displayUrl(context, this, topic.bigImg) })
+                            .withView<TextView>(R.id.name, { text = topic.title })
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
                     val topic = adapter.getItem(position)
                     showToast("position $position, ${topic.title} clicked")
                 }

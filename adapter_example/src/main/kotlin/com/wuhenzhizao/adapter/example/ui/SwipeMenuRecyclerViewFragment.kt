@@ -1,5 +1,6 @@
 package com.wuhenzhizao.adapter.example.ui
 
+import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
@@ -9,20 +10,18 @@ import android.widget.TextView
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
-import com.wuhenzhizao.adapter.clickInterceptor
+import com.wuhenzhizao.adapter.clickListener
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.*
 import com.wuhenzhizao.adapter.example.databinding.FragmentSwipeMenuRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
-import com.wuhenzhizao.adapter.extension.addItems
-import com.wuhenzhizao.adapter.extension.putItems
-import com.wuhenzhizao.adapter.extension.removeItemAt
+import com.wuhenzhizao.adapter.extension.*
 import com.wuhenzhizao.adapter.extension.stickyHeader.*
 import com.wuhenzhizao.adapter.extension.swipeMenu.SwipeMenuStickyRecyclerViewAdapter
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
-import com.wuhenzhizao.adapter.holderBindInterceptor
 import com.wuhenzhizao.adapter.match
+import com.wuhenzhizao.adapter.holderBindListener
 
 /**
  * Created by liufei on 2017/12/18.
@@ -144,21 +143,21 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
                 .match(RecommendProducts::class, R.layout.item_shopping_cart_recommend)
                 .matchHeader(ItemViewBean::class, R.layout.item_shopping_cart_shop)
                 .matchHeader(RecommendProducts::class, R.layout.item_shopping_cart_recommend_header)
-                .holderBindInterceptor { position, holder ->
+                .holderBindListener { holder, position ->
                     onHolderBind(position, holder)
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
 
                 }
-                .headerHolderBindInterceptor { position, holder ->
+                .headerHolderBindListener { holder, position ->
                     val item = adapter.getItem(position)
                     when (item) {
                         is ItemViewBean -> {
-                            holder.get<TextView>(R.id.tv_shop_name, { text = item.shop.shopName })
+                            holder.withView<TextView>(R.id.tv_shop_name, { text = item.shop.shopName })
                         }
                     }
                 }
-                .headerClickInterceptor { holder, clickView, position ->
+                .headerClickListener { holder, clickView, position ->
                     showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
                 }
                 .attach(binding.rv)
@@ -168,37 +167,47 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
         val item = adapter.getItem(position)
         when (item) {
             is Notice -> {
-                holder.get<DraweeImageView>(R.id.iv_notice, { GImageLoader.displayUrl(context, this, item.imgUrl) })
-                holder.get<TextView>(R.id.tv_notice, { text = item.text })
+                holder.withView<DraweeImageView>(R.id.iv_notice, { GImageLoader.displayUrl(context, this, item.imgUrl) })
+                        .withView<TextView>(R.id.tv_notice, { text = item.text })
             }
             is ItemViewBean -> {
-                holder.get<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
-                holder.get<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })
-                holder.get<TextView>(R.id.tv_sku_name, { text = item.name })
-                holder.get<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
-                holder.get<TextView>(R.id.tv_sku_price, { text = item.priceShow })
-                holder.get<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
-                holder.get<TextView>(R.id.tv_shopping_cart_delete, {
-                    setOnClickListener {
-                        adapter.closeAllItems()
-                        showToast("${item.name} is deleted")
-                        adapter.removeItemAt(position)
-                    }
-                })
+                holder.withView<DraweeImageView>(R.id.iv_sku_logo, { GImageLoader.displayUrl(context, it, item.imgUrl) })
+                        .withView<ImageButton>(R.id.ib_select, { isSelected = item.checkType != 0 })
+                        .withView<TextView>(R.id.tv_sku_name, { text = item.name })
+                        .withView<TextView>(R.id.tv_sku_attributes, { text = "${item.propertyTags.a}, ${item.propertyTags.b}" })
+                        .withView<TextView>(R.id.tv_sku_price, { text = item.priceShow })
+                        .withView<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
+                        .withView<RelativeLayout>(R.id.rl_delete, {
+                            setOnClickListener {
+                                showToast("${item.name} is deleted")
+                                adapter.closeAllItems()
+                                adapter.removeItemAt(position)
+                            }
+                        })
+
+//                holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> })
+//                        .setText(R.id.tv_sku_name, item.name)
+//                        .setText(R.id.tv_sku_price, item.priceShow)
+//                        .setTextColor(R.id.tv_sku_price, Color.RED)
+//                        .setOnClickListener(R.id.rl_delete, {
+//                            adapter.closeAllItems()
+//                            showToast("${item.name} is deleted")
+//                            adapter.removeItemAt(position)
+//                        })
             }
             is RecommendProducts -> {
-                holder.get<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
-                holder.get<TextView>(R.id.left_name, { text = item.leftProduct.name })
-                holder.get<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
-                holder.get<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
+                holder.withView<DraweeImageView>(R.id.left_iv, { GImageLoader.displayUrl(context, this, item.leftProduct.imageUrl) })
+                        .withView<TextView>(R.id.left_name, { text = item.leftProduct.name })
+                        .withView<TextView>(R.id.left_price, { text = "¥ ${item.leftProduct.price}" })
+                        .withView<TextView>(R.id.left_reviews, { text = item.leftProduct.reviews })
 
                 if (item.rightProduct != null) {
-                    holder.get<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
-                    holder.get<TextView>(R.id.right_name, { text = item.rightProduct.name })
-                    holder.get<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
-                    holder.get<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
+                    holder.withView<DraweeImageView>(R.id.right_iv, { GImageLoader.displayUrl(context, this, item.rightProduct.imageUrl) })
+                            .withView<TextView>(R.id.right_name, { text = item.rightProduct.name })
+                            .withView<TextView>(R.id.right_price, { text = "¥ ${item.rightProduct.price}" })
+                            .withView<RelativeLayout>(R.id.right_view, { visibility = View.VISIBLE })
                 } else {
-                    holder.get<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
+                    holder.withView<RelativeLayout>(R.id.right_view, { visibility = View.INVISIBLE })
                 }
             }
         }

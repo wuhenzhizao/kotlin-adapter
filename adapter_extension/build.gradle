@@ -53,7 +53,7 @@ publish {
     userOrg = 'wuhenzhizao'
     groupId = 'com.wuhenzhizao'
     artifactId = 'kotlin-adapter-extension'
-    publishVersion = '1.0.0'
+    publishVersion = '1.1.0'
     desc = 'Base adapter for RecyclerView, support multiple item view type, Sticky , Drag, Swipe Dismiss'
     website = 'https://github.com/wuhenzhizao/kotlin-adapter'
 }

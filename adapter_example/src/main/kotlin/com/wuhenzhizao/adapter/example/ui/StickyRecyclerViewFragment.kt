@@ -2,9 +2,8 @@ package com.wuhenzhizao.adapter.example.ui
 
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.TextView
-import android.widget.Toast
 import com.google.gson.Gson
-import com.wuhenzhizao.adapter.clickInterceptor
+import com.wuhenzhizao.adapter.clickListener
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Country
 import com.wuhenzhizao.adapter.example.bean.CountryList
@@ -12,9 +11,9 @@ import com.wuhenzhizao.adapter.example.databinding.FragmentStickyRecyclerViewBin
 import com.wuhenzhizao.adapter.example.decoration.LinearDividerItemDecoration
 import com.wuhenzhizao.adapter.extension.putItems
 import com.wuhenzhizao.adapter.extension.stickyHeader.*
-import com.wuhenzhizao.adapter.holderBindInterceptor
-import com.wuhenzhizao.adapter.holderCreateInterceptor
 import com.wuhenzhizao.adapter.match
+import com.wuhenzhizao.adapter.holderBindListener
+import com.wuhenzhizao.adapter.holderCreateListener
 import java.util.*
 
 
@@ -70,26 +69,26 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
         adapter = StickyRecyclerViewAdapter<Country>(context)
                 .match(Country::class, R.layout.item_sticky_recycler_view)
                 .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
-                .holderCreateInterceptor {
+                .holderCreateListener {
 
                 }
-                .holderBindInterceptor { position, holder ->
+                .holderBindListener { holder, position ->
                     val country = adapter.getItem(position)
-                    holder.get<TextView>(R.id.country_name, {
+                    holder.withView<TextView>(R.id.country_name, {
                         text = country.countryName
                     })
 
                 }
-                .headerHolderBindInterceptor { position, holder ->
+                .headerHolderBindListener { holder, position ->
                     val country = adapter.getItem(position)
-                    holder.get<TextView>(R.id.sticky_name, {
+                    holder.withView<TextView>(R.id.sticky_name, {
                         text = country.letter
                     })
                 }
-                .headerClickInterceptor { holder, clickView, position ->
+                .headerClickListener { holder, clickView, position ->
                     showToast("sticky header clicked, headerId = ${adapter.getHeaderId(position)}")
                 }
-                .clickInterceptor { position, holder ->
+                .clickListener { holder, position ->
                     val country = adapter.getItem(position)
                     showToast("position $position, ${country.countryName} clicked")
                 }

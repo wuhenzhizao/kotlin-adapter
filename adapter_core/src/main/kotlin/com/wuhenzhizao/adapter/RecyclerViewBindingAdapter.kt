@@ -22,7 +22,6 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerViewBindingHolder<ViewDataBinding> {
         val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
         val holder = RecyclerViewBindingHolder(binding)
-        holder.layoutId = viewType
         binding.addOnRebindCallback(object : OnRebindCallback<ViewDataBinding>() {
             override fun onPreBind(binding: ViewDataBinding): Boolean = let {
                 recyclerView!!.isComputingLayout
@@ -38,32 +37,32 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
                 }
             }
         })
-        innerHolderCreateInterceptor?.apply {
+        innerHolderCreateListener?.apply {
             onCreateViewHolder(holder)
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int) {
-        innerClickInterceptor?.apply {
+        innerClickListener?.apply {
             holder.itemView.setOnClickListener {
-                onClick(position, holder)
+                onClick(holder, position)
             }
         }
-        innerLongClickInterceptor?.apply {
+        innerLongClickListener?.apply {
             holder.itemView.setOnLongClickListener {
-                onLongClick(position, holder)
+                onLongClick(holder, position)
             }
         }
-        innerHolderBindInterceptor?.apply {
-            onBindViewHolder(position, holder)
+        innerHolderBindListener?.apply {
+            onBindViewHolder(holder, position)
         }
         updateViewHolder(holder, position)
     }
 
     override fun onBindViewHolder(holder: RecyclerViewBindingHolder<ViewDataBinding>, position: Int, payloads: MutableList<Any>) {
-        if (isForDataBinding(payloads)) {
-            updateViewHolder(holder, position)
+        if (isValidPayLoads(payloads)) {
+            onBindViewHolder(holder, position)
         } else {
             super.onBindViewHolder(holder, position, payloads)
         }
@@ -78,7 +77,7 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
         }
     }
 
-    private fun isForDataBinding(payloads: List<Any>): Boolean {
+    private fun isValidPayLoads(payloads: List<Any>): Boolean {
         if (payloads.isEmpty()) {
             return false
         }
@@ -96,6 +95,6 @@ open class RecyclerViewBindingAdapter<T : Any>(context: Context, items: List<T>?
  * @param variableId BR.xx
  */
 fun <T : Any, Adapter : RecyclerViewBindingAdapter<T>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int, variableId: Int): Adapter {
-    itemTypes.put(kClass, ItemType(kClass, itemLayoutId, variableId))
+    itemTypes.put(kClass, ItemType(itemLayoutId, variableId))
     return this
 }

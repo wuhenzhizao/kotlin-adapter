@@ -14,14 +14,14 @@ import kotlin.reflect.KClass
  * Created by liufei on 2017/12/4.
  */
 abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter() {
-    val items: MutableList<T> = mutableListOf()
-    val itemTypes: MutableMap<KClass<*>, ItemType> = hashMapOf()
+    internal var items: MutableList<T> = mutableListOf()
+    internal var itemTypes: MutableMap<KClass<*>, ItemType> = mutableMapOf()
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-    protected var innerLayoutInterceptor: LayoutInterceptor<VH>? = null
-    protected var innerClickInterceptor: ClickInterceptor<VH>? = null
-    protected var innerLongClickInterceptor: LongClickInterceptor<VH>? = null
-    protected var innerHolderCreateInterceptor: ViewHolderCreateInterceptor<VH>? = null
-    protected var innerHolderBindInterceptor: ViewHolderBindInterceptor<VH>? = null
+    protected var innerClickListener: ClickListener<VH>? = null
+    protected var innerLongClickListener: LongClickListener<VH>? = null
+    protected var innerHolderCreateListener: ViewHolderCreateListener<VH>? = null
+    protected var innerHolderBindListener: ViewHolderBindListener<VH>? = null
+    private var innerLayoutFactory: LayoutFactory? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {
@@ -48,21 +48,26 @@ abstract class AbsListViewAdapter<T : Any, VH>(context: Context) : BaseAdapter()
         val itemType = itemTypes[item::class]
         if (itemType != null) {
             return itemType.itemLayoutId
-        } else if (innerLayoutInterceptor != null) {
-            return innerLayoutInterceptor!!.run {
+        } else if (innerLayoutFactory != null) {
+            return innerLayoutFactory!!.run {
                 getLayoutId(position)
             }
         }
         throw RuntimeException("Could not found the specified class")
     }
 
-    fun setInterceptor(interceptor: Interceptor<VH>) {
-        when (interceptor) {
-            is LayoutInterceptor<VH> -> innerLayoutInterceptor = interceptor
-            is ViewHolderCreateInterceptor<VH> -> innerHolderCreateInterceptor = interceptor
-            is ViewHolderBindInterceptor<VH> -> innerHolderBindInterceptor = interceptor
-            is ClickInterceptor<VH> -> innerClickInterceptor = interceptor
-            is LongClickInterceptor<VH> -> innerLongClickInterceptor = interceptor
+    fun setListener(listener: Listener<VH>) {
+        when (listener) {
+            is ViewHolderCreateListener<VH> -> innerHolderCreateListener = listener
+            is ViewHolderBindListener<VH> -> innerHolderBindListener = listener
+            is ClickListener<VH> -> innerClickListener = listener
+            is LongClickListener<VH> -> innerLongClickListener = listener
+        }
+    }
+
+    fun setFactory(factory: Factory) {
+        when (factory) {
+            is LayoutFactory -> innerLayoutFactory = factory
         }
     }
 }
@@ -79,15 +84,15 @@ fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.attach(absListVie
  * 建立数据类与布局文件之间的匹配关系
  */
 fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.match(kClass: KClass<*>, itemLayoutId: Int): Adapter {
-    itemTypes.put(kClass, ItemType(kClass, itemLayoutId))
+    itemTypes.put(kClass, ItemType(itemLayoutId))
     return this
 }
 
 /**
  * 建立数据类与布局文件之间的匹配关系，当列表布局有多种样式时，可以用来代替Adapter.match()
  */
-inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.layoutInterceptor(crossinline block: (position: Int) -> Int): Adapter {
-    setInterceptor(object : LayoutInterceptor<VH> {
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.layoutFactory(crossinline block: (position: Int) -> Int): Adapter {
+    setFactory(object : LayoutFactory {
         override fun getLayoutId(position: Int): Int = block(position)
     })
     return this
@@ -96,10 +101,10 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.layoutInte
 /**
  * 监听item layout单击事件
  */
-inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.clickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
-    setInterceptor(object : ClickInterceptor<VH> {
-        override fun onClick(position: Int, holder: VH) {
-            block(position, holder)
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.clickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
+    setListener(object : ClickListener<VH> {
+        override fun onClick(holder: VH, position: Int) {
+            block(holder, position)
         }
     })
     return this
@@ -108,10 +113,10 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.clickInter
 /**
  * 监听item layout长按事件
  */
-inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.longClickInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
-    setInterceptor(object : LongClickInterceptor<VH> {
-        override fun onLongClick(position: Int, holder: VH): Boolean {
-            block(position, holder)
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.longClickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
+    setListener(object : LongClickListener<VH> {
+        override fun onLongClick(holder: VH, position: Int): Boolean {
+            block(holder, position)
             return false
         }
     })
@@ -121,8 +126,8 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.longClickI
 /**
  * View Holder创建时触发
  */
-inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCreateInterceptor(crossinline block: (holder: VH) -> Unit): Adapter {
-    setInterceptor(object : ViewHolderCreateInterceptor<VH> {
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCreateListener(crossinline block: (holder: VH) -> Unit): Adapter {
+    setListener(object : ViewHolderCreateListener<VH> {
         override fun onCreateViewHolder(holder: VH) {
             block(holder)
         }
@@ -133,10 +138,10 @@ inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderCrea
 /**
  * View Holder绑定时触发
  */
-inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderBindInterceptor(crossinline block: (position: Int, holder: VH) -> Unit): Adapter {
-    setInterceptor(object : ViewHolderBindInterceptor<VH> {
-        override fun onBindViewHolder(position: Int, holder: VH) {
-            block(position, holder)
+inline fun <T : Any, VH, Adapter : AbsListViewAdapter<T, VH>> Adapter.holderBindListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
+    setListener(object : ViewHolderBindListener<VH> {
+        override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
+            block(holder, position)
         }
     })
     return this
