@@ -184,8 +184,8 @@ holder.displayImageUrl(R.id.iv_sku_logo, { imageView -> })
     .setText(R.id.tv_sku_price, item.priceShow)
     .setTextColor(R.id.tv_sku_price, Color.RED)
     .setOnClickListener(R.id.rl_delete, {
-        adapter.closeAllItems()
         showToast("${item.name} is deleted")
+        adapter.closeAllItems()
         adapter.removeItemAt(position)
     })
 ```
@@ -223,8 +223,8 @@ val SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context)
             .withView<EditText>(R.id.et_sku_quantity_input, { setText(item.num.toString()) })
             .withView<TextView>(R.id.tv_shopping_cart_delete, {
                 setOnClickListener {
-                    adapter.closeAllItems()
                     showToast("${item.name} is deleted")
+                    adapter.closeAllItems()
                     adapter.removeItemAt(position)
                 }
             })
