@@ -250,7 +250,10 @@ val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
         showToast("position ${viewHolder.adapterPosition} dismissed")
     }
     .attach(binding.rv)
-```  
+``` 
+
+# Next Target
+- 使用装饰者模式改造kotlin-extension模块  
 
 # Thanks
 - [AndroidSwipeLayout](https://github.com/daimajia/AndroidSwipeLayout)
