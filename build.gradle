@@ -41,7 +41,7 @@ ext {
             "multidex"                   : "com.android.support:multidex:1.0.1",
             "espresso"                   : "com.android.support.test.espresso:espresso-core:3.0.1",
             "kotlin"                     : "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version",
-            "kotlinx-coroutines"         : "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.20",
+            "asyncawait"                 : "co.metalab.asyncawait:asyncawait:1.0.0",
             "swipe"                      : "com.daimajia.swipelayout:library:1.2.0",
             "smart_refresh"              : "com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-4",
             "smart_tab"                  : "com.ogaclejapan.smarttablayout:library:1.6.1",

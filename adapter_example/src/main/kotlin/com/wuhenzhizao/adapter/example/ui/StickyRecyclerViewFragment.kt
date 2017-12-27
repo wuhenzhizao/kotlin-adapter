@@ -2,11 +2,13 @@ package com.wuhenzhizao.adapter.example.ui
 
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.clickListener
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Country
 import com.wuhenzhizao.adapter.example.bean.CountryList
+import com.wuhenzhizao.adapter.example.bean.ProvinceList
 import com.wuhenzhizao.adapter.example.databinding.FragmentStickyRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.decoration.LinearDividerItemDecoration
 import com.wuhenzhizao.adapter.extension.putItems
@@ -27,9 +29,13 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
     override fun getContentViewId(): Int = R.layout.fragment_sticky_recycler_view
 
     override fun initViews() {
-        initData()
-        bindAdapter()
-        bindListener()
+        async {
+            await {
+                initData()
+            }
+            bindAdapter()
+            bindListener()
+        }
     }
 
     private fun initData() {

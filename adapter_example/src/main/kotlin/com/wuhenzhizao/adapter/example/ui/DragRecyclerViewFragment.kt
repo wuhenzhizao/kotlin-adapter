@@ -3,6 +3,7 @@ package com.wuhenzhizao.adapter.example.ui
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
@@ -12,7 +13,7 @@ import com.wuhenzhizao.adapter.example.databinding.FragmentDragRecyclerViewBindi
 import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.wuhenzhizao.adapter.example.widget.RatioImageView
 import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.DragAndSwipeRecyclerViewAdapter
-import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.dragInterceptor
+import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.dragListener
 import com.wuhenzhizao.adapter.extension.putItems
 
 /**
@@ -25,14 +26,18 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
     override fun getContentViewId(): Int = R.layout.fragment_drag_recycler_view
 
     override fun initViews() {
-        val json = getString(R.string.topicList)
-        topicList = Gson().fromJson<TopicList>(json, TopicList::class.java).topics
-
         binding.rv.isLongPressDragEnable = true
         binding.rv.isItemViewSwipeEnable = false
         binding.rv.dragDirection = ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.UP or ItemTouchHelper.DOWN
         binding.rv.layoutManager = GridLayoutManager(context, 3, GridLayoutManager.VERTICAL, false)
-        bindAdapter()
+
+        async {
+            await {
+                val json = getString(R.string.topicList)
+                topicList = Gson().fromJson<TopicList>(json, TopicList::class.java).topics
+            }
+            bindAdapter()
+        }
     }
 
     private fun bindAdapter() {
@@ -50,8 +55,8 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
                     val topic = adapter.getItem(position)
                     showToast("position $position, ${topic.title} clicked")
                 }
-                .dragInterceptor { from, target ->
-                    showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
+                .dragListener { from, target ->
+                    showToast("item is dragged, from $from to $target")
                 }
                 .attach(binding.rv)
         adapter.putItems(topicList)

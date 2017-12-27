@@ -58,7 +58,7 @@ dependencies {
     api rootProject.ext.dependencies["okhttp"]
     api rootProject.ext.dependencies["okhttp_logging"]
     api rootProject.ext.dependencies["permissions"]
-    api rootProject.ext.dependencies["kotlinx-coroutines"]
+    api rootProject.ext.dependencies["asyncawait"]
     api rootProject.ext.dependencies["junit"]
     kapt 'com.android.databinding:compiler:3.0.1'
     androidTestApi(rootProject.ext.dependencies["espresso"], {

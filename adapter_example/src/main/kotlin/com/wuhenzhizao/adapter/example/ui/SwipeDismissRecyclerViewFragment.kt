@@ -3,6 +3,7 @@ package com.wuhenzhizao.adapter.example.ui
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
@@ -13,7 +14,7 @@ import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
 import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.DragAndSwipeRecyclerViewAdapter
-import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.swipeInterceptor
+import com.wuhenzhizao.adapter.extension.dragSwipeDismiss.swipeListener
 import com.wuhenzhizao.adapter.extension.putItems
 import com.wuhenzhizao.titlebar.utils.ScreenUtils
 
@@ -27,9 +28,6 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
     override fun getContentViewId(): Int = R.layout.fragment_drag_recycler_view
 
     override fun initViews() {
-        val json = getString(R.string.topicList)
-        topicList = Gson().fromJson<TopicList>(json, TopicList::class.java).topics
-
         binding.rv.isLongPressDragEnable = true
         binding.rv.isItemViewSwipeEnable = true
         binding.rv.dragDirection = ItemTouchHelper.UP or ItemTouchHelper.DOWN
@@ -41,7 +39,13 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
         decoration.setOffsetLast(true)
         binding.rv.addItemDecoration(decoration)
 
-        bindAdapter()
+        async {
+            await {
+                val json = getString(R.string.topicList)
+                topicList = Gson().fromJson<TopicList>(json, TopicList::class.java).topics
+            }
+            bindAdapter()
+        }
     }
 
     private fun bindAdapter() {
@@ -59,8 +63,8 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
                     val topic = adapter.getItem(position)
                     showToast("position $position, ${topic.title} clicked")
                 }
-                .swipeInterceptor { viewHolder, direction ->
-                    showToast("position ${viewHolder.adapterPosition} dismissed")
+                .swipeListener { position, direction ->
+                    showToast("position $position dismissed")
                 }
                 .attach(binding.rv)
         adapter.putItems(topicList)

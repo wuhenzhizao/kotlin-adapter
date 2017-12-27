@@ -1,6 +1,7 @@
 package com.wuhenzhizao.adapter.example.ui
 
 import android.support.v7.widget.LinearLayoutManager
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -27,18 +28,20 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
     override fun getContentViewId(): Int = R.layout.fragment_single_type_recycler_view_binding
 
     override fun initViews() {
-        val json = getString(R.string.contents)
-        contentList = Gson().fromJson<ContentList>(json, ContentList::class.java).contents
-
         binding.rv.layoutManager = LinearLayoutManager(context)
         val decoration = LinearOffsetsItemDecoration(LinearOffsetsItemDecoration.LINEAR_OFFSETS_VERTICAL)
         decoration.setItemOffsets(ScreenUtils.dp2PxInt(context, 10f))
         decoration.setOffsetEdge(false)
         binding.rv.addItemDecoration(decoration)
-
         bindListener()
-        bindAdapter()
 
+        async {
+            await {
+                val json = getString(R.string.contents)
+                contentList = Gson().fromJson<ContentList>(json, ContentList::class.java).contents
+            }
+            bindAdapter()
+        }
         binding.refresh.autoRefresh(300)
     }
 

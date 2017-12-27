@@ -1,12 +1,12 @@
 package com.wuhenzhizao.adapter.example.ui
 
-import android.graphics.Color
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -16,12 +16,14 @@ import com.wuhenzhizao.adapter.example.bean.*
 import com.wuhenzhizao.adapter.example.databinding.FragmentSwipeMenuRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
-import com.wuhenzhizao.adapter.extension.*
+import com.wuhenzhizao.adapter.extension.addItems
+import com.wuhenzhizao.adapter.extension.putItems
+import com.wuhenzhizao.adapter.extension.removeItemAt
 import com.wuhenzhizao.adapter.extension.stickyHeader.*
 import com.wuhenzhizao.adapter.extension.swipeMenu.SwipeMenuStickyRecyclerViewAdapter
 import com.wuhenzhizao.adapter.holder.RecyclerViewHolder
-import com.wuhenzhizao.adapter.match
 import com.wuhenzhizao.adapter.holderBindListener
+import com.wuhenzhizao.adapter.match
 
 /**
  * Created by liufei on 2017/12/18.
@@ -38,15 +40,19 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
     override fun getContentViewId(): Int = R.layout.fragment_swipe_menu_recycler_view
 
     override fun initViews() {
-        val json = getString(R.string.carts)
-        originData = Gson().fromJson<ShoppingCartList>(json, ShoppingCartList::class.java)
-        list = mutableListOf()
-
         binding.rv.layoutManager = LinearLayoutManager(context)
-
         bindListener()
-        bindAdapter()
-        binding.tvShoppingCartTotalPrice.text = "¥ 112,450.50"
+
+        async {
+            await {
+                val json = getString(R.string.carts)
+                originData = Gson().fromJson<ShoppingCartList>(json, ShoppingCartList::class.java)
+                list = mutableListOf()
+            }
+            bindAdapter()
+            binding.tvShoppingCartTotalPrice.text = "¥ 112,450.50"
+        }
+
         binding.refresh.autoRefresh(300)
     }
 

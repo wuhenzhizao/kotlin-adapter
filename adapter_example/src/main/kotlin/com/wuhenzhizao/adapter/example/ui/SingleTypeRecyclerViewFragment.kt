@@ -3,6 +3,7 @@ package com.wuhenzhizao.adapter.example.ui
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener
@@ -28,13 +29,16 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
     override fun getContentViewId(): Int = R.layout.fragment_single_type_recycler_view
 
     override fun initViews() {
-        val json = getString(R.string.products)
-        productList = Gson().fromJson<ProductList>(json, ProductList::class.java).products
-
         binding.rv.layoutManager = LinearLayoutManager(context)
-
         bindListener()
-        bindAdapter()
+
+        async {
+            await {
+                val json = getString(R.string.products)
+                productList = Gson().fromJson<ProductList>(json, ProductList::class.java).products
+            }
+            bindAdapter()
+        }
 
         binding.refresh.autoRefresh(300)
     }

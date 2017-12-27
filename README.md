@@ -244,7 +244,7 @@ recyclerView.dragDirection =                 // 设置拖拽方向
 val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
     .match(Topic::class, R.layout.item_drag_recycler_view)
     .dragListener { from, target ->
-        showToast("item draged, from ${from.adapterPosition} to ${target.adapterPosition}")
+        showToast("item is dragged, from ${from.adapterPosition} to ${target.adapterPosition}")
     }
     .swipeListener { holder, direction ->
         showToast("position ${viewHolder.adapterPosition} dismissed")

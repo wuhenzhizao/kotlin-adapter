@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.wuhenzhizao.adapter
 
 import android.content.Context
@@ -17,11 +19,11 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
     internal val itemTypes: MutableMap<KClass<*>, ItemType> = mutableMapOf()
     protected var recyclerView: RecyclerView? = null
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-    protected var innerClickListener: ClickListener<VH>? = null
-    protected var innerLongClickListener: LongClickListener<VH>? = null
-    protected var innerHolderCreateListener: ViewHolderCreateListener<VH>? = null
-    protected var innerHolderBindListener: ViewHolderBindListener<VH>? = null
-    private var innerLayoutFactory: LayoutFactory? = null
+    internal var innerClickListener: ClickListener<VH>? = null
+    internal var innerLongClickListener: LongClickListener<VH>? = null
+    internal var innerHolderCreateListener: ViewHolderCreateListener<VH>? = null
+    internal var innerHolderBindListener: ViewHolderBindListener<VH>? = null
+    internal var innerLayoutFactory: LayoutFactory? = null
 
     constructor(context: Context, items: List<T>?) : this(context) {
         if (items != null) {
@@ -109,62 +111,62 @@ inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
 /**
  * 监听item layout单击事件
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
-        Adapter.clickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
-    setListener(object : ClickListener<VH> {
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.clickListener(block: (holder: VH, position: Int) -> Unit): Adapter {
+    innerClickListener = object : ClickListener<VH> {
         override fun onClick(holder: VH, position: Int) {
             block(holder, position)
         }
-    })
+    }
     return this
 }
 
 /**
  * 监听item layout长按事件
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
-        Adapter.longClickListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
-    setListener(object : LongClickListener<VH> {
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.longClickListener(block: (holder: VH, position: Int) -> Unit): Adapter {
+    innerLongClickListener = object : LongClickListener<VH> {
         override fun onLongClick(holder: VH, position: Int): Boolean {
             block(holder, position)
             return false
         }
-    })
+    }
     return this
 }
 
 /**
  * View Holder创建时触发
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
-        Adapter.holderCreateListener(crossinline block: (holder: VH) -> Unit): Adapter {
-    setListener(object : ViewHolderCreateListener<VH> {
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.holderCreateListener(block: (holder: VH) -> Unit): Adapter {
+    innerHolderCreateListener = object : ViewHolderCreateListener<VH> {
         override fun onCreateViewHolder(holder: VH) {
             block(holder)
         }
-    })
+    }
     return this
 }
 
 /**
  * View Holder绑定时触发
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
-        Adapter.holderBindListener(crossinline block: (holder: VH, position: Int) -> Unit): Adapter {
-    setListener(object : ViewHolderBindListener<VH> {
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.holderBindListener(block: (holder: VH, position: Int) -> Unit): Adapter {
+    innerHolderBindListener = object : ViewHolderBindListener<VH> {
         override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
             block(holder, position)
         }
-    })
+    }
     return this
 }
 
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
-        Adapter.holderBindListener(crossinline block: (holder: VH, position: Int, payloads: MutableList<Any>?) -> Unit): Adapter {
-    setListener(object : ViewHolderBindListener<VH> {
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.holderBindListener(block: (holder: VH, position: Int, payloads: MutableList<Any>?) -> Unit): Adapter {
+    innerHolderBindListener = object : ViewHolderBindListener<VH> {
         override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>?) {
             block(holder, position, payloads)
         }
-    })
+    }
     return this
 }

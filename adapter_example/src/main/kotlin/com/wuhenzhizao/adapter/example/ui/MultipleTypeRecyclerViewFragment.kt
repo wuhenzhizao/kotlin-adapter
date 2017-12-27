@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.bigkoo.convenientbanner.holder.Holder
 import com.google.gson.Gson
@@ -39,14 +40,16 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
     override fun getContentViewId(): Int = R.layout.fragment_multiple_type_recycler_view
 
     override fun initViews() {
-        productList = Gson().fromJson<ProductList>(getString(R.string.products), ProductList::class.java).products
-        banners = Gson().fromJson<BannerList>(getString(R.string.banners), BannerList::class.java)
-
         binding.rv.layoutManager = LinearLayoutManager(context)
-
         bindListener()
-        bindAdapter()
 
+        async {
+            await {
+                productList = Gson().fromJson<ProductList>(getString(R.string.products), ProductList::class.java).products
+                banners = Gson().fromJson<BannerList>(getString(R.string.banners), BannerList::class.java)
+            }
+            bindAdapter()
+        }
         binding.refresh.autoRefresh(300)
     }
 

@@ -1,6 +1,7 @@
 package com.wuhenzhizao.adapter.example.ui
 
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.NormalNews
@@ -17,12 +18,21 @@ import java.util.*
  */
 class MultipleTypeListViewFragment : BaseFragment<FragmentMultipleTypeListViewBinding>() {
     private lateinit var adapter: ListViewAdapter<Any>
+    private val list = mutableListOf<Any>()
 
     override fun getContentViewId(): Int = R.layout.fragment_multiple_type_list_view
 
     override fun initViews() {
-        val list = mutableListOf<Any>()
-        var calendar = Calendar.getInstance()
+        async {
+            await {
+                simulateData()
+            }
+            bindAdapter()
+        }
+    }
+
+    private fun simulateData() {
+        val calendar = Calendar.getInstance()
 
         calendar.add(Calendar.MONTH, -1)
         list.add(Time(calendar.timeInMillis))
@@ -73,8 +83,9 @@ class MultipleTypeListViewFragment : BaseFragment<FragmentMultipleTypeListViewBi
         list.add(NormalNews(
                 "骁龙820，今年手机界的一颗“当红”处理器，凭借着超高的性能，更好的功耗和发热控制，成为了今年绝对的发烧级处理器。虽然现在最新的骁龙821已经正式上市，不过真正架构、制程、工艺和骁龙820都极为相似，所以骁龙820还是目前高配发烧机的必备处理器。最近采用标准电压版骁龙820的ZUK 2和乐Max 2都作出了极大的价格下调，甚至下探到千元机的价位段，是否会对千元机市场造成极大的影响呢？",
                 "https://m.360buyimg.com/mobilecms/jfs/t3640/77/525928577/467707/b506aab/580b9530Ncf40a962.png.webp"))
+    }
 
-
+    private fun bindAdapter() {
         adapter = ListViewAdapter(context, list)
                 .match(Time::class, R.layout.item_multiple_type_list_view_time)
                 .match(TopNews::class, R.layout.item_multiple_type_list_view_top)

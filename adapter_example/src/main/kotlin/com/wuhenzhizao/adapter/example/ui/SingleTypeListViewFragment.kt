@@ -2,6 +2,7 @@ package com.wuhenzhizao.adapter.example.ui
 
 import android.widget.CheckBox
 import android.widget.TextView
+import co.metalab.asyncawait.async
 import com.google.gson.Gson
 import com.wuhenzhizao.adapter.*
 import com.wuhenzhizao.adapter.example.R
@@ -15,13 +16,21 @@ import com.wuhenzhizao.adapter.extension.getItems
  */
 class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBinding>() {
     private lateinit var adapter: ListViewAdapter<Province>
+    private lateinit var list: ProvinceList
 
     override fun getContentViewId(): Int = R.layout.fragment_single_type_list_view
 
     override fun initViews() {
-        val json = getString(R.string.provinces)
-        val list = Gson().fromJson<ProvinceList>(json, ProvinceList::class.java)
+        async {
+            await {
+                val json = getString(R.string.provinces)
+                list = Gson().fromJson<ProvinceList>(json, ProvinceList::class.java)
+            }
+            bindAdapter()
+        }
+    }
 
+    private fun bindAdapter() {
         adapter = ListViewAdapter(context, list.provinceList)
                 .match(Province::class, R.layout.item_single_type_list_view)
                 .holderCreateListener {
