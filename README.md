@@ -255,7 +255,7 @@ val adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
 
 # Thanks
 - [AndroidSwipeLayout](https://github.com/daimajia/AndroidSwipeLayout)
-- [header-decor](https://github.com/edubarr/header-decor)  
+- [header-decor](https://github.com/edubarr/header-decor)(Fixed some bugs of it)
 
 
 技术交流
