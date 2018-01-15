@@ -1,5 +1,5 @@
 # kotlin-adapter
-Base adapter for recyclerView，absListView, support multiple item view type, sticky header(selection), drag & drop, swipe dismiss
+Base adapter for recyclerView，absListView, support multiple item view type, sticky header(section), drag & drop, swipe dismiss
 
 [Demo Download](https://www.pgyer.com/cCxm)
 
