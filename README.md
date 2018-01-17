@@ -215,7 +215,7 @@ val adapter = StickyRecyclerViewAdapter<Country>(context)
 **★ [创建支持SwipeMenu效果的RecyclerView适配器](adapter_example/src/main/kotlin/com/wuhenzhizao/adapter/example/ui/SwipeMenuRecyclerViewFragment.kt)**  
 
 ```kotlin
-val SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context)
+val adapter = SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context)
     .match(Notice::class, R.layout.item_shopping_cart_notice)
     .match(Divider::class, R.layout.item_shopping_cart_divider)
     .holderBindListener { holder, position ->
