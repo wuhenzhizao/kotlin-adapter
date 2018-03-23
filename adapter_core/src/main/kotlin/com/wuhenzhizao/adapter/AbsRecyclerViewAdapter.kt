@@ -64,15 +64,6 @@ abstract class AbsRecyclerViewAdapter<T : Any, VH : RecyclerView.ViewHolder>(con
         this.recyclerView = null
     }
 
-    open fun setListener(listener: Listener<VH>) {
-        when (listener) {
-            is ViewHolderCreateListener<VH> -> innerHolderCreateListener = listener
-            is ViewHolderBindListener<VH> -> innerHolderBindListener = listener
-            is ClickListener<VH> -> innerClickListener = listener
-            is LongClickListener<VH> -> innerLongClickListener = listener
-        }
-    }
-
     open fun setFactory(factory: Factory) {
         when (factory) {
             is LayoutFactory -> innerLayoutFactory = factory
@@ -100,11 +91,13 @@ fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>> Adapter.match(kClass:
 /**
  * 建立数据类与布局文件之间的匹配关系，当列表布局有多种样式时，可以用来代替Adapter.match()
  */
-inline fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
-        Adapter.layoutFactory(crossinline block: (position: Int) -> Int): Adapter {
-    setFactory(object : LayoutFactory {
-        override fun getLayoutId(position: Int): Int = block(position)
-    })
+fun <T : Any, VH, Adapter : AbsRecyclerViewAdapter<T, VH>>
+        Adapter.layoutFactory(block: (position: Int) -> Int): Adapter {
+    innerLayoutFactory = object : LayoutFactory {
+        override fun getLayoutId(position: Int): Int {
+            return block(position)
+        }
+    }
     return this
 }
 
