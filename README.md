@@ -1,4 +1,7 @@
 # kotlin-adapter
+
+RecyclerView，AbsListView适配器, 支持多种视图样式, 支持吸顶、侧滑删除、拖拽效果
+
 Base adapter for recyclerView，absListView, support multiple item view type, sticky header(section), drag & drop, swipe dismiss
 
 [Demo Download](https://fir.im/qpjl)
