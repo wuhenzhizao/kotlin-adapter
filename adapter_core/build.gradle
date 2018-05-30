@@ -51,7 +51,7 @@ publish {
     userOrg = 'wuhenzhizao'
     groupId = 'com.wuhenzhizao'
     artifactId = 'kotlin-adapter-core'
-    publishVersion = '1.1.0'
+    publishVersion = '1.2.0'
     desc = 'Base adapter for RecyclerView，AbsListView, support multiple item view type, Sticky , Drag, Swipe Dismiss'
     website = 'https://github.com/wuhenzhizao/kotlin-adapter'
 }

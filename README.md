@@ -10,7 +10,7 @@ Features
 ========
 - 代码优雅，无需重写Adapter, ViewHolder，通过链式调用实现适配器创建；
 - 支持多种样式，解决视图复用导致的页面错乱问题；  
-- 提供一系列回调方法，满足大部分场景下的业务需求； 
+- 提供一系列回调方法，满足大部分场景下的业务需求，通过内联优化，减少资源占用；
 - 拓展ViewHolder，见[AdapterExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/AdapterExtensions.kt), [ViewHolderExtensions](adapter_core/src/main/kotlin/com/wuhenzhizao/adapter/extension/ViewHolderExtensions.kt)，简化View数据更新操作；  
 - 支持DataBinding；
 - 封装了sticky header吸顶, swipe menu滑动菜单，拖拽等效果；
@@ -50,9 +50,9 @@ Setup
 ```groovy
 dependencies {
     // 核心依赖
-    compile 'com.wuhenzhizao:kotlin-adapter-core:1.1.0'
+    compile 'com.wuhenzhizao:kotlin-adapter-core:1.2.0'
     // 拓展效果依赖
-    compile 'com.wuhenzhizao:kotlin-adapter-extension:1.1.0'
+    compile 'com.wuhenzhizao:kotlin-adapter-extension:1.2.0'
 }
 ```
 
