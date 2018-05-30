@@ -86,7 +86,7 @@ class MultipleTypeListViewFragment : BaseFragment<FragmentMultipleTypeListViewBi
     }
 
     private fun bindAdapter() {
-        adapter = ListViewAdapter(context, list)
+        adapter = ListViewAdapter(context!!, list)
                 .match(Time::class, R.layout.item_multiple_type_list_view_time)
                 .match(TopNews::class, R.layout.item_multiple_type_list_view_top)
                 .match(NormalNews::class, R.layout.item_multiple_type_list_view_normal)

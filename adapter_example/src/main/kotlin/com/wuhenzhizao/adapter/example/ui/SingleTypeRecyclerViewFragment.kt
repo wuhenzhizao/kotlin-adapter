@@ -74,7 +74,7 @@ class SingleTypeRecyclerViewFragment : BaseFragment<FragmentSingleTypeRecyclerVi
     }
 
     private fun bindAdapter() {
-        adapter = RecyclerViewAdapter<Product>(context)
+        adapter = RecyclerViewAdapter<Product>(context!!)
                 .match(Product::class, R.layout.item_single_type_recycler_view)
                 .holderCreateListener {
 

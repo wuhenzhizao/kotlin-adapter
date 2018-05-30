@@ -142,7 +142,7 @@ class SwipeMenuRecyclerViewFragment : BaseFragment<FragmentSwipeMenuRecyclerView
     }
 
     private fun bindAdapter() {
-        adapter = SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context)
+        adapter = SwipeMenuStickyRecyclerViewAdapter<StickyBean>(context!!)
                 .match(Notice::class, R.layout.item_shopping_cart_notice)
                 .match(Divider::class, R.layout.item_shopping_cart_divider)
                 .match(ItemViewBean::class, R.layout.item_shopping_cart_sku)

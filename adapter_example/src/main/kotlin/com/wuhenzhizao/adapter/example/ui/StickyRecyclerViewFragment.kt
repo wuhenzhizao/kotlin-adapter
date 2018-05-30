@@ -8,7 +8,6 @@ import com.wuhenzhizao.adapter.clickListener
 import com.wuhenzhizao.adapter.example.R
 import com.wuhenzhizao.adapter.example.bean.Country
 import com.wuhenzhizao.adapter.example.bean.CountryList
-import com.wuhenzhizao.adapter.example.bean.ProvinceList
 import com.wuhenzhizao.adapter.example.databinding.FragmentStickyRecyclerViewBinding
 import com.wuhenzhizao.adapter.example.decoration.LinearDividerItemDecoration
 import com.wuhenzhizao.adapter.extension.putItems
@@ -72,7 +71,7 @@ class StickyRecyclerViewFragment : BaseFragment<FragmentStickyRecyclerViewBindin
         dividerDecoration.setDivider(resources.getDrawable(R.drawable.horizontal_divider_1px))
         binding.rv.addItemDecoration(dividerDecoration)
 
-        adapter = StickyRecyclerViewAdapter<Country>(context)
+        adapter = StickyRecyclerViewAdapter<Country>(context!!)
                 .match(Country::class, R.layout.item_sticky_recycler_view)
                 .matchHeader(Country::class, R.layout.item_sticky_recycler_view_header)
                 .holderCreateListener {

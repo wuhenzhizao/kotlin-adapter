@@ -41,7 +41,7 @@ class DragRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBinding>()
     }
 
     private fun bindAdapter() {
-        adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
+        adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context!!)
                 .match(Topic::class, R.layout.item_drag_recycler_view)
                 .holderCreateListener {
 

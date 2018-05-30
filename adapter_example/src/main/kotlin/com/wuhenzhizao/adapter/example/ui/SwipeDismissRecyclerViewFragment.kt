@@ -49,7 +49,7 @@ class SwipeDismissRecyclerViewFragment : BaseFragment<FragmentDragRecyclerViewBi
     }
 
     private fun bindAdapter() {
-        adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context)
+        adapter = DragAndSwipeRecyclerViewAdapter<Topic>(context!!)
                 .match(Topic::class, R.layout.item_swipe_dismiss_recycler_view)
                 .holderCreateListener {
 

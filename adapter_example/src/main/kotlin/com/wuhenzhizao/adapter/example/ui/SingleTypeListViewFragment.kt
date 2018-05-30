@@ -31,7 +31,7 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
     }
 
     private fun bindAdapter() {
-        adapter = ListViewAdapter(context, list.provinceList)
+        adapter = ListViewAdapter(context!!, list.provinceList)
                 .match(Province::class, R.layout.item_single_type_list_view)
                 .holderCreateListener {
 
@@ -44,8 +44,8 @@ class SingleTypeListViewFragment : BaseFragment<FragmentSingleTypeListViewBindin
                 .clickListener { holder, position ->
                     val province = adapter.getItem(position)
                     showToast("position $position, ${province.name} clicked")
-                    adapter.getItems().forEachIndexed { index, province ->
-                        province.checked = (index == position)
+                    adapter.getItems().forEachIndexed { index, item ->
+                        item.checked = (index == position)
                     }
                     adapter.notifyDataSetChanged()
                 }

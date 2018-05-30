@@ -125,7 +125,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
 //                .attach(binding.rv)
 
         // replace multiple match() getView layoutFactory
-        adapter = RecyclerViewAdapter<Any>(context)
+        adapter = RecyclerViewAdapter<Any>(context!!)
                 .layoutFactory {
                     when (adapter.getItem(it)) {
                         is BannerList -> R.layout.item_multiple_type_recycler_view_banner
@@ -232,7 +232,7 @@ class MultipleTypeRecyclerViewFragment : BaseFragment<FragmentMultipleTypeRecycl
             addItemDecoration(decoration)
         })
 
-        productAdapter = RecyclerViewAdapter<Product>(context)
+        productAdapter = RecyclerViewAdapter<Product>(context!!)
                 .match(Product::class, R.layout.item_multiple_type_recycler_view_headine_item)
                 .holderBindListener { holder, position ->
                     val product = productAdapter.getItem(position)

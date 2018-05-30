@@ -80,7 +80,7 @@ class SingleTypeRecyclerViewBindingFragment : BaseFragment<FragmentSingleTypeRec
     }
 
     private fun bindAdapter() {
-        adapter = RecyclerViewBindingAdapter<Content>(context)
+        adapter = RecyclerViewBindingAdapter<Content>(context!!)
                 .match(Content::class, R.layout.item_single_type_recycler_view_binding, BR.vm)
                 .holderCreateListener {
                     // 演示在创建时，动态修改布局高度

@@ -43,6 +43,15 @@ open class StickyRecyclerViewAdapter<T : StickyBean>(context: Context, items: Li
             onBindHeaderViewHolder(holder, position)
         }
     }
+
+    override fun setListener(listener: Listener<RecyclerViewHolder>) {
+        super.setListener(listener)
+        when (listener) {
+            is HeaderClickListener<RecyclerViewHolder> -> innerHeaderClickListener = listener
+            is HeaderViewHolderCreateListener<RecyclerViewHolder> -> innerHeaderHolderCreateListener = listener
+            is HeaderViewHolderBindListener<RecyclerViewHolder> -> innerHeaderHolderBindListener = listener
+        }
+    }
 }
 
 /**
@@ -73,35 +82,35 @@ fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.matchHeader
 /**
  * 监听header单击事件
  */
-fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickListener(block: (holder: RecyclerViewHolder, clickView: View, position: Int) -> Unit): Adapter {
-    innerHeaderClickListener = object : HeaderClickListener<RecyclerViewHolder> {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerClickListener(crossinline block: (holder: RecyclerViewHolder, clickView: View, position: Int) -> Unit): Adapter {
+    setListener(object : HeaderClickListener<RecyclerViewHolder> {
         override fun onHeaderClick(holder: RecyclerViewHolder, clickView: View, position: Int) {
             block(holder, clickView, position)
         }
-    }
+    })
     return this
 }
 
 /**
  * Header view holder创建时触发
  */
-fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderCreateListener(block: (holder: RecyclerViewHolder) -> Unit): Adapter {
-    innerHeaderHolderCreateListener = object : HeaderViewHolderCreateListener<RecyclerViewHolder> {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderCreateListener(crossinline block: (holder: RecyclerViewHolder) -> Unit): Adapter {
+    setListener(object : HeaderViewHolderCreateListener<RecyclerViewHolder> {
         override fun onCreateHeaderViewHolder(holder: RecyclerViewHolder) {
             block(holder)
         }
-    }
+    })
     return this
 }
 
 /**
  * Header view holder绑定时触发
  */
-fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderBindListener(block: (holder: RecyclerViewHolder, position: Int) -> Unit): Adapter {
-    innerHeaderHolderBindListener = object : HeaderViewHolderBindListener<RecyclerViewHolder> {
+inline fun <T : StickyBean, Adapter : StickyRecyclerViewAdapter<T>> Adapter.headerHolderBindListener(crossinline block: (holder: RecyclerViewHolder, position: Int) -> Unit): Adapter {
+    setListener(object : HeaderViewHolderBindListener<RecyclerViewHolder> {
         override fun onBindHeaderViewHolder(holder: RecyclerViewHolder, position: Int) {
             block(holder, position)
         }
-    }
+    })
     return this
 }
