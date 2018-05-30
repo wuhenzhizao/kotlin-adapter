@@ -39,10 +39,10 @@ dependencies {
     api project(':adapter_core')
     api rootProject.ext.dependencies["swipe"]
     api rootProject.ext.dependencies["junit"]
-    androidTestApi(rootProject.ext.dependencies["espresso"], {
+    androidTestImplementation(rootProject.ext.dependencies["espresso"], {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    kapt 'com.android.databinding:compiler:3.0.1'
+    kapt 'com.android.databinding:compiler:3.1.2'
 }
 
 publish {

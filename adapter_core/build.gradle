@@ -37,14 +37,14 @@ android {
 }
 
 dependencies {
-    androidTestApi(rootProject.ext.dependencies["espresso"], {
+    androidTestImplementation(rootProject.ext.dependencies["espresso"], {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     api rootProject.ext.dependencies["recyclerview"]
     api rootProject.ext.dependencies["kotlin"]
     api rootProject.ext.dependencies["junit"]
 
-    kapt 'com.android.databinding:compiler:3.0.1'
+    kapt 'com.android.databinding:compiler:3.1.2'
 }
 
 publish {

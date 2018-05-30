@@ -34,6 +34,12 @@ android {
     }
 }
 
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}
+
 dependencies {
     api project(':adapter_core')
     api project(':adapter_extension')
@@ -60,8 +66,8 @@ dependencies {
     api rootProject.ext.dependencies["permissions"]
     api rootProject.ext.dependencies["asyncawait"]
     api rootProject.ext.dependencies["junit"]
-    kapt 'com.android.databinding:compiler:3.0.1'
-    androidTestApi(rootProject.ext.dependencies["espresso"], {
+    kapt 'com.android.databinding:compiler:3.1.2'
+    androidTestImplementation(rootProject.ext.dependencies["espresso"], {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 }
