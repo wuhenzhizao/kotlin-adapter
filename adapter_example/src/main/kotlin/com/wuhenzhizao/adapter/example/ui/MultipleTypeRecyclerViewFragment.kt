@@ -20,6 +20,7 @@ import com.wuhenzhizao.adapter.example.databinding.FragmentMultipleTypeRecyclerV
 import com.wuhenzhizao.adapter.example.decoration.LinearOffsetsItemDecoration
 import com.wuhenzhizao.adapter.example.image.DraweeImageView
 import com.wuhenzhizao.adapter.example.image.GImageLoader
+import com.wuhenzhizao.adapter.extension.addItem
 import com.wuhenzhizao.adapter.extension.addItems
 import com.wuhenzhizao.adapter.extension.clear
 import com.wuhenzhizao.adapter.extension.putItems

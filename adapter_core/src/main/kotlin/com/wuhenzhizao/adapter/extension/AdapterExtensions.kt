@@ -42,7 +42,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItem(index: Int, item: T) {
 fun <T : Any, Adapter : AbsRecyclerViewAdapter<T, *>> Adapter.addItems(items: Collection<T>): Adapter {
     val previousIndex = this.items.size - 1
     this.items.addAll(items)
-    this.notifyItemRangeInserted(previousIndex + 1, this.items.size - 1)
+    this.notifyItemRangeInserted(previousIndex + 1, items.size)
     return this
 }
 
@@ -52,16 +52,17 @@ fun <T : Any, Adapter : AbsRecyclerViewAdapter<T, *>> Adapter.addItems(items: Co
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.addItems(index: Int, items: Collection<T>) {
     checkDataValid(index)
     this.items.addAll(index, items)
-    this.notifyItemRangeInserted(index, index + items.size)
+    this.notifyItemRangeInserted(index, items.size)
 }
 
 /**
  * 添加数据集合
  */
 fun <T : Any> AbsRecyclerViewAdapter<T, *>.putItems(items: Collection<T>) {
+    val previousIndex = this.items.size - 1
     this.items.clear()
     this.items.addAll(items)
-    this.notifyDataSetChanged()
+    this.notifyItemRangeInserted(previousIndex + 1, items.size)
 }
 
 /**
@@ -80,7 +81,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItemFrom(start: Int) {
     checkDataValid(start)
     val removedItems = this.items.filterIndexed { index, _ -> index >= start }
     this.items.removeAll(removedItems)
-    this.notifyItemRangeRemoved(start, start + removedItems.size)
+    this.notifyItemRangeRemoved(start, removedItems.size)
 }
 
 /**
@@ -91,7 +92,7 @@ fun <T : Any> AbsRecyclerViewAdapter<T, *>.removeItemRange(start: Int, end: Int)
     checkDataValid(end)
     val removedItems = this.items.filterIndexed { index, _ -> index in start..end }
     this.items.removeAll(removedItems)
-    this.notifyItemRangeRemoved(start, end)
+    this.notifyItemRangeRemoved(start, removedItems.size)
 }
 
 /**

@@ -50,9 +50,9 @@ Setup
 ```groovy
 dependencies {
     // 核心依赖
-    compile 'com.wuhenzhizao:kotlin-adapter-core:1.2.0'
+    compile 'com.wuhenzhizao:kotlin-adapter-core:1.2.1'
     // 拓展效果依赖
-    compile 'com.wuhenzhizao:kotlin-adapter-extension:1.2.0'
+    compile 'com.wuhenzhizao:kotlin-adapter-extension:1.2.1'
 }
 ```
 
